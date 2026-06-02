@@ -242,7 +242,7 @@ CREATE TABLE `user_collect`  (
 -- ----------------------------
 -- Records of user_collect
 -- ----------------------------
-INSERT INTO `user_collect` VALUES (4, 2, 2, '2026-05-20 13:14:20');
+INSERT INTO `user_collect` VALUES (1, 2, 2, '2026-05-20 13:14:20');
 
 -- ----------------------------
 -- Table structure for user_like
@@ -261,6 +261,6 @@ CREATE TABLE `user_like`  (
 -- ----------------------------
 -- Records of user_like
 -- ----------------------------
-INSERT INTO `user_like` VALUES (5, 2, 2, '2026-05-20 13:14:20');
+INSERT INTO `user_like` VALUES (1, 2, 2, '2026-05-20 13:14:20');
 
 SET FOREIGN_KEY_CHECKS = 1;
