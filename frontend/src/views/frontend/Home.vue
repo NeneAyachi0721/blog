@@ -227,7 +227,7 @@ const fetchLatestArticles = async () => {
   try {
     await request.get('/article/page', {
       currentPage: 1,
-      size: 10,
+      size: 12,
       status: 1 // 已发布的文章
     }, {
       showDefaultMsg: false,
