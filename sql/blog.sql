@@ -1292,9 +1292,51 @@ CREATE TABLE `article_tag`  (
 -- ----------------------------
 -- Records of article_tag
 -- ----------------------------
+-- 文章1: 个人博客系统开发文档 -> Vue, 前端, 全栈, 项目实战
 INSERT INTO `article_tag` VALUES (1, 1, 1);
 INSERT INTO `article_tag` VALUES (2, 1, 2);
-INSERT INTO `article_tag` VALUES (3, 1, 3);
+INSERT INTO `article_tag` VALUES (3, 1, 9);
+INSERT INTO `article_tag` VALUES (4, 1, 10);
+-- 文章2: 第1章 Vue 3 简介 -> Vue, 前端, 入门
+INSERT INTO `article_tag` VALUES (5, 2, 1);
+INSERT INTO `article_tag` VALUES (6, 2, 2);
+INSERT INTO `article_tag` VALUES (7, 2, 3);
+-- 文章3: 第2章 Hello World 与 Vue 3 基础特性 -> Vue, 前端, 入门
+INSERT INTO `article_tag` VALUES (8, 3, 1);
+INSERT INTO `article_tag` VALUES (9, 3, 2);
+INSERT INTO `article_tag` VALUES (10, 3, 3);
+-- 文章4: 第3章 Vue 3 基本指令 -> Vue, 前端, 入门
+INSERT INTO `article_tag` VALUES (11, 4, 1);
+INSERT INTO `article_tag` VALUES (12, 4, 2);
+INSERT INTO `article_tag` VALUES (13, 4, 3);
+-- 文章5: 第4章 Vue 3 组件 -> Vue, 前端, 组件化
+INSERT INTO `article_tag` VALUES (14, 5, 1);
+INSERT INTO `article_tag` VALUES (15, 5, 2);
+INSERT INTO `article_tag` VALUES (16, 5, 4);
+-- 文章6: 第5章 Vue 3 样式绑定 -> Vue, 前端, 组件化
+INSERT INTO `article_tag` VALUES (17, 6, 1);
+INSERT INTO `article_tag` VALUES (18, 6, 2);
+INSERT INTO `article_tag` VALUES (19, 6, 4);
+-- 文章7: 第6章 Vue 3 组件复用 -> Vue, 前端, 组件化
+INSERT INTO `article_tag` VALUES (20, 7, 1);
+INSERT INTO `article_tag` VALUES (21, 7, 2);
+INSERT INTO `article_tag` VALUES (22, 7, 4);
+-- 文章8: 第7章 Vue Router 路由管理 -> Vue, 前端, 路由
+INSERT INTO `article_tag` VALUES (23, 8, 1);
+INSERT INTO `article_tag` VALUES (24, 8, 2);
+INSERT INTO `article_tag` VALUES (25, 8, 5);
+-- 文章9: 第8章 Vue 3 服务端通信 -> Vue, 前端, 网络请求
+INSERT INTO `article_tag` VALUES (26, 9, 1);
+INSERT INTO `article_tag` VALUES (27, 9, 2);
+INSERT INTO `article_tag` VALUES (28, 9, 7);
+-- 文章10: 第9章 Vue CLI 项目部署 -> Vue, 前端, 工程化
+INSERT INTO `article_tag` VALUES (29, 10, 1);
+INSERT INTO `article_tag` VALUES (30, 10, 2);
+INSERT INTO `article_tag` VALUES (31, 10, 8);
+-- 文章11: 第10章 Vuex 状态管理 -> Vue, 前端, 状态管理
+INSERT INTO `article_tag` VALUES (32, 11, 1);
+INSERT INTO `article_tag` VALUES (33, 11, 2);
+INSERT INTO `article_tag` VALUES (34, 11, 6);
 
 -- ----------------------------
 -- Table structure for blog_config
@@ -1415,11 +1457,16 @@ CREATE TABLE `tag`  (
 -- ----------------------------
 -- Records of tag
 -- ----------------------------
-INSERT INTO `tag` VALUES (1, 'Vue', '#007bff', '2026-05-20 11:45:14', '2026-05-20 11:45:14');
-INSERT INTO `tag` VALUES (2, 'Spring', '#28a745', '2026-05-20 11:45:14', '2026-05-20 11:45:14');
-INSERT INTO `tag` VALUES (3, 'Java', '#17a2b8', '2026-05-20 11:45:14', '2026-05-20 11:45:14');
-INSERT INTO `tag` VALUES (4, '前端', '#ffc107', '2026-05-20 11:45:14', '2026-05-20 11:45:14');
-INSERT INTO `tag` VALUES (5, '后端', '#dc3545', '2026-05-20 11:45:14', '2026-05-20 11:45:14');
+INSERT INTO `tag` VALUES (1, 'Vue', '#93bfea', '2026-05-20 11:45:14', '2026-05-20 11:45:14');
+INSERT INTO `tag` VALUES (2, '前端', '#a4d8e9', '2026-05-20 11:45:14', '2026-05-20 11:45:14');
+INSERT INTO `tag` VALUES (3, '入门', '#9ee5c1', '2026-05-20 11:45:14', '2026-05-20 11:45:14');
+INSERT INTO `tag` VALUES (4, '组件化', '#9be7e1', '2026-05-20 11:45:14', '2026-05-20 11:45:14');
+INSERT INTO `tag` VALUES (5, '路由', '#9f9fee', '2026-05-20 11:45:14', '2026-05-20 11:45:14');
+INSERT INTO `tag` VALUES (6, '状态管理', '#d1a6e7', '2026-05-20 11:45:14', '2026-05-20 11:45:14');
+INSERT INTO `tag` VALUES (7, '网络请求', '#efba93', '2026-05-20 11:45:14', '2026-05-20 11:45:14');
+INSERT INTO `tag` VALUES (8, '工程化', '#abbde1', '2026-05-20 11:45:14', '2026-05-20 11:45:14');
+INSERT INTO `tag` VALUES (9, '全栈', '#9be7d4', '2026-05-20 11:45:14', '2026-05-20 11:45:14');
+INSERT INTO `tag` VALUES (10, '项目实战', '#baa2eb', '2026-05-20 11:45:14', '2026-05-20 11:45:14');
 
 -- ----------------------------
 -- Table structure for user
