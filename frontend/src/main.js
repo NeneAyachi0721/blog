@@ -1,36 +1,42 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import App from './App.vue'
-import router from './router'
+import { createApp } from "vue";
+import { createPinia } from "pinia";
+import App from "./App.vue";
+import router from "./router";
 // 导入 Element Plus
-import ElementPlus from 'element-plus'
+import ElementPlus from "element-plus";
 // 导入自定义主题色配置
-import './styles/element-variables.scss'
-import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import "./styles/element-variables.scss";
+import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 // 导入初始化样式
-import './assets/global.css'
+import "./assets/global.css";
 // 中文
-import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+import zhCn from "element-plus/dist/locale/zh-cn.mjs";
+// 导入Live2D 配置
+import { initLive2D } from "./live2d.config";
 
 // 添加全局错误处理器来抑制ResizeObserver警告
-const originalConsoleError = console.error
+const originalConsoleError = console.error;
 console.error = (...args) => {
-  if (args[0] && args[0].includes && args[0].includes('ResizeObserver loop')) {
-    return
+  if (args[0] && args[0].includes && args[0].includes("ResizeObserver loop")) {
+    return;
   }
-  originalConsoleError(...args)
-}
+  originalConsoleError(...args);
+};
 
-const app = createApp(App)
-const pinia = createPinia()
+const app = createApp(App);
+const pinia = createPinia();
 
-app.use(pinia)
-app.use(router)
+app.use(pinia);
+app.use(router);
 app.use(ElementPlus, {
-  locale: zhCn
-})
+  locale: zhCn,
+});
+
 // 注册所有图标
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-  app.component(key, component)
+  app.component(key, component);
 }
-app.mount('#app')
+app.mount("#app");
+
+// 初始化Live2D看板娘
+initLive2D();
