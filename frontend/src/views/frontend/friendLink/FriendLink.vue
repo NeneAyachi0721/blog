@@ -221,7 +221,7 @@ onMounted(() => {
   color: inherit;
   border-radius: 15px;
   background-color: #fff;
-  border: 2px solid #ecf0f1;
+  border: 1px solid #eaeaea;
   transition: all 0.3s ease;
   overflow: hidden;
   position: relative;
@@ -269,7 +269,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   background-color: #ecf0f1;
-  border: 2px solid #e0e6e8;
+  border: 1px solid #eaeaea;
   transition: all 0.3s ease;
 }
 
