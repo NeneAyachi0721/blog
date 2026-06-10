@@ -526,7 +526,7 @@ const getImageUrl = (url) => {
   overflow: hidden;
   transition: all 0.3s ease;
   border: 1px solid #e6e6e6;
-  // box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 
   &:hover {
     transform: translateY(-5px);
@@ -656,7 +656,7 @@ const getImageUrl = (url) => {
   overflow: hidden;
   transition: all 0.3s ease;
   background: #fff;
-  // box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   cursor: pointer;
 
   &:hover {
@@ -806,7 +806,7 @@ const getImageUrl = (url) => {
   gap: 20px;
   cursor: pointer;
   transition: all 0.3s ease;
-  // box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
 
   &:hover {
     transform: translateY(-3px);
