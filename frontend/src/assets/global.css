@@ -11,15 +11,27 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
 
   color: #333;
   background-color: #fff;
 }
 
-
-
 /* 鼠标样式 */
 .pointer {
   cursor: pointer;
+}
+
+/* 覆盖 el-tag 的边框，确保标签没有有色边框 */
+.el-tag,
+.tag-item {
+  border: 1px solid transparent !important;
+  box-shadow: none !important;
+}
+
+/* 防止内联样式或其他规则仍设置 border-color */
+.el-tag[style*="border-color"],
+.el-tag[style*="border"] {
+  border-color: transparent !important;
 }
