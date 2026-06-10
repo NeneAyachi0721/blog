@@ -225,7 +225,7 @@ const getImageUrl = (url) => {
   margin-bottom: 40px;
   position: relative;
   padding: 30px 0;
-  border-radius: 8px;
+  border-radius: 15px;
   background-color: transparent;
 }
 
@@ -291,7 +291,7 @@ const getImageUrl = (url) => {
 /* 文章列表样式 */
 .article-list {
   background-color: #fff;
-  border-radius: 8px;
+  border-radius: 15px;
   padding: 25px;
   border: 1px solid #eaeaea;
 }
@@ -324,7 +324,7 @@ const getImageUrl = (url) => {
   position: relative;
   cursor: pointer;
   transition: all 0.3s ease;
-  border-radius: 8px;
+  border-radius: 15px;
   overflow: hidden;
   margin-bottom: 10px;
   border: 1px solid transparent;

@@ -625,7 +625,7 @@ defineExpose({
 
 .auth-form {
   :deep(.el-input__wrapper) {
-    border-radius: 8px;
+    border-radius: 15px;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
     padding: 0 15px;
     height: 48px;
@@ -655,7 +655,7 @@ defineExpose({
 .auth-button {
   width: 100%;
   height: 48px;
-  border-radius: 8px;
+  border-radius: 15px;
   font-size: 16px;
   font-weight: 500;
   letter-spacing: 1px;

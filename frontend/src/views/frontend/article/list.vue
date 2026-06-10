@@ -543,7 +543,7 @@ const getImageUrl = (url) => {
 /* 分类筛选样式 */
 .category-filter {
   background-color: #fff;
-  border-radius: 8px;
+  border-radius: 15px;
   padding: 15px 20px;
   margin-bottom: 30px;
   /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03); */
@@ -582,7 +582,7 @@ const getImageUrl = (url) => {
 .article-section {
   min-height: 400px;
   background-color: #fff;
-  border-radius: 8px;
+  border-radius: 15px;
   padding: 20px;
 }
 
@@ -614,7 +614,7 @@ const getImageUrl = (url) => {
   position: relative;
   cursor: pointer;
   transition: all 0.3s ease;
-  border-radius: 8px;
+  border-radius: 15px;
   overflow: hidden;
   margin-bottom: 10px;
   border: 1px solid transparent;

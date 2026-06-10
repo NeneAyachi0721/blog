@@ -219,7 +219,7 @@ onMounted(() => {
 .link-item {
   text-decoration: none;
   color: inherit;
-  border-radius: 8px;
+  border-radius: 15px;
   background-color: #fff;
   border: 2px solid #ecf0f1;
   transition: all 0.3s ease;
@@ -330,7 +330,7 @@ onMounted(() => {
 .apply-section {
   background-color: #fff;
   padding: 30px;
-  border-radius: 8px;
+  border-radius: 15px;
   margin-top: 40px;
   border: 1px solid #eaeaea;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -375,7 +375,7 @@ onMounted(() => {
 .apply-info {
   background-color: #f8f9fa;
   padding: 20px 25px;
-  border-radius: 8px;
+  border-radius: 15px;
   margin: 20px 0;
   border-left: 4px solid #59a6e6;
 }
@@ -394,7 +394,7 @@ onMounted(() => {
 .my-info {
   margin-top: 30px;
   background-color: #f8f9fa;
-  border-radius: 8px;
+  border-radius: 15px;
   padding: 20px;
 }
 

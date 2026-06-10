@@ -4,10 +4,14 @@
       <template #header>
         <div class="card-header">
           <span>文章管理</span>
-          <el-button type="primary" @click="$router.push('/back/article/create')">写文章</el-button>
+          <el-button
+            type="primary"
+            @click="$router.push('/back/article/create')"
+            >写文章</el-button
+          >
         </div>
       </template>
-      
+
       <!-- 搜索表单 -->
       <div class="search-form">
         <el-form :inline="true" :model="searchForm">
@@ -46,14 +50,21 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="fetchArticleList(1)">搜索</el-button>
+            <el-button type="primary" @click="fetchArticleList(1)"
+              >搜索</el-button
+            >
             <el-button @click="resetSearch">重置</el-button>
           </el-form-item>
         </el-form>
       </div>
-      
+
       <!-- 文章列表 -->
-      <el-table :data="articleList" style="width: 100%" v-loading="loading" border>
+      <el-table
+        :data="articleList"
+        style="width: 100%"
+        v-loading="loading"
+        border
+      >
         <el-table-column prop="id" label="ID" width="80" />
         <el-table-column label="封面" width="100">
           <template #default="scope">
@@ -86,16 +97,27 @@
         <el-table-column label="状态" width="100">
           <template #default="scope">
             <el-tag v-if="scope.row.status === 0" type="warning">草稿</el-tag>
-            <el-tag v-else-if="scope.row.status === 1" type="success">已发布</el-tag>
-            <el-tag v-else-if="scope.row.status === 2" type="danger">已删除</el-tag>
+            <el-tag v-else-if="scope.row.status === 1" type="success"
+              >已发布</el-tag
+            >
+            <el-tag v-else-if="scope.row.status === 2" type="danger"
+              >已删除</el-tag
+            >
           </template>
         </el-table-column>
         <el-table-column label="统计" width="180">
           <template #default="scope">
             <div class="article-stats">
-              <span><i class="el-icon-view"></i> {{ scope.row.viewCount }}</span>
-              <span><i class="el-icon-star-on"></i> {{ scope.row.likeCount }}</span>
-              <span><i class="el-icon-chat-line-square"></i> {{ scope.row.commentCount }}</span>
+              <span
+                ><i class="el-icon-view"></i> {{ scope.row.viewCount }}</span
+              >
+              <span
+                ><i class="el-icon-star-on"></i> {{ scope.row.likeCount }}</span
+              >
+              <span
+                ><i class="el-icon-chat-line-square"></i>
+                {{ scope.row.commentCount }}</span
+              >
             </div>
           </template>
         </el-table-column>
@@ -129,7 +151,6 @@
             <el-button
               v-if="scope.row.likeCount > 0"
               type="primary"
-            
               size="small"
               @click="showLikeUsers(scope.row)"
             >
@@ -165,7 +186,7 @@
           </template>
         </el-table-column>
       </el-table>
-      
+
       <!-- 分页 -->
       <div class="pagination">
         <el-pagination
@@ -179,29 +200,42 @@
         />
       </div>
     </el-card>
-    
+
     <!-- 点赞用户对话框 -->
     <el-dialog
       v-model="likeDialogVisible"
       :title="`《${currentArticle?.title || ''}》的点赞用户`"
       width="700px"
     >
-      <el-table :data="likeUserList" border style="width: 100%" v-loading="likeLoading">
+      <el-table
+        :data="likeUserList"
+        border
+        style="width: 100%"
+        v-loading="likeLoading"
+      >
         <el-table-column type="index" width="50" label="#"></el-table-column>
-        <el-table-column prop="username" label="用户名" width="120"></el-table-column>
+        <el-table-column
+          prop="username"
+          label="用户名"
+          width="120"
+        ></el-table-column>
         <el-table-column prop="name" label="姓名" width="120"></el-table-column>
         <el-table-column label="头像" width="80">
           <template #default="scope">
-            <el-avatar 
-              :size="40" 
-              :src="getImageUrl(scope.row.avatar)" 
+            <el-avatar
+              :size="40"
+              :src="getImageUrl(scope.row.avatar)"
             ></el-avatar>
           </template>
         </el-table-column>
         <el-table-column prop="email" label="邮箱"></el-table-column>
-        <el-table-column prop="likeTime" label="点赞时间" width="180"></el-table-column>
+        <el-table-column
+          prop="likeTime"
+          label="点赞时间"
+          width="180"
+        ></el-table-column>
       </el-table>
-      
+
       <!-- 分页 -->
       <div class="pagination">
         <el-pagination
@@ -215,29 +249,42 @@
         />
       </div>
     </el-dialog>
-    
+
     <!-- 收藏用户对话框 -->
     <el-dialog
       v-model="collectDialogVisible"
       :title="`《${currentArticle?.title || ''}》的收藏用户`"
       width="700px"
     >
-      <el-table :data="collectUserList" border style="width: 100%" v-loading="collectLoading">
+      <el-table
+        :data="collectUserList"
+        border
+        style="width: 100%"
+        v-loading="collectLoading"
+      >
         <el-table-column type="index" width="50" label="#"></el-table-column>
-        <el-table-column prop="username" label="用户名" width="120"></el-table-column>
+        <el-table-column
+          prop="username"
+          label="用户名"
+          width="120"
+        ></el-table-column>
         <el-table-column prop="name" label="姓名" width="120"></el-table-column>
         <el-table-column label="头像" width="80">
           <template #default="scope">
-            <el-avatar 
-              :size="40" 
-              :src="getImageUrl(scope.row.avatar)" 
+            <el-avatar
+              :size="40"
+              :src="getImageUrl(scope.row.avatar)"
             ></el-avatar>
           </template>
         </el-table-column>
         <el-table-column prop="email" label="邮箱"></el-table-column>
-        <el-table-column prop="collectTime" label="收藏时间" width="180"></el-table-column>
+        <el-table-column
+          prop="collectTime"
+          label="收藏时间"
+          width="180"
+        ></el-table-column>
       </el-table>
-      
+
       <!-- 分页 -->
       <div class="pagination">
         <el-pagination
@@ -255,220 +302,232 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, computed } from 'vue'
-import request from '@/utils/request'
-import { ElMessage } from 'element-plus'
+import { ref, reactive, onMounted, computed } from "vue";
+import request from "@/utils/request";
+import { ElMessage } from "element-plus";
 
 // 基础路径
-const baseAPI = process.env.VUE_APP_BASE_API || '/api'
+const baseAPI = process.env.VUE_APP_BASE_API || "/api";
 
 // 加载状态
-const loading = ref(false)
+const loading = ref(false);
 // 文章列表
-const articleList = ref([])
+const articleList = ref([]);
 // 分类选项
-const categoryOptions = ref([])
+const categoryOptions = ref([]);
 // 分页信息
-const currentPage = ref(1)
-const pageSize = ref(10)
-const total = ref(0)
+const currentPage = ref(1);
+const pageSize = ref(10);
+const total = ref(0);
 // 搜索表单
 const searchForm = reactive({
-  title: '',
-  categoryId: '',
-  status: ''
-})
+  title: "",
+  categoryId: "",
+  status: "",
+});
 
 // 点赞用户对话框相关
-const likeDialogVisible = ref(false)
-const likeLoading = ref(false)
-const likeUserList = ref([])
-const likeCurrentPage = ref(1)
-const likePageSize = ref(10)
-const likeTotal = ref(0)
-const currentArticle = ref(null)
+const likeDialogVisible = ref(false);
+const likeLoading = ref(false);
+const likeUserList = ref([]);
+const likeCurrentPage = ref(1);
+const likePageSize = ref(10);
+const likeTotal = ref(0);
+const currentArticle = ref(null);
 
 // 收藏用户对话框相关
-const collectDialogVisible = ref(false)
-const collectLoading = ref(false)
-const collectUserList = ref([])
-const collectCurrentPage = ref(1)
-const collectPageSize = ref(10)
-const collectTotal = ref(0)
+const collectDialogVisible = ref(false);
+const collectLoading = ref(false);
+const collectUserList = ref([]);
+const collectCurrentPage = ref(1);
+const collectPageSize = ref(10);
+const collectTotal = ref(0);
 
 // 初始化
 onMounted(() => {
-  fetchCategoryList()
-  fetchArticleList(1)
-})
+  fetchCategoryList();
+  fetchArticleList(1);
+});
 
 // 获取分类列表
 const fetchCategoryList = async () => {
   try {
-    await request.get('/category', {}, {
-      showDefaultMsg: false,
-      onSuccess: (data) => {
-        categoryOptions.value = data
-      }
-    })
+    await request.get(
+      "/category",
+      {},
+      {
+        showDefaultMsg: false,
+        onSuccess: (data) => {
+          categoryOptions.value = data;
+        },
+      },
+    );
   } catch (error) {
-    console.error('获取分类列表失败:', error)
+    console.error("获取分类列表失败:", error);
   }
-}
+};
 
 // 获取文章列表
 const fetchArticleList = async (page) => {
   if (page) {
-    currentPage.value = page
+    currentPage.value = page;
   }
-  
-  loading.value = true
+
+  loading.value = true;
   try {
     const params = {
       currentPage: currentPage.value,
       size: pageSize.value,
-      ...searchForm
-    }
-    
-    await request.get('/article/page', params, {
+      ...searchForm,
+    };
+
+    await request.get("/article/page", params, {
       showDefaultMsg: false,
       onSuccess: (data) => {
-        articleList.value = data.records
-        total.value = data.total
-      }
-    })
+        articleList.value = data.records;
+        total.value = data.total;
+      },
+    });
   } catch (error) {
-    console.error('获取文章列表失败:', error)
+    console.error("获取文章列表失败:", error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 // 处理每页显示数量变化
 const handleSizeChange = (val) => {
-  pageSize.value = val
-  fetchArticleList(1)
-}
+  pageSize.value = val;
+  fetchArticleList(1);
+};
 
 // 处理页码变化
 const handleCurrentChange = (val) => {
-  currentPage.value = val
-  fetchArticleList()
-}
+  currentPage.value = val;
+  fetchArticleList();
+};
 
 // 重置搜索条件
 const resetSearch = () => {
-  searchForm.title = ''
-  searchForm.categoryId = ''
-  searchForm.status = ''
-  fetchArticleList(1)
-}
+  searchForm.title = "";
+  searchForm.categoryId = "";
+  searchForm.status = "";
+  fetchArticleList(1);
+};
 
 // 更新文章状态
 const updateArticleStatus = async (id, status) => {
   try {
     await request.put(`/article/${id}/status?status=${status}`, null, {
-      successMsg: '操作成功',
+      successMsg: "操作成功",
       onSuccess: () => {
-        fetchArticleList()
-      }
-    })
+        fetchArticleList();
+      },
+    });
   } catch (error) {
-    console.error('更新文章状态失败:', error)
+    console.error("更新文章状态失败:", error);
   }
-}
+};
 
 // 处理图片URL
 const getImageUrl = (url) => {
-  if (!url) return ''
-  return baseAPI + url
-}
+  if (!url) return "";
+  return baseAPI + url;
+};
 
 // 显示点赞用户
 const showLikeUsers = (article) => {
-  currentArticle.value = article
-  likeDialogVisible.value = true
-  likeCurrentPage.value = 1
-  fetchLikeUsers()
-}
+  currentArticle.value = article;
+  likeDialogVisible.value = true;
+  likeCurrentPage.value = 1;
+  fetchLikeUsers();
+};
 
 // 获取点赞用户列表
 const fetchLikeUsers = async () => {
-  if (!currentArticle.value) return
-  
-  likeLoading.value = true
+  if (!currentArticle.value) return;
+
+  likeLoading.value = true;
   try {
-    await request.get(`/article/${currentArticle.value.id}/like/users`, {
-      currentPage: likeCurrentPage.value,
-      size: likePageSize.value
-    }, {
-      showDefaultMsg: false,
-      onSuccess: (data) => {
-        likeUserList.value = data.records
-        likeTotal.value = data.total
-      }
-    })
+    await request.get(
+      `/article/${currentArticle.value.id}/like/users`,
+      {
+        currentPage: likeCurrentPage.value,
+        size: likePageSize.value,
+      },
+      {
+        showDefaultMsg: false,
+        onSuccess: (data) => {
+          likeUserList.value = data.records;
+          likeTotal.value = data.total;
+        },
+      },
+    );
   } catch (error) {
-    console.error('获取点赞用户列表失败:', error)
+    console.error("获取点赞用户列表失败:", error);
   } finally {
-    likeLoading.value = false
+    likeLoading.value = false;
   }
-}
+};
 
 // 点赞用户分页大小变化
 const handleLikeSizeChange = (val) => {
-  likePageSize.value = val
-  fetchLikeUsers()
-}
+  likePageSize.value = val;
+  fetchLikeUsers();
+};
 
 // 点赞用户页码变化
 const handleLikeCurrentChange = (val) => {
-  likeCurrentPage.value = val
-  fetchLikeUsers()
-}
+  likeCurrentPage.value = val;
+  fetchLikeUsers();
+};
 
 // 显示收藏用户
 const showCollectUsers = (article) => {
-  currentArticle.value = article
-  collectDialogVisible.value = true
-  collectCurrentPage.value = 1
-  fetchCollectUsers()
-}
+  currentArticle.value = article;
+  collectDialogVisible.value = true;
+  collectCurrentPage.value = 1;
+  fetchCollectUsers();
+};
 
 // 获取收藏用户列表
 const fetchCollectUsers = async () => {
-  if (!currentArticle.value) return
-  
-  collectLoading.value = true
+  if (!currentArticle.value) return;
+
+  collectLoading.value = true;
   try {
-    await request.get(`/article/${currentArticle.value.id}/collect/users`, {
-      currentPage: collectCurrentPage.value,
-      size: collectPageSize.value
-    }, {
-      showDefaultMsg: false,
-      onSuccess: (data) => {
-        collectUserList.value = data.records
-        collectTotal.value = data.total
-      }
-    })
+    await request.get(
+      `/article/${currentArticle.value.id}/collect/users`,
+      {
+        currentPage: collectCurrentPage.value,
+        size: collectPageSize.value,
+      },
+      {
+        showDefaultMsg: false,
+        onSuccess: (data) => {
+          collectUserList.value = data.records;
+          collectTotal.value = data.total;
+        },
+      },
+    );
   } catch (error) {
-    console.error('获取收藏用户列表失败:', error)
+    console.error("获取收藏用户列表失败:", error);
   } finally {
-    collectLoading.value = false
+    collectLoading.value = false;
   }
-}
+};
 
 // 收藏用户分页大小变化
 const handleCollectSizeChange = (val) => {
-  collectPageSize.value = val
-  fetchCollectUsers()
-}
+  collectPageSize.value = val;
+  fetchCollectUsers();
+};
 
 // 收藏用户页码变化
 const handleCollectCurrentChange = (val) => {
-  collectCurrentPage.value = val
-  fetchCollectUsers()
-}
+  collectCurrentPage.value = val;
+  fetchCollectUsers();
+};
 </script>
 
 <style scoped>
@@ -477,7 +536,7 @@ const handleCollectCurrentChange = (val) => {
 }
 
 .box-card {
-  border-radius: 8px;
+  border-radius: 15px;
   border: 1px solid #eaeaea;
   box-shadow: none;
 }
@@ -591,7 +650,9 @@ const handleCollectCurrentChange = (val) => {
 }
 
 :deep(.el-pagination .el-pagination__sizes .el-input .el-input__wrapper:hover),
-:deep(.el-pagination .el-pagination__sizes .el-input .el-input__wrapper.is-focus) {
+:deep(
+    .el-pagination .el-pagination__sizes .el-input .el-input__wrapper.is-focus
+  ) {
   box-shadow: 0 0 0 1px #333;
 }
 
@@ -677,7 +738,7 @@ const handleCollectCurrentChange = (val) => {
 
 /* 对话框样式 */
 :deep(.el-dialog) {
-  border-radius: 8px;
+  border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -721,4 +782,4 @@ const handleCollectCurrentChange = (val) => {
   color: #666;
   border: 1px solid #eaeaea;
 }
-</style> 
+</style>

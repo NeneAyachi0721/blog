@@ -257,7 +257,7 @@ onMounted(() => {
 /* 个人资料卡片样式 */
 .profile-section {
   background-color: #fff;
-  border-radius: 8px;
+  border-radius: 15px;
   padding: 40px 20px;
   text-align: center;
   position: relative;
@@ -335,7 +335,7 @@ onMounted(() => {
 .detail-section {
   background-color: #fff;
   padding: 30px;
-  border-radius: 8px;
+  border-radius: 15px;
   border: 1px solid #eaeaea;
 }
 
@@ -405,7 +405,7 @@ onMounted(() => {
 
 :deep(.markdown-content img) {
   max-width: 100%;
-  border-radius: 8px;
+  border-radius: 15px;
   margin: 20px 0;
   border: 1px solid #eaeaea;
 }
@@ -430,7 +430,7 @@ onMounted(() => {
 :deep(.markdown-content pre) {
   background: #f8f9fa;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 15px;
   overflow-x: auto;
   margin: 24px 0;
   border: 1px solid #eaeaea;

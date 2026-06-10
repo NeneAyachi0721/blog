@@ -500,7 +500,7 @@ const handleCommentDeleted = () => {
   display: flex;
   align-items: center;
   padding: 15px;
-  border-radius: 8px;
+  border-radius: 15px;
   cursor: pointer;
   transition: all 0.3s;
   border: 1px solid #f0f0f0;

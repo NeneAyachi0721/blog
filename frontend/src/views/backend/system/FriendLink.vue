@@ -475,13 +475,13 @@ onMounted(() => {
 
 .search-card {
   margin-bottom: 24px;
-  border-radius: 8px;
+  border-radius: 15px;
   border: 1px solid #eaeaea;
   box-shadow: none;
 }
 
 .list-card {
-  border-radius: 8px;
+  border-radius: 15px;
   border: 1px solid #eaeaea;
   box-shadow: none;
 }
@@ -653,7 +653,7 @@ onMounted(() => {
 
 /* 对话框样式 */
 :deep(.el-dialog) {
-  border-radius: 8px;
+  border-radius: 15px;
   overflow: hidden;
   box-shadow: none;
   border: 1px solid #eaeaea;
@@ -732,7 +732,7 @@ onMounted(() => {
   width: 100px;
   height: 100px;
   border: 1px dashed #d9d9d9;
-  border-radius: 8px;
+  border-radius: 15px;
   cursor: pointer;
   position: relative;
   overflow: hidden;

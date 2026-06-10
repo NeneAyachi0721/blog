@@ -7,17 +7,29 @@
           <el-button type="primary" @click="handleAdd">添加用户</el-button>
         </div>
       </template>
-      
+
       <!-- 搜索表单 -->
       <el-form :inline="true" :model="searchForm" class="search-form">
         <el-form-item label="用户名">
-          <el-input v-model="searchForm.username" placeholder="请输入用户名" clearable></el-input>
+          <el-input
+            v-model="searchForm.username"
+            placeholder="请输入用户名"
+            clearable
+          ></el-input>
         </el-form-item>
         <el-form-item label="姓名">
-          <el-input v-model="searchForm.name" placeholder="请输入姓名" clearable></el-input>
+          <el-input
+            v-model="searchForm.name"
+            placeholder="请输入姓名"
+            clearable
+          ></el-input>
         </el-form-item>
         <el-form-item label="角色">
-          <el-select v-model="searchForm.roleCode" placeholder="请选择角色" clearable>
+          <el-select
+            v-model="searchForm.roleCode"
+            placeholder="请选择角色"
+            clearable
+          >
             <el-option label="管理员" value="ADMIN"></el-option>
             <el-option label="普通用户" value="USER"></el-option>
           </el-select>
@@ -27,18 +39,33 @@
           <el-button @click="resetSearch">重置</el-button>
         </el-form-item>
       </el-form>
-      
+
       <!-- 用户表格 -->
-      <el-table v-loading="loading" :data="tableData" border style="width: 100%">
+      <el-table
+        v-loading="loading"
+        :data="tableData"
+        border
+        style="width: 100%"
+      >
         <el-table-column prop="id" label="ID" width="80"></el-table-column>
-        <el-table-column prop="username" label="用户名" width="120"></el-table-column>
+        <el-table-column
+          prop="username"
+          label="用户名"
+          width="120"
+        ></el-table-column>
         <el-table-column prop="name" label="姓名" width="120"></el-table-column>
         <el-table-column prop="email" label="邮箱"></el-table-column>
-        <el-table-column prop="phone" label="手机号" width="120"></el-table-column>
+        <el-table-column
+          prop="phone"
+          label="手机号"
+          width="120"
+        ></el-table-column>
         <el-table-column prop="roleCode" label="角色" width="100">
           <template #default="scope">
-            <el-tag :type="scope.row.roleCode === 'ADMIN' ? 'danger' : 'success'">
-              {{ scope.row.roleCode === 'ADMIN' ? '管理员' : '普通用户' }}
+            <el-tag
+              :type="scope.row.roleCode === 'ADMIN' ? 'danger' : 'success'"
+            >
+              {{ scope.row.roleCode === "ADMIN" ? "管理员" : "普通用户" }}
             </el-tag>
           </template>
         </el-table-column>
@@ -53,15 +80,26 @@
             ></el-switch>
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" label="创建时间" width="180"></el-table-column>
+        <el-table-column
+          prop="createTime"
+          label="创建时间"
+          width="180"
+        ></el-table-column>
         <el-table-column label="操作" width="180">
           <template #default="scope">
-            <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button size="small" type="danger" @click="handleDelete(scope.row)">删除</el-button>
+            <el-button size="small" @click="handleEdit(scope.row)"
+              >编辑</el-button
+            >
+            <el-button
+              size="small"
+              type="danger"
+              @click="handleDelete(scope.row)"
+              >删除</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
-      
+
       <!-- 分页 -->
       <div class="pagination-container">
         <el-pagination
@@ -74,14 +112,29 @@
           @current-change="handleCurrentChange"
         ></el-pagination>
       </div>
-      
+
       <!-- 用户表单对话框 -->
-      <el-dialog v-model="dialogVisible" :title="dialogType === 'add' ? '添加用户' : '编辑用户'">
-        <el-form ref="userFormRef" :model="userForm" :rules="rules" label-width="100px">
+      <el-dialog
+        v-model="dialogVisible"
+        :title="dialogType === 'add' ? '添加用户' : '编辑用户'"
+      >
+        <el-form
+          ref="userFormRef"
+          :model="userForm"
+          :rules="rules"
+          label-width="100px"
+        >
           <el-form-item label="用户名" prop="username">
-            <el-input v-model="userForm.username" :disabled="dialogType === 'edit'"></el-input>
+            <el-input
+              v-model="userForm.username"
+              :disabled="dialogType === 'edit'"
+            ></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="password" v-if="dialogType === 'add'">
+          <el-form-item
+            label="密码"
+            prop="password"
+            v-if="dialogType === 'add'"
+          >
             <el-input v-model="userForm.password" type="password"></el-input>
           </el-form-item>
           <el-form-item label="姓名" prop="name">
@@ -106,7 +159,11 @@
             </el-select>
           </el-form-item>
           <el-form-item label="状态" prop="status">
-            <el-switch v-model="userForm.status" :active-value="1" :inactive-value="0"></el-switch>
+            <el-switch
+              v-model="userForm.status"
+              :active-value="1"
+              :inactive-value="0"
+            ></el-switch>
           </el-form-item>
         </el-form>
         <template #footer>
@@ -121,211 +178,230 @@
 </template>
 
 <script setup>
-import { ref, onMounted, reactive } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import request from '@/utils/request'
+import { ref, onMounted, reactive } from "vue";
+import { ElMessage, ElMessageBox } from "element-plus";
+import request from "@/utils/request";
 
 // 搜索表单
 const searchForm = reactive({
-  username: '',
-  name: '',
-  roleCode: ''
-})
+  username: "",
+  name: "",
+  roleCode: "",
+});
 
 // 表格数据
-const tableData = ref([])
-const loading = ref(false)
-const total = ref(0)
-const currentPage = ref(1)
-const pageSize = ref(10)
+const tableData = ref([]);
+const loading = ref(false);
+const total = ref(0);
+const currentPage = ref(1);
+const pageSize = ref(10);
 
 // 对话框相关
-const dialogVisible = ref(false)
-const dialogType = ref('add') // 'add' 或 'edit'
-const userFormRef = ref(null)
+const dialogVisible = ref(false);
+const dialogType = ref("add"); // 'add' 或 'edit'
+const userFormRef = ref(null);
 
 // 用户表单
 const userForm = reactive({
-  id: '',
-  username: '',
-  password: '',
-  name: '',
-  email: '',
-  phone: '',
-  sex: '男',
-  roleCode: 'USER',
-  status: 1
-})
+  id: "",
+  username: "",
+  password: "",
+  name: "",
+  email: "",
+  phone: "",
+  sex: "男",
+  roleCode: "USER",
+  status: 1,
+});
 
 // 表单验证规则
 const rules = {
   username: [
-    { required: true, message: '请输入用户名', trigger: 'blur' },
-    { min: 3, max: 50, message: '用户名长度必须在3到50个字符之间', trigger: 'blur' }
+    { required: true, message: "请输入用户名", trigger: "blur" },
+    {
+      min: 3,
+      max: 50,
+      message: "用户名长度必须在3到50个字符之间",
+      trigger: "blur",
+    },
   ],
   password: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, max: 100, message: '密码长度必须在6到100个字符之间', trigger: 'blur' }
+    { required: true, message: "请输入密码", trigger: "blur" },
+    {
+      min: 6,
+      max: 100,
+      message: "密码长度必须在6到100个字符之间",
+      trigger: "blur",
+    },
   ],
-  name: [
-    { required: true, message: '请输入姓名', trigger: 'blur' }
-  ],
+  name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
   email: [
-    { required: true, message: '请输入邮箱', trigger: 'blur' },
-    { type: 'email', message: '请输入正确的邮箱格式', trigger: 'blur' }
+    { required: true, message: "请输入邮箱", trigger: "blur" },
+    { type: "email", message: "请输入正确的邮箱格式", trigger: "blur" },
   ],
   phone: [
-    { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号格式', trigger: 'blur' }
+    {
+      pattern: /^1[3-9]\d{9}$/,
+      message: "请输入正确的手机号格式",
+      trigger: "blur",
+    },
   ],
-  roleCode: [
-    { required: true, message: '请选择角色', trigger: 'change' }
-  ]
-}
+  roleCode: [{ required: true, message: "请选择角色", trigger: "change" }],
+};
 
 // 初始化
 onMounted(() => {
-  fetchUsers()
-})
+  fetchUsers();
+});
 
 // 获取用户列表
 const fetchUsers = async () => {
-  loading.value = true
+  loading.value = true;
   try {
-    await request.get('/user/page', {
-      currentPage: currentPage.value,
-      size: pageSize.value,
-      ...searchForm
-    }, {
-      onSuccess: (res) => {
-        tableData.value = res.records
-        total.value = res.total
-      }
-    })
+    await request.get(
+      "/user/page",
+      {
+        currentPage: currentPage.value,
+        size: pageSize.value,
+        ...searchForm,
+      },
+      {
+        onSuccess: (res) => {
+          tableData.value = res.records;
+          total.value = res.total;
+        },
+      },
+    );
   } catch (error) {
-    console.error('获取用户列表失败:', error)
+    console.error("获取用户列表失败:", error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 // 重置搜索条件
 const resetSearch = () => {
-  Object.keys(searchForm).forEach(key => {
-    searchForm[key] = ''
-  })
-  fetchUsers()
-}
+  Object.keys(searchForm).forEach((key) => {
+    searchForm[key] = "";
+  });
+  fetchUsers();
+};
 
 // 处理页码变化
 const handleCurrentChange = (val) => {
-  currentPage.value = val
-  fetchUsers()
-}
+  currentPage.value = val;
+  fetchUsers();
+};
 
 // 处理每页数量变化
 const handleSizeChange = (val) => {
-  pageSize.value = val
-  fetchUsers()
-}
+  pageSize.value = val;
+  fetchUsers();
+};
 
 // 添加用户
 const handleAdd = () => {
-  dialogType.value = 'add'
-  resetForm()
-  dialogVisible.value = true
-}
+  dialogType.value = "add";
+  resetForm();
+  dialogVisible.value = true;
+};
 
 // 编辑用户
 const handleEdit = (row) => {
-  dialogType.value = 'edit'
-  Object.keys(userForm).forEach(key => {
+  dialogType.value = "edit";
+  Object.keys(userForm).forEach((key) => {
     if (key in row) {
-      userForm[key] = row[key]
+      userForm[key] = row[key];
     }
-  })
-  dialogVisible.value = true
-}
+  });
+  dialogVisible.value = true;
+};
 
 // 删除用户
 const handleDelete = (row) => {
-  ElMessageBox.confirm(`确认删除用户 ${row.username} 吗？`, '警告', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  }).then(async () => {
-    try {
-      await request.delete(`/user/delete/${row.id}`, {
-        successMsg: '删除成功'
-      })
-      fetchUsers()
-    } catch (error) {
-      console.error('删除用户失败:', error)
-    }
-  }).catch(() => {})
-}
+  ElMessageBox.confirm(`确认删除用户 ${row.username} 吗？`, "警告", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
+  })
+    .then(async () => {
+      try {
+        await request.delete(`/user/delete/${row.id}`, {
+          successMsg: "删除成功",
+        });
+        fetchUsers();
+      } catch (error) {
+        console.error("删除用户失败:", error);
+      }
+    })
+    .catch(() => {});
+};
 
 // 修改用户状态
 const handleStatusChange = async (row) => {
   try {
     await request.put(`/user/status/${row.id}`, null, {
       params: { status: row.status },
-      successMsg: `用户${row.status === 1 ? '启用' : '禁用'}成功`
-    })
+      successMsg: `用户${row.status === 1 ? "启用" : "禁用"}成功`,
+    });
   } catch (error) {
-    console.error('修改用户状态失败:', error)
+    console.error("修改用户状态失败:", error);
     // 状态修改失败，恢复原状态
-    row.status = row.status === 1 ? 0 : 1
+    row.status = row.status === 1 ? 0 : 1;
   }
-}
+};
 
 // 重置表单
 const resetForm = () => {
-  userForm.id = ''
-  userForm.username = ''
-  userForm.password = ''
-  userForm.name = ''
-  userForm.email = ''
-  userForm.phone = ''
-  userForm.sex = '男'
-  userForm.roleCode = 'USER'
-  userForm.status = 1
-  
+  userForm.id = "";
+  userForm.username = "";
+  userForm.password = "";
+  userForm.name = "";
+  userForm.email = "";
+  userForm.phone = "";
+  userForm.sex = "男";
+  userForm.roleCode = "USER";
+  userForm.status = 1;
+
   // 重置表单验证
   if (userFormRef.value) {
-    userFormRef.value.resetFields()
+    userFormRef.value.resetFields();
   }
-}
+};
 
 // 提交表单
 const submitForm = () => {
   userFormRef.value.validate(async (valid) => {
     if (valid) {
       try {
-        if (dialogType.value === 'add') {
+        if (dialogType.value === "add") {
           // 添加用户
-          await request.post('/user/add', userForm, {
-            successMsg: '添加成功'
-          })
+          await request.post("/user/add", userForm, {
+            successMsg: "添加成功",
+          });
         } else {
           // 编辑用户
           await request.put(`/user/${userForm.id}`, userForm, {
-            successMsg: '更新成功'
-          })
+            successMsg: "更新成功",
+          });
         }
-        dialogVisible.value = false
-        fetchUsers()
+        dialogVisible.value = false;
+        fetchUsers();
       } catch (error) {
-        console.error(dialogType.value === 'add' ? '添加用户失败:' : '更新用户失败:', error)
+        console.error(
+          dialogType.value === "add" ? "添加用户失败:" : "更新用户失败:",
+          error,
+        );
       }
     }
-  })
-}
+  });
+};
 </script>
 
 <style lang="scss" scoped>
 .user-management {
   padding: 24px;
-  
+
   .card-header {
     display: flex;
     justify-content: space-between;
@@ -333,24 +409,24 @@ const submitForm = () => {
     padding: 16px 0;
     border-bottom: 1px solid #eaeaea;
   }
-  
+
   .card-header span {
     font-size: 18px;
     font-weight: 500;
     color: #333;
   }
-  
+
   .box-card {
     margin-bottom: 24px;
-    border-radius: 8px;
+    border-radius: 15px;
     border: 1px solid #eaeaea;
     box-shadow: none;
   }
-  
+
   .search-form {
     margin-bottom: 24px;
   }
-  
+
   .pagination-container {
     margin-top: 24px;
     display: flex;
@@ -466,7 +542,9 @@ const submitForm = () => {
 }
 
 :deep(.el-pagination .el-pagination__sizes .el-input .el-input__wrapper:hover),
-:deep(.el-pagination .el-pagination__sizes .el-input .el-input__wrapper.is-focus) {
+:deep(
+    .el-pagination .el-pagination__sizes .el-input .el-input__wrapper.is-focus
+  ) {
   box-shadow: 0 0 0 1px #333;
 }
 
@@ -521,7 +599,7 @@ const submitForm = () => {
 
 /* 对话框样式 */
 :deep(.el-dialog) {
-  border-radius: 8px;
+  border-radius: 15px;
   overflow: hidden;
   box-shadow: none;
   border: 1px solid #eaeaea;
@@ -585,4 +663,4 @@ const submitForm = () => {
   justify-content: flex-end;
   gap: 12px;
 }
-</style> 
+</style>

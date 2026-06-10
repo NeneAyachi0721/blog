@@ -6,8 +6,8 @@
           <span>个人信息</span>
         </div>
       </template>
-      
-      <el-form 
+
+      <el-form
         ref="profileFormRef"
         :model="profileForm"
         :rules="profileRules"
@@ -31,24 +31,24 @@
                 </el-upload>
               </div>
               <div class="user-role">
-                {{ profileForm.roleCode === 'ADMIN' ? '管理员' : '普通用户' }}
+                {{ profileForm.roleCode === "ADMIN" ? "管理员" : "普通用户" }}
               </div>
             </div>
           </el-col>
-          
+
           <el-col :span="16">
             <el-form-item label="用户名" prop="username">
               <el-input v-model="profileForm.username" disabled />
             </el-form-item>
-            
+
             <el-form-item label="昵称" prop="name">
               <el-input v-model="profileForm.name" placeholder="请输入昵称" />
             </el-form-item>
-            
+
             <el-form-item label="邮箱" prop="email">
               <el-input v-model="profileForm.email" placeholder="请输入邮箱" />
             </el-form-item>
-            
+
             <el-form-item label="性别">
               <el-radio-group v-model="profileForm.sex">
                 <el-radio label="男">男</el-radio>
@@ -56,64 +56,66 @@
                 <el-radio label="保密">保密</el-radio>
               </el-radio-group>
             </el-form-item>
-            
+
             <el-form-item label="个人简介">
-              <el-input 
+              <el-input
                 v-model="profileForm.bio"
                 type="textarea"
                 :rows="3"
                 placeholder="介绍一下自己吧"
               />
             </el-form-item>
-            
+
             <el-form-item>
-              <el-button type="primary" @click="saveProfile">保存信息</el-button>
+              <el-button type="primary" @click="saveProfile"
+                >保存信息</el-button
+              >
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
     </el-card>
-    
+
     <el-card class="box-card password-card">
       <template #header>
         <div class="card-header">
           <span>修改密码</span>
         </div>
       </template>
-      
-      <el-form 
+
+      <el-form
         ref="passwordFormRef"
         :model="passwordForm"
         :rules="passwordRules"
         label-width="100px"
       >
         <el-form-item label="原密码" prop="oldPassword">
-          <el-input 
+          <el-input
             v-model="passwordForm.oldPassword"
             type="password"
             placeholder="请输入原密码"
             show-password
           />
         </el-form-item>
-        
+
         <el-form-item label="新密码" prop="newPassword">
-          <el-input 
+          <el-input
             v-model="passwordForm.newPassword"
             type="password"
             placeholder="请输入新密码"
             show-password
           />
         </el-form-item>
-        
+
         <el-form-item label="确认新密码" prop="confirmPassword">
-          <el-input 
+          <el-input
             v-model="passwordForm.confirmPassword"
             type="password"
             placeholder="请再次输入新密码"
             show-password
           />
         </el-form-item>
-        
+
         <el-form-item>
           <el-button type="primary" @click="changePassword">修改密码</el-button>
         </el-form-item>
@@ -123,76 +125,70 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, computed } from 'vue'
-import { useUserStore } from '@/store/user'
-import request from '@/utils/request'
-import { ElMessage } from 'element-plus'
+import { ref, reactive, onMounted, computed } from "vue";
+import { useUserStore } from "@/store/user";
+import request from "@/utils/request";
+import { ElMessage } from "element-plus";
 
-const userStore = useUserStore()
+const userStore = useUserStore();
 const baseAPI = process.env.VUE_APP_BASE_API || "/api";
 
 // 加载状态
-const loading = ref(false)
+const loading = ref(false);
 // 表单引用
-const profileFormRef = ref(null)
-const passwordFormRef = ref(null)
+const profileFormRef = ref(null);
+const passwordFormRef = ref(null);
 
 // 个人信息表单
 const profileForm = reactive({
-  id: '',
-  username: '',
-  name: '',
-  email: '',
-  sex: '保密',
-  avatar: '',
-  bio: '',
-  roleCode: ''
-})
+  id: "",
+  username: "",
+  name: "",
+  email: "",
+  sex: "保密",
+  avatar: "",
+  bio: "",
+  roleCode: "",
+});
 
 // 表单校验规则
 const profileRules = {
-  name: [
-    { max: 50, message: '昵称长度不能超过50个字符', trigger: 'blur' }
-  ],
+  name: [{ max: 50, message: "昵称长度不能超过50个字符", trigger: "blur" }],
   email: [
-    { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' },
-    { max: 50, message: '邮箱长度不能超过50个字符', trigger: 'blur' }
+    { type: "email", message: "请输入正确的邮箱地址", trigger: "blur" },
+    { max: 50, message: "邮箱长度不能超过50个字符", trigger: "blur" },
   ],
-  bio: [
-    { max: 200, message: '个人简介不能超过200个字符', trigger: 'blur' }
-  ]
-}
+  bio: [{ max: 200, message: "个人简介不能超过200个字符", trigger: "blur" }],
+};
 
 // 密码表单
 const passwordForm = reactive({
-  oldPassword: '',
-  newPassword: '',
-  confirmPassword: ''
-})
+  oldPassword: "",
+  newPassword: "",
+  confirmPassword: "",
+});
 
 // 密码表单校验规则
 const passwordRules = {
-  oldPassword: [
-    { required: true, message: '请输入原密码', trigger: 'blur' }
-  ],
+  oldPassword: [{ required: true, message: "请输入原密码", trigger: "blur" }],
   newPassword: [
-    { required: true, message: '请输入新密码', trigger: 'blur' },
-    { min: 6, max: 20, message: '密码长度在6到20个字符之间', trigger: 'blur' }
+    { required: true, message: "请输入新密码", trigger: "blur" },
+    { min: 6, max: 20, message: "密码长度在6到20个字符之间", trigger: "blur" },
   ],
   confirmPassword: [
-    { required: true, message: '请再次输入新密码', trigger: 'blur' },
-    { 
+    { required: true, message: "请再次输入新密码", trigger: "blur" },
+    {
       validator: (rule, value, callback) => {
         if (value !== passwordForm.newPassword) {
-          callback(new Error('两次输入的密码不一致'))
+          callback(new Error("两次输入的密码不一致"));
         } else {
-          callback()
+          callback();
         }
-      }, 
-      trigger: 'blur' 
-    }
-  ]
-}
+      },
+      trigger: "blur",
+    },
+  ],
+};
 
 // 头像（文件）地址
 const avatarUrl = computed(() => {
@@ -201,42 +197,46 @@ const avatarUrl = computed(() => {
 
 // 初始化
 onMounted(() => {
-  getUserInfo()
-})
+  getUserInfo();
+});
 
 // 获取用户信息
 const getUserInfo = async () => {
-  loading.value = true
+  loading.value = true;
   try {
     // 从 userStore 获取当前用户ID
-    const userId = userStore.userInfo?.id
-    
+    const userId = userStore.userInfo?.id;
+
     if (!userId) {
-      ElMessage.error('获取用户信息失败，请重新登录')
-      return
+      ElMessage.error("获取用户信息失败，请重新登录");
+      return;
     }
-    
-    await request.get(`/user/${userId}`, {}, {
-      showDefaultMsg: false,
-      onSuccess: (data) => {
-        // 填充表单
-        profileForm.id = data.id
-        profileForm.username = data.username
-        profileForm.name = data.name || ''
-        profileForm.email = data.email || ''
-        profileForm.sex = data.sex || '保密'
-        profileForm.avatar = data.avatar || ''
-        profileForm.bio = data.bio || ''
-        profileForm.roleCode = data.roleCode
-      }
-    })
+
+    await request.get(
+      `/user/${userId}`,
+      {},
+      {
+        showDefaultMsg: false,
+        onSuccess: (data) => {
+          // 填充表单
+          profileForm.id = data.id;
+          profileForm.username = data.username;
+          profileForm.name = data.name || "";
+          profileForm.email = data.email || "";
+          profileForm.sex = data.sex || "保密";
+          profileForm.avatar = data.avatar || "";
+          profileForm.bio = data.bio || "";
+          profileForm.roleCode = data.roleCode;
+        },
+      },
+    );
   } catch (error) {
-    console.error('获取用户信息失败:', error)
-    ElMessage.error('获取用户信息失败')
+    console.error("获取用户信息失败:", error);
+    ElMessage.error("获取用户信息失败");
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 // 保存个人信息
 const saveProfile = () => {
@@ -244,7 +244,7 @@ const saveProfile = () => {
     if (valid) {
       try {
         await request.put(`/user/${profileForm.id}`, profileForm, {
-          successMsg: '个人信息保存成功',
+          successMsg: "个人信息保存成功",
           onSuccess: (data) => {
             // 更新store中的用户信息
             userStore.updateUserInfo({
@@ -253,43 +253,47 @@ const saveProfile = () => {
               email: profileForm.email,
               sex: profileForm.sex,
               avatar: profileForm.avatar,
-              bio: profileForm.bio
-            })
-          }
-        })
+              bio: profileForm.bio,
+            });
+          },
+        });
       } catch (error) {
-        console.error('保存个人信息失败:', error)
+        console.error("保存个人信息失败:", error);
       }
     }
-  })
-}
+  });
+};
 
 // 修改密码
 const changePassword = () => {
   passwordFormRef.value.validate(async (valid) => {
     if (valid) {
       try {
-        await request.put('/user/password', {
-          oldPassword: passwordForm.oldPassword,
-          newPassword: passwordForm.newPassword
-        }, {
-          successMsg: '密码修改成功',
-          onSuccess: () => {
-            // 清空密码表单
-            passwordForm.oldPassword = ''
-            passwordForm.newPassword = ''
-            passwordForm.confirmPassword = ''
-            
-            // 重置表单校验状态
-            passwordFormRef.value.resetFields()
-          }
-        })
+        await request.put(
+          "/user/password",
+          {
+            oldPassword: passwordForm.oldPassword,
+            newPassword: passwordForm.newPassword,
+          },
+          {
+            successMsg: "密码修改成功",
+            onSuccess: () => {
+              // 清空密码表单
+              passwordForm.oldPassword = "";
+              passwordForm.newPassword = "";
+              passwordForm.confirmPassword = "";
+
+              // 重置表单校验状态
+              passwordFormRef.value.resetFields();
+            },
+          },
+        );
       } catch (error) {
-        console.error('修改密码失败:', error)
+        console.error("修改密码失败:", error);
       }
     }
-  })
-}
+  });
+};
 
 // 上传头像前的校验
 const beforeAvatarUpload = (file) => {
@@ -371,7 +375,7 @@ const updateUserAvatar = async (avatarPath) => {
           console.error("头像信息保存失败", error);
           ElMessage.error("头像信息保存失败");
         },
-      }
+      },
     );
   } catch (error) {
     console.error("头像信息保存失败", error);
@@ -388,7 +392,7 @@ const updateUserAvatar = async (avatarPath) => {
 
 .box-card {
   margin-bottom: 24px;
-  border-radius: 8px;
+  border-radius: 15px;
   border: 1px solid #eaeaea;
   box-shadow: none;
 }
@@ -490,7 +494,7 @@ const updateUserAvatar = async (avatarPath) => {
   align-items: center;
   padding: 20px;
   background-color: #f8f9fa;
-  border-radius: 8px;
+  border-radius: 15px;
   border: 1px solid #eaeaea;
 }
 
@@ -517,4 +521,4 @@ const updateUserAvatar = async (avatarPath) => {
 .password-card {
   margin-top: 24px;
 }
-</style> 
+</style>

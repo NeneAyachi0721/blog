@@ -29,11 +29,13 @@
             :before-upload="beforeAvatarUpload"
             :disabled="!isEditing"
           >
-            <el-button size="small" type="primary" :disabled="!isEditing">更换头像</el-button>
+            <el-button size="small" type="primary" :disabled="!isEditing"
+              >更换头像</el-button
+            >
           </el-upload>
         </div>
 
-        <el-form 
+        <el-form
           ref="formRef"
           :model="form"
           :rules="rules"
@@ -82,8 +84,8 @@
         label-width="100px"
       >
         <el-form-item label="原密码" prop="oldPassword">
-          <el-input 
-            v-model="passwordForm.oldPassword" 
+          <el-input
+            v-model="passwordForm.oldPassword"
             type="password"
             placeholder="请输入原密码"
             show-password
@@ -91,8 +93,8 @@
         </el-form-item>
 
         <el-form-item label="新密码" prop="newPassword">
-          <el-input 
-            v-model="passwordForm.newPassword" 
+          <el-input
+            v-model="passwordForm.newPassword"
             type="password"
             placeholder="请输入新密码"
             show-password
@@ -100,8 +102,8 @@
         </el-form-item>
 
         <el-form-item label="确认密码" prop="confirmPassword">
-          <el-input 
-            v-model="passwordForm.confirmPassword" 
+          <el-input
+            v-model="passwordForm.confirmPassword"
             type="password"
             placeholder="请再次输入新密码"
             show-password
@@ -109,8 +111,8 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button 
-            type="primary" 
+          <el-button
+            type="primary"
             @click="handleChangePassword"
             :loading="changingPassword"
           >
@@ -123,172 +125,174 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, computed } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { useUserStore } from '@/store/user'
-import request from '@/utils/request'
+import { ref, reactive, onMounted, computed } from "vue";
+import { ElMessage, ElMessageBox } from "element-plus";
+import { useUserStore } from "@/store/user";
+import request from "@/utils/request";
 
-const baseAPI = process.env.VUE_APP_BASE_API || '/api'
-const userStore = useUserStore()
-const formRef = ref(null)
-const passwordFormRef = ref(null)
-const isEditing = ref(false)
-const saving = ref(false)
-const changingPassword = ref(false)
+const baseAPI = process.env.VUE_APP_BASE_API || "/api";
+const userStore = useUserStore();
+const formRef = ref(null);
+const passwordFormRef = ref(null);
+const isEditing = ref(false);
+const saving = ref(false);
+const changingPassword = ref(false);
 
 // 表单数据
 const form = reactive({
-  id: '',
-  username: '',
-  name: '',
-  email: '',
-  phone: '',
-  sex: '男',
-  avatar: ''
-})
+  id: "",
+  username: "",
+  name: "",
+  email: "",
+  phone: "",
+  sex: "男",
+  avatar: "",
+});
 
 // 头像地址
 const avatarUrl = computed(() => {
-  return form.avatar ? baseAPI + form.avatar : '';
-})
+  return form.avatar ? baseAPI + form.avatar : "";
+});
 
 // 密码表单
 const passwordForm = reactive({
-  oldPassword: '',
-  newPassword: '',
-  confirmPassword: ''
-})
+  oldPassword: "",
+  newPassword: "",
+  confirmPassword: "",
+});
 
 // 表单验证规则
 const rules = {
   name: [
-    { required: true, message: '请输入姓名', trigger: 'blur' },
-    { min: 2, max: 50, message: '长度在 2 到 50 个字符', trigger: 'blur' }
+    { required: true, message: "请输入姓名", trigger: "blur" },
+    { min: 2, max: 50, message: "长度在 2 到 50 个字符", trigger: "blur" },
   ],
   email: [
-    { required: true, message: '请输入邮箱', trigger: 'blur' },
-    { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
+    { required: true, message: "请输入邮箱", trigger: "blur" },
+    { type: "email", message: "请输入正确的邮箱地址", trigger: "blur" },
   ],
   phone: [
-    { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' }
+    {
+      pattern: /^1[3-9]\d{9}$/,
+      message: "请输入正确的手机号",
+      trigger: "blur",
+    },
   ],
-  sex: [
-    { required: true, message: '请选择性别', trigger: 'change' }
-  ]
-}
+  sex: [{ required: true, message: "请选择性别", trigger: "change" }],
+};
 
 // 密码验证规则
 const passwordRules = {
   oldPassword: [
-    { required: true, message: '请输入原密码', trigger: 'blur' },
-    { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' }
+    { required: true, message: "请输入原密码", trigger: "blur" },
+    { min: 6, max: 20, message: "长度在 6 到 20 个字符", trigger: "blur" },
   ],
   newPassword: [
-    { required: true, message: '请输入新密码', trigger: 'blur' },
-    { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' }
+    { required: true, message: "请输入新密码", trigger: "blur" },
+    { min: 6, max: 20, message: "长度在 6 到 20 个字符", trigger: "blur" },
   ],
   confirmPassword: [
-    { required: true, message: '请再次输入新密码', trigger: 'blur' },
+    { required: true, message: "请再次输入新密码", trigger: "blur" },
     {
       validator: (rule, value, callback) => {
         if (value !== passwordForm.newPassword) {
-          callback(new Error('两次输入的密码不一致'))
+          callback(new Error("两次输入的密码不一致"));
         } else {
-          callback()
+          callback();
         }
       },
-      trigger: 'blur'
-    }
-  ]
-}
+      trigger: "blur",
+    },
+  ],
+};
 
 // 获取用户信息
 const fetchUserInfo = async () => {
   try {
     // 获取当前用户的最新信息
-    const userId = userStore.userInfo.id
+    const userId = userStore.userInfo.id;
     const res = await request.get(`/user/${userId}`, null, {
-      showDefaultMsg: false
-    })
-    
+      showDefaultMsg: false,
+    });
+
     // 直接更新表单数据
-    form.id = res.id || userStore.userInfo.id
-    form.username = res.username || ''
-    form.name = res.name || ''
-    form.email = res.email || ''
-    form.phone = res.phone || ''
-    form.sex = res.sex || '男'
-    form.avatar = res.avatar || ''
-    
-    console.log('用户信息加载成功:', form)
+    form.id = res.id || userStore.userInfo.id;
+    form.username = res.username || "";
+    form.name = res.name || "";
+    form.email = res.email || "";
+    form.phone = res.phone || "";
+    form.sex = res.sex || "男";
+    form.avatar = res.avatar || "";
+
+    console.log("用户信息加载成功:", form);
   } catch (error) {
-    console.error('获取用户信息失败:', error)
-    ElMessage.error('获取用户信息失败')
+    console.error("获取用户信息失败:", error);
+    ElMessage.error("获取用户信息失败");
   }
-}
+};
 
 // 上传头像前的校验
 const beforeAvatarUpload = (file) => {
-  const isJPG = file.type === 'image/jpeg'
-  const isPNG = file.type === 'image/png'
-  const isLt2M = file.size / 1024 / 1024 < 2
+  const isJPG = file.type === "image/jpeg";
+  const isPNG = file.type === "image/png";
+  const isLt2M = file.size / 1024 / 1024 < 2;
 
   if (!isJPG && !isPNG) {
-    ElMessage.error('头像只能是 JPG 或 PNG 格式!')
-    return false
+    ElMessage.error("头像只能是 JPG 或 PNG 格式!");
+    return false;
   }
   if (!isLt2M) {
-    ElMessage.error('头像大小不能超过 2MB!')
-    return false
+    ElMessage.error("头像大小不能超过 2MB!");
+    return false;
   }
-  return true
-}
+  return true;
+};
 
 // 自定义头像上传方法
 const customUploadAvatar = async (options) => {
   try {
-    const { file } = options
+    const { file } = options;
 
     // 创建 FormData 对象
-    const formData = new FormData()
-    formData.append('file', file)
+    const formData = new FormData();
+    formData.append("file", file);
 
     // 设置自定义上传选项
     const uploadOptions = {
       headers: {
-        token: localStorage.getItem('token') || '',
+        token: localStorage.getItem("token") || "",
       },
       // 不进行JSON处理
       transformRequest: [(data) => data],
       // 自定义成功消息
-      successMsg: '头像上传成功',
+      successMsg: "头像上传成功",
       // 自定义错误消息
-      errorMsg: '头像上传失败',
+      errorMsg: "头像上传失败",
       // 成功回调
       onSuccess: async (data) => {
         // 更新用户头像
-        form.avatar = data
+        form.avatar = data;
 
         // 保存到后端
-        await updateUserAvatar(data)
+        await updateUserAvatar(data);
 
         // 通知上传成功
-        options.onSuccess({ data })
+        options.onSuccess({ data });
       },
       // 错误回调
       onError: (error) => {
-        console.error('头像上传错误:', error)
-        options.onError(new Error(error.message || '上传失败'))
+        console.error("头像上传错误:", error);
+        options.onError(new Error(error.message || "上传失败"));
       },
-    }
+    };
 
     // 发送上传请求
-    await request.post('/file/upload/img', formData, uploadOptions)
+    await request.post("/file/upload/img", formData, uploadOptions);
   } catch (error) {
-    options.onError(error)
-    console.error('头像上传过程发生错误:', error)
+    options.onError(error);
+    console.error("头像上传过程发生错误:", error);
   }
-}
+};
 
 // 更新用户头像信息
 const updateUserAvatar = async (avatarPath) => {
@@ -298,142 +302,142 @@ const updateUserAvatar = async (avatarPath) => {
       { avatar: avatarPath },
       {
         showDefaultMsg: false,
-        successMsg: '头像更新成功',
+        successMsg: "头像更新成功",
         onSuccess: (data) => {
           // 更新本地用户信息
-          const updatedUserInfo = { ...userStore.userInfo, avatar: avatarPath }
-          userStore.updateUserInfo(updatedUserInfo)
+          const updatedUserInfo = { ...userStore.userInfo, avatar: avatarPath };
+          userStore.updateUserInfo(updatedUserInfo);
         },
         onError: (error) => {
-          console.error('头像信息保存失败', error)
-          ElMessage.error('头像信息保存失败')
+          console.error("头像信息保存失败", error);
+          ElMessage.error("头像信息保存失败");
         },
-      }
-    )
+      },
+    );
   } catch (error) {
-    console.error('头像信息保存失败', error)
-    ElMessage.error('头像信息保存失败')
-    throw error
+    console.error("头像信息保存失败", error);
+    ElMessage.error("头像信息保存失败");
+    throw error;
   }
-}
+};
 
 // 编辑信息
 const handleEdit = () => {
-  isEditing.value = true
-}
+  isEditing.value = true;
+};
 
 // 取消编辑
 const handleCancel = () => {
-  isEditing.value = false
-  fetchUserInfo() // 重新获取数据，恢复原值
-}
+  isEditing.value = false;
+  fetchUserInfo(); // 重新获取数据，恢复原值
+};
 
 // 保存信息
 const handleSave = async () => {
-  if (!formRef.value) return
-  
+  if (!formRef.value) return;
+
   try {
-    await formRef.value.validate()
-    saving.value = true
-    
+    await formRef.value.validate();
+    saving.value = true;
+
     await request.put(
       `/user/${form.id}`,
       {
         name: form.name,
         email: form.email,
         phone: form.phone,
-        sex: form.sex
+        sex: form.sex,
       },
       {
         showDefaultMsg: false,
-        successMsg: '个人信息更新成功',
+        successMsg: "个人信息更新成功",
         onSuccess: (data) => {
-          isEditing.value = false
+          isEditing.value = false;
           // 更新store中的用户信息
           userStore.updateUserInfo({
             ...userStore.userInfo,
             name: form.name,
             email: form.email,
             phone: form.phone,
-            sex: form.sex
-          })
+            sex: form.sex,
+          });
         },
         onError: (error) => {
-          console.error('更新用户信息失败:', error)
-          ElMessage.error('更新用户信息失败')
-        }
-      }
-    )
+          console.error("更新用户信息失败:", error);
+          ElMessage.error("更新用户信息失败");
+        },
+      },
+    );
   } catch (error) {
-    console.error('更新用户信息失败:', error)
-    ElMessage.error('更新用户信息失败')
+    console.error("更新用户信息失败:", error);
+    ElMessage.error("更新用户信息失败");
   } finally {
-    saving.value = false
+    saving.value = false;
   }
-}
+};
 
 // 修改密码
 const handleChangePassword = async () => {
-  if (!passwordFormRef.value) return
+  if (!passwordFormRef.value) return;
 
   try {
-    await passwordFormRef.value.validate()
-    changingPassword.value = true
+    await passwordFormRef.value.validate();
+    changingPassword.value = true;
 
     await request.put(
       `/user/password/${form.id}`,
       {
         oldPassword: passwordForm.oldPassword,
-        newPassword: passwordForm.newPassword
+        newPassword: passwordForm.newPassword,
       },
       {
         showDefaultMsg: false,
-        successMsg: '密码修改成功',
+        successMsg: "密码修改成功",
         onSuccess: (data) => {
           // 清空密码表单
-          passwordFormRef.value.resetFields()
-          
+          passwordFormRef.value.resetFields();
+
           // 提示用户重新登录
-          ElMessageBox.confirm('密码已修改，需要重新登录', '提示', {
-            confirmButtonText: '重新登录',
-            cancelButtonText: '取消',
-            type: 'warning',
+          ElMessageBox.confirm("密码已修改，需要重新登录", "提示", {
+            confirmButtonText: "重新登录",
+            cancelButtonText: "取消",
+            type: "warning",
           }).then(() => {
             // 清除用户信息并跳转到登录页
-            userStore.clearUserInfo()
-            window.location.href = '/login'
-          })
+            userStore.clearUserInfo();
+            window.location.href = "/login";
+          });
         },
         onError: (error) => {
-          console.error('密码修改失败', error)
-          ElMessage.error('密码修改失败')
-        }
-      }
-    )
+          console.error("密码修改失败", error);
+          ElMessage.error("密码修改失败");
+        },
+      },
+    );
   } catch (error) {
-    console.error('修改密码失败:', error)
-    ElMessage.error('修改密码失败')
+    console.error("修改密码失败:", error);
+    ElMessage.error("修改密码失败");
   } finally {
-    changingPassword.value = false
+    changingPassword.value = false;
   }
-}
+};
 
 onMounted(() => {
-  fetchUserInfo()
-})
+  fetchUserInfo();
+});
 </script>
 
 <style lang="scss" scoped>
 .person-info {
   padding: 24px;
-  
+
   .info-card,
   .password-card {
     margin-bottom: 24px;
-    border-radius: 8px;
+    border-radius: 15px;
     border: 1px solid #eaeaea;
     box-shadow: none;
-    
+
     .card-header {
       display: flex;
       justify-content: space-between;
@@ -453,12 +457,12 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     gap: 30px;
-    
+
     @media (min-width: 768px) {
       flex-direction: row;
     }
   }
-  
+
   .avatar-container {
     display: flex;
     flex-direction: column;
@@ -466,15 +470,15 @@ onMounted(() => {
     gap: 15px;
     padding: 24px;
     background-color: #f8f9fa;
-    border-radius: 8px;
+    border-radius: 15px;
     border: 1px solid #eaeaea;
-    
+
     .avatar-uploader {
       text-align: center;
       margin-top: 10px;
     }
   }
-  
+
   .info-form {
     flex: 1;
     max-width: 500px;
@@ -559,4 +563,4 @@ onMounted(() => {
     color: #333;
   }
 }
-</style> 
+</style>

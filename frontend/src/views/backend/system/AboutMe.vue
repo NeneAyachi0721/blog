@@ -4,7 +4,9 @@
       <template #header>
         <div class="card-header">
           <span>关于我页面设置</span>
-          <el-button type="primary" @click="saveAboutMe" :loading="saving">保存设置</el-button>
+          <el-button type="primary" @click="saveAboutMe" :loading="saving"
+            >保存设置</el-button
+          >
         </div>
       </template>
 
@@ -32,11 +34,17 @@
           </el-form-item>
 
           <el-form-item label="昵称">
-            <el-input v-model="form.about_name" placeholder="请输入昵称"></el-input>
+            <el-input
+              v-model="form.about_name"
+              placeholder="请输入昵称"
+            ></el-input>
           </el-form-item>
 
           <el-form-item label="职业">
-            <el-input v-model="form.about_job" placeholder="请输入您的职业，如：全栈开发工程师"></el-input>
+            <el-input
+              v-model="form.about_job"
+              placeholder="请输入您的职业，如：全栈开发工程师"
+            ></el-input>
           </el-form-item>
 
           <el-form-item label="个人简介">
@@ -52,26 +60,41 @@
         <!-- 内容编辑器 -->
         <h3>个人详细介绍</h3>
         <div class="editor-container">
-          <v-md-editor v-model="form.about_content" height="500px"></v-md-editor>
+          <v-md-editor
+            v-model="form.about_content"
+            height="500px"
+          ></v-md-editor>
         </div>
 
         <!-- 社交信息 -->
         <h3>社交链接</h3>
         <el-form :model="form" label-width="120px">
           <el-form-item label="GitHub">
-            <el-input v-model="form.social_github" placeholder="请输入GitHub主页链接"></el-input>
+            <el-input
+              v-model="form.social_github"
+              placeholder="请输入GitHub主页链接"
+            ></el-input>
           </el-form-item>
 
           <el-form-item label="Bilibili">
-            <el-input v-model="form.social_bilibili" placeholder="请输入Bilibili主页链接"></el-input>
+            <el-input
+              v-model="form.social_bilibili"
+              placeholder="请输入Bilibili主页链接"
+            ></el-input>
           </el-form-item>
 
           <el-form-item label="Steam">
-            <el-input v-model="form.social_steam" placeholder="请输入Steam主页链接"></el-input>
+            <el-input
+              v-model="form.social_steam"
+              placeholder="请输入Steam主页链接"
+            ></el-input>
           </el-form-item>
 
           <el-form-item label="邮箱">
-            <el-input v-model="form.social_email" placeholder="请输入邮箱地址"></el-input>
+            <el-input
+              v-model="form.social_email"
+              placeholder="请输入邮箱地址"
+            ></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -80,119 +103,123 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
-import request from '@/utils/request'
-import { ElMessage } from 'element-plus'
-import { Plus } from '@element-plus/icons-vue'
-import { useUserStore } from '@/store/user'
+import { ref, reactive, onMounted } from "vue";
+import request from "@/utils/request";
+import { ElMessage } from "element-plus";
+import { Plus } from "@element-plus/icons-vue";
+import { useUserStore } from "@/store/user";
 
 // 状态变量
-const loading = ref(false)
-const saving = ref(false)
-const userStore = useUserStore()
+const loading = ref(false);
+const saving = ref(false);
+const userStore = useUserStore();
 
 // 表单数据
 const form = reactive({
-  about_name: '',
-  about_job: '',
-  about_intro: '',
-  about_content: '',
-  social_github: '',
-  social_bilibili: '',
-  social_steam: '',
-  social_email: ''
-})
+  about_name: "",
+  about_job: "",
+  about_intro: "",
+  about_content: "",
+  social_github: "",
+  social_bilibili: "",
+  social_steam: "",
+  social_email: "",
+});
 
 // 获取关于我的配置
 const fetchAboutMe = async () => {
-  loading.value = true
+  loading.value = true;
   try {
-    await request.get('/config', {}, {
-      showDefaultMsg: false,
-      onSuccess: (data) => {
-        // 填充表单
-        for (const key in form) {
-          if (data[key]) {
-            form[key] = data[key]
+    await request.get(
+      "/config",
+      {},
+      {
+        showDefaultMsg: false,
+        onSuccess: (data) => {
+          // 填充表单
+          for (const key in form) {
+            if (data[key]) {
+              form[key] = data[key];
+            }
           }
-        }
-      }
-    })
+        },
+      },
+    );
   } catch (error) {
-    console.error('获取关于我配置失败:', error)
+    console.error("获取关于我配置失败:", error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 // 保存关于我配置
 const saveAboutMe = async () => {
-  saving.value = true
+  saving.value = true;
   try {
     // 使用当前用户的头像
     const configData = {
-      ...form
-    }
+      ...form,
+    };
 
-    await request.put('/admin/config', configData, {
-      successMsg: '保存配置成功',
+    await request.put("/admin/config", configData, {
+      successMsg: "保存配置成功",
       onSuccess: () => {
-        fetchAboutMe()
-      }
-    })
+        fetchAboutMe();
+      },
+    });
   } catch (error) {
-    console.error('保存关于我配置失败:', error)
+    console.error("保存关于我配置失败:", error);
   } finally {
-    saving.value = false
+    saving.value = false;
   }
-}
+};
 
 // 上传头像前的校验
 const beforeAvatarUpload = (file) => {
-  const isJPG = file.type === 'image/jpeg'
-  const isPNG = file.type === 'image/png'
-  const isLt2M = file.size / 1024 / 1024 < 2
+  const isJPG = file.type === "image/jpeg";
+  const isPNG = file.type === "image/png";
+  const isLt2M = file.size / 1024 / 1024 < 2;
 
   if (!isJPG && !isPNG) {
-    ElMessage.error('头像只能是JPG或PNG格式!')
-    return false
+    ElMessage.error("头像只能是JPG或PNG格式!");
+    return false;
   }
   if (!isLt2M) {
-    ElMessage.error('头像大小不能超过2MB!')
-    return false
+    ElMessage.error("头像大小不能超过2MB!");
+    return false;
   }
-  return true
-}
+  return true;
+};
 
 // 自定义上传头像 - 修改为更新用户头像
 const customUploadAvatar = async (options) => {
   try {
-    const { file } = options
-    const formData = new FormData()
-    formData.append('file', file)
+    const { file } = options;
+    const formData = new FormData();
+    formData.append("file", file);
 
-    await request.post('/file/upload/img', formData, {
+    await request.post("/file/upload/img", formData, {
       transformRequest: [(data) => data],
-      headers: { token: localStorage.getItem('token') || '' },
-      successMsg: '头像上传成功',
+      headers: { token: localStorage.getItem("token") || "" },
+      successMsg: "头像上传成功",
       onSuccess: async (data) => {
         // 更新用户头像而不是 about_avatar
-        await updateUserAvatar(data)
-        options.onSuccess()
+        await updateUserAvatar(data);
+        options.onSuccess();
       },
       onError: (error) => {
-        options.onError(error)
-      }
-    })
+        options.onError(error);
+      },
+    });
   } catch (error) {
-    options.onError(error)
+    options.onError(error);
   }
-}
+};
 
 // 更新用户头像
 const updateUserAvatar = async (avatarPath) => {
   try {
-    const userId = userStore.userInfo.id
+    const userId = userStore.userInfo.id;
     await request.put(
       `/user/${userId}`,
       { avatar: avatarPath },
@@ -200,39 +227,39 @@ const updateUserAvatar = async (avatarPath) => {
         showDefaultMsg: false,
         onSuccess: (data) => {
           // 更新本地用户信息
-          const updatedUserInfo = { ...userStore.userInfo, avatar: avatarPath }
-          userStore.updateUserInfo(updatedUserInfo)
+          const updatedUserInfo = { ...userStore.userInfo, avatar: avatarPath };
+          userStore.updateUserInfo(updatedUserInfo);
         },
         onError: (error) => {
-          console.error('头像信息保存失败', error)
-          ElMessage.error('头像信息保存失败')
+          console.error("头像信息保存失败", error);
+          ElMessage.error("头像信息保存失败");
         },
-      }
-    )
+      },
+    );
   } catch (error) {
-    console.error('头像信息保存失败', error)
-    ElMessage.error('头像信息保存失败')
-    throw error
+    console.error("头像信息保存失败", error);
+    ElMessage.error("头像信息保存失败");
+    throw error;
   }
-}
+};
 
 // 获取图片URL
-const baseAPI = process.env.VUE_APP_BASE_API || '/api'
+const baseAPI = process.env.VUE_APP_BASE_API || "/api";
 const getImageUrl = (path) => {
-  if (!path) return ''
-  return baseAPI + path
-}
+  if (!path) return "";
+  return baseAPI + path;
+};
 
 // 获取用户头像
 const getUserAvatar = () => {
-  const avatar = userStore.userInfo?.avatar || ''
-  return getImageUrl(avatar)
-}
+  const avatar = userStore.userInfo?.avatar || "";
+  return getImageUrl(avatar);
+};
 
 // 生命周期钩子
 onMounted(() => {
-  fetchAboutMe()
-})
+  fetchAboutMe();
+});
 </script>
 
 <style scoped>
@@ -242,7 +269,7 @@ onMounted(() => {
 
 .box-card {
   margin-bottom: 24px;
-  border-radius: 8px;
+  border-radius: 15px;
   border: 1px solid #eaeaea;
   box-shadow: none;
 }
@@ -342,7 +369,7 @@ h3 {
   width: 150px;
   height: 150px;
   border: 1px dashed #d9d9d9;
-  border-radius: 8px;
+  border-radius: 15px;
   cursor: pointer;
   position: relative;
   overflow: hidden;

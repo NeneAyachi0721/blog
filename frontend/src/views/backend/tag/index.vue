@@ -213,7 +213,7 @@ const submitForm = () => {
 
 .box-card {
   margin-bottom: 24px;
-  border-radius: 8px;
+  border-radius: 15px;
   border: 1px solid #eaeaea;
   box-shadow: none;
 }
@@ -305,7 +305,7 @@ const submitForm = () => {
 
 /* 对话框样式 */
 :deep(.el-dialog) {
-  border-radius: 8px;
+  border-radius: 15px;
   overflow: hidden;
   box-shadow: none;
   border: 1px solid #eaeaea;

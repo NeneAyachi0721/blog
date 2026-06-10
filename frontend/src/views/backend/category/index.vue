@@ -7,18 +7,32 @@
           <el-button type="primary" @click="handleAdd">新增分类</el-button>
         </div>
       </template>
-      
-      <el-table :data="categoryList" style="width: 100%" v-loading="loading" border>
+
+      <el-table
+        :data="categoryList"
+        style="width: 100%"
+        v-loading="loading"
+        border
+      >
         <el-table-column prop="id" label="ID" width="80" />
         <el-table-column prop="name" label="分类名称" />
-        <el-table-column prop="description" label="分类描述" show-overflow-tooltip />
+        <el-table-column
+          prop="description"
+          label="分类描述"
+          show-overflow-tooltip
+        />
         <el-table-column prop="parentId" label="父分类ID" width="100" />
         <el-table-column prop="orderNum" label="排序" width="80" />
         <el-table-column prop="articleCount" label="文章数量" width="100" />
         <el-table-column prop="createTime" label="创建时间" width="180" />
         <el-table-column label="操作" width="180" fixed="right">
           <template #default="scope">
-            <el-button type="primary" size="small" @click="handleEdit(scope.row)">编辑</el-button>
+            <el-button
+              type="primary"
+              size="small"
+              @click="handleEdit(scope.row)"
+              >编辑</el-button
+            >
             <el-popconfirm
               title="确定删除该分类吗？"
               @confirm="handleDelete(scope.row)"
@@ -32,14 +46,14 @@
         </el-table-column>
       </el-table>
     </el-card>
-    
+
     <!-- 分类表单对话框 -->
-    <el-dialog 
-      v-model="dialogVisible" 
+    <el-dialog
+      v-model="dialogVisible"
       :title="dialogType === 'add' ? '新增分类' : '编辑分类'"
       width="500px"
     >
-      <el-form 
+      <el-form
         ref="categoryFormRef"
         :model="categoryForm"
         :rules="categoryRules"
@@ -49,7 +63,7 @@
           <el-input v-model="categoryForm.name" placeholder="请输入分类名称" />
         </el-form-item>
         <el-form-item label="描述" prop="description">
-          <el-input 
+          <el-input
             v-model="categoryForm.description"
             type="textarea"
             :rows="3"
@@ -57,12 +71,16 @@
           />
         </el-form-item>
         <el-form-item label="父分类">
-          <el-select v-model="categoryForm.parentId" placeholder="请选择父分类" style="width: 100%">
+          <el-select
+            v-model="categoryForm.parentId"
+            placeholder="请选择父分类"
+            style="width: 100%"
+          >
             <el-option :value="0" label="无（顶级分类）" />
-            <el-option 
-              v-for="item in parentOptions" 
-              :key="item.id" 
-              :label="item.name" 
+            <el-option
+              v-for="item in parentOptions"
+              :key="item.id"
+              :label="item.name"
               :value="item.id"
               :disabled="dialogType === 'edit' && categoryForm.id === item.id"
             />
@@ -83,151 +101,153 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, computed } from 'vue'
-import request from '@/utils/request'
-import { ElMessage } from 'element-plus'
+import { ref, reactive, onMounted, computed } from "vue";
+import request from "@/utils/request";
+import { ElMessage } from "element-plus";
 
 // 加载状态
-const loading = ref(false)
+const loading = ref(false);
 // 分类列表
-const categoryList = ref([])
+const categoryList = ref([]);
 // 对话框可见性
-const dialogVisible = ref(false)
+const dialogVisible = ref(false);
 // 对话框类型（add / edit）
-const dialogType = ref('add')
+const dialogType = ref("add");
 // 表单引用
-const categoryFormRef = ref(null)
+const categoryFormRef = ref(null);
 // 表单数据
 const categoryForm = reactive({
   id: null,
-  name: '',
-  description: '',
+  name: "",
+  description: "",
   parentId: 0,
-  orderNum: 0
-})
+  orderNum: 0,
+});
 // 表单验证规则
 const categoryRules = {
   name: [
-    { required: true, message: '请输入分类名称', trigger: 'blur' },
-    { min: 2, max: 50, message: '长度在 2 到 50 个字符', trigger: 'blur' }
+    { required: true, message: "请输入分类名称", trigger: "blur" },
+    { min: 2, max: 50, message: "长度在 2 到 50 个字符", trigger: "blur" },
   ],
   description: [
-    { max: 200, message: '长度不能超过 200 个字符', trigger: 'blur' }
+    { max: 200, message: "长度不能超过 200 个字符", trigger: "blur" },
   ],
-  orderNum: [
-    { required: true, message: '请输入排序号', trigger: 'blur' }
-  ]
-}
+  orderNum: [{ required: true, message: "请输入排序号", trigger: "blur" }],
+};
 
 // 父分类选项，排除当前编辑的分类
 const parentOptions = computed(() => {
-  if (dialogType.value === 'edit') {
-    return categoryList.value.filter(item => item.id !== categoryForm.id)
+  if (dialogType.value === "edit") {
+    return categoryList.value.filter((item) => item.id !== categoryForm.id);
   }
-  return categoryList.value
-})
+  return categoryList.value;
+});
 
 // 初始化
 onMounted(() => {
-  fetchCategoryList()
-})
+  fetchCategoryList();
+});
 
 // 获取分类列表
 const fetchCategoryList = async () => {
-  loading.value = true
+  loading.value = true;
   try {
-    const res = await request.get('/category', {}, {
-      showDefaultMsg: false,
-      onSuccess: (data) => {
-        categoryList.value = data
-      }
-    })
+    const res = await request.get(
+      "/category",
+      {},
+      {
+        showDefaultMsg: false,
+        onSuccess: (data) => {
+          categoryList.value = data;
+        },
+      },
+    );
   } catch (error) {
-    console.error('获取分类列表失败:', error)
+    console.error("获取分类列表失败:", error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 // 重置表单
 const resetForm = () => {
-  categoryForm.id = null
-  categoryForm.name = ''
-  categoryForm.description = ''
-  categoryForm.parentId = 0
-  categoryForm.orderNum = 0
-  
+  categoryForm.id = null;
+  categoryForm.name = "";
+  categoryForm.description = "";
+  categoryForm.parentId = 0;
+  categoryForm.orderNum = 0;
+
   if (categoryFormRef.value) {
-    categoryFormRef.value.resetFields()
+    categoryFormRef.value.resetFields();
   }
-}
+};
 
 // 处理添加分类
 const handleAdd = () => {
-  dialogType.value = 'add'
-  resetForm()
-  dialogVisible.value = true
-}
+  dialogType.value = "add";
+  resetForm();
+  dialogVisible.value = true;
+};
 
 // 处理编辑分类
 const handleEdit = (row) => {
-  dialogType.value = 'edit'
-  resetForm()
-  
+  dialogType.value = "edit";
+  resetForm();
+
   // 填充表单数据
-  categoryForm.id = row.id
-  categoryForm.name = row.name
-  categoryForm.description = row.description
-  categoryForm.parentId = row.parentId
-  categoryForm.orderNum = row.orderNum
-  
-  dialogVisible.value = true
-}
+  categoryForm.id = row.id;
+  categoryForm.name = row.name;
+  categoryForm.description = row.description;
+  categoryForm.parentId = row.parentId;
+  categoryForm.orderNum = row.orderNum;
+
+  dialogVisible.value = true;
+};
 
 // 处理删除分类
 const handleDelete = async (row) => {
   try {
     await request.delete(`/category/${row.id}`, {
-      successMsg: '删除成功',
+      successMsg: "删除成功",
       onSuccess: () => {
-        fetchCategoryList()
-      }
-    })
+        fetchCategoryList();
+      },
+    });
   } catch (error) {
-    console.error('删除分类失败:', error)
+    console.error("删除分类失败:", error);
   }
-}
+};
 
 // 提交表单
 const submitForm = () => {
   categoryFormRef.value.validate(async (valid) => {
     if (valid) {
       try {
-        if (dialogType.value === 'add') {
+        if (dialogType.value === "add") {
           // 新增分类
-          await request.post('/category', categoryForm, {
-            successMsg: '添加成功',
+          await request.post("/category", categoryForm, {
+            successMsg: "添加成功",
             onSuccess: () => {
-              dialogVisible.value = false
-              fetchCategoryList()
-            }
-          })
+              dialogVisible.value = false;
+              fetchCategoryList();
+            },
+          });
         } else {
           // 更新分类
           await request.put(`/category/${categoryForm.id}`, categoryForm, {
-            successMsg: '更新成功',
+            successMsg: "更新成功",
             onSuccess: () => {
-              dialogVisible.value = false
-              fetchCategoryList()
-            }
-          })
+              dialogVisible.value = false;
+              fetchCategoryList();
+            },
+          });
         }
       } catch (error) {
-        console.error('保存分类失败:', error)
+        console.error("保存分类失败:", error);
       }
     }
-  })
-}
+  });
+};
 </script>
 
 <style scoped>
@@ -236,7 +256,7 @@ const submitForm = () => {
 }
 
 .box-card {
-  border-radius: 8px;
+  border-radius: 15px;
   border: 1px solid #eaeaea;
   box-shadow: none;
 }
@@ -300,7 +320,7 @@ const submitForm = () => {
 
 /* 对话框样式 */
 :deep(.el-dialog) {
-  border-radius: 8px;
+  border-radius: 15px;
   overflow: hidden;
   box-shadow: none;
   border: 1px solid #eaeaea;
@@ -393,4 +413,4 @@ const submitForm = () => {
   justify-content: flex-end;
   gap: 12px;
 }
-</style> 
+</style>
