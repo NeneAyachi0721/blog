@@ -269,7 +269,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   background-color: #ecf0f1;
-  border: 1px solid #eaeaea;
+  border: 2px solid #e0e6e8;
   transition: all 0.3s ease;
 }
 
