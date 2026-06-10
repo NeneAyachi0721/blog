@@ -338,9 +338,9 @@ onMounted(() => {
 
 /* 顶部导航栏 */
 .header {
-  background-color: #eaeff4;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05);
+  background-color: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 100;
