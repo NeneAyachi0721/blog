@@ -588,8 +588,8 @@ const handleCommentDeleted = () => {
     rgba(32, 160, 255, 0.1) 0%,
     rgba(32, 160, 255, 0.05) 100%
   );
-  /* border-radius: 6px; */
-  /* box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05); */
+  border-radius: 6px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05);
   border-left: 4px solid #59a6e6;
   transition: all 0.3s ease;
 }
@@ -601,8 +601,8 @@ const handleCommentDeleted = () => {
 :deep(.rich-text-content h5):hover,
 :deep(.rich-text-content h6):hover {
   transform: translateX(5px);
-  /* background: linear-gradient(135deg, rgba(32, 160, 255, 0.15) 0%, rgba(32, 160, 255, 0.1) 100%); */
-  /* box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.08); */
+  background: linear-gradient(135deg, rgba(32, 160, 255, 0.15) 0%, rgba(32, 160, 255, 0.1) 100%);
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.08);
 }
 
 :deep(.rich-text-content h1) {
