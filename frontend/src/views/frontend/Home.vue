@@ -351,14 +351,14 @@ const getImageUrl = (url) => {
 <style lang="scss" scoped>
 .home-container {
   min-height: 100vh;
-  background: #fff;
+  background: transparent;
   color: #333;
   overflow: hidden;
   position: relative;
   width: 100%;
 }
 
-/* 3D视差背景 */
+/* 背景 */
 .parallax-background {
   position: fixed;
   top: 0;
@@ -367,11 +367,7 @@ const getImageUrl = (url) => {
   height: 100%;
   pointer-events: none;
   z-index: 0;
-  background: linear-gradient(
-    120deg,
-    rgba(240, 240, 255, 0.4) 0%,
-    rgba(255, 255, 255, 0.1) 100%
-  );
+  background: transparent;
 }
 
 .particle {
@@ -517,7 +513,7 @@ const getImageUrl = (url) => {
   position: relative;
   z-index: 1;
   width: 100%;
-  background: linear-gradient(180deg, #fff 0%, #f8f9fa 100%);
+  background: transparent;
 }
 
 .stat-card {
@@ -580,7 +576,7 @@ const getImageUrl = (url) => {
 /* 内容区域新样式 */
 .content-section {
   padding: 60px 0;
-  background: #fff;
+  background: #eaeff4;
 }
 
 /* 通用标题样式 */

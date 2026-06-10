@@ -183,7 +183,7 @@ onMounted(() => {
   left: 0;
   width: 100%;
   height: 100%;
-  background: #e9eff5;
+  background: #eaeff4;
 }
 
 /* 几何装饰元素 */
