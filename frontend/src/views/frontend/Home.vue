@@ -417,11 +417,14 @@ const getImageUrl = (url) => {
   text-align: center;
   position: relative;
   z-index: 1;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(255, 255, 255, 0.98) 100%
-  );
+//   background: linear-gradient(
+//     180deg,
+//     rgba(234, 239, 244, 0.95) 0%,
+//     rgba(234, 239, 244, 0.98) 100%
+//   );
+  background-image: url("https://server.wallpaperalchemy.com/storage/wallpapers/620/hatsune-miku-thousand-year-crossing-anime-wallpaper.jpg");
+  background-size: cover;
+  background-position: center;
 }
 
 .welcome-text {
@@ -439,7 +442,7 @@ const getImageUrl = (url) => {
   font-size: 8rem;
   font-weight: bold;
   margin-bottom: 1rem;
-  color: #333;
+  color: #000;
   font-family: "萝莉体 第二版", serif;
   position: relative;
   display: inline-block;
@@ -447,7 +450,7 @@ const getImageUrl = (url) => {
   &::after {
     content: "|";
     position: absolute;
-    right: -8px;
+    right: -50px;
     top: 0;
     animation: blink 0.7s infinite;
   }
@@ -455,7 +458,7 @@ const getImageUrl = (url) => {
 
 .subtitle {
   font-size: 1.5rem;
-  color: #666;
+  color: #000;
   margin-top: 3rem;
   opacity: 0;
   font-family: "萝莉体 第二版", serif;
