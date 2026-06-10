@@ -781,7 +781,7 @@ const getImageUrl = (url) => {
 
 /* 未选中的标签 */
 :deep(.category-tag.el-tag--plain) {
-  background-color: #fff;
+  background-color: #e3f1fd;
   color: #3877ab;
 }
 </style>
