@@ -8,7 +8,9 @@
       </div>
       <h1 class="tag-title">标签：{{ tag.name }}</h1>
       <div class="tag-info">
-        <el-tag :color="tag.color" effect="dark" class="main-tag">{{ tag.name }}</el-tag>
+        <el-tag :color="tag.color" effect="dark" class="main-tag">{{
+          tag.name
+        }}</el-tag>
         <span class="article-count">共 {{ tag.articleCount || 0 }} 篇文章</span>
       </div>
       <div class="title-wave"></div>
@@ -19,36 +21,45 @@
         <h2 class="section-title">标签文章</h2>
         <div class="article-count" v-if="total > 0">共 {{ total }} 篇文章</div>
       </div>
-      
+
       <el-empty v-if="articles.length === 0" description="该标签下暂无文章" />
-      
-      <div 
+
+      <div
         v-else
-        v-for="article in articles" 
-        :key="article.id" 
+        v-for="article in articles"
+        :key="article.id"
         class="article-item"
         @click="goToArticle(article.id)"
       >
-        <el-image 
-          v-if="article.coverImage" 
-          :src="getImageUrl(article.coverImage)" 
-          fit="cover" 
+        <el-image
+          v-if="article.coverImage"
+          :src="getImageUrl(article.coverImage)"
+          fit="cover"
           class="article-cover"
         />
         <div class="article-info">
           <h3 class="article-title">{{ article.title }}</h3>
           <p class="article-summary">{{ article.summary }}</p>
           <div class="article-meta">
-            <span><el-icon><User /></el-icon> {{ article.authorName }}</span>
-            <span @click.stop="goToCategory(article.categoryId)"><el-icon><Folder /></el-icon> {{ article.categoryName }}</span>
-            <span><el-icon><Calendar /></el-icon> {{ formatDate(article.createTime) }}</span>
-            <span><el-icon><View /></el-icon> {{ article.viewCount }} 阅读</span>
+            <span
+              ><el-icon><User /></el-icon> {{ article.authorName }}</span
+            >
+            <span @click.stop="goToCategory(article.categoryId)"
+              ><el-icon><Folder /></el-icon> {{ article.categoryName }}</span
+            >
+            <span
+              ><el-icon><Calendar /></el-icon>
+              {{ formatDate(article.createTime) }}</span
+            >
+            <span
+              ><el-icon><View /></el-icon> {{ article.viewCount }} 阅读</span
+            >
           </div>
           <div class="article-tags">
-            <el-tag 
-              v-for="tagItem in article.tags" 
-              :key="tagItem.id" 
-              :color="tagItem.color" 
+            <el-tag
+              v-for="tagItem in article.tags"
+              :key="tagItem.id"
+              :color="tagItem.color"
               effect="dark"
               class="tag-item"
               @click.stop="goToTag(tagItem.id)"
@@ -58,7 +69,7 @@
           </div>
         </div>
       </div>
-      
+
       <!-- 分页 -->
       <div class="pagination-container" v-if="total > 0">
         <el-pagination
@@ -75,120 +86,131 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { User, Folder, Calendar, View } from '@element-plus/icons-vue'
-import request from '@/utils/request'
-import { ElMessage } from 'element-plus'
+import { ref, onMounted, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { User, Folder, Calendar, View } from "@element-plus/icons-vue";
+import request from "@/utils/request";
+import { ElMessage } from "element-plus";
 
-const route = useRoute()
-const router = useRouter()
-const baseAPI = process.env.VUE_APP_BASE_API || '/api'
+const route = useRoute();
+const router = useRouter();
+const baseAPI = process.env.VUE_APP_BASE_API || "/api";
 
 // 加载状态
-const loading = ref(false)
+const loading = ref(false);
 // 标签信息
-const tag = ref(null)
+const tag = ref(null);
 // 文章列表
-const articles = ref([])
+const articles = ref([]);
 // 分页信息
-const currentPage = ref(1)
-const pageSize = ref(10)
-const total = ref(0)
+const currentPage = ref(1);
+const pageSize = ref(10);
+const total = ref(0);
 
 // 监听路由参数变化
-watch(() => route.params.id, (newId) => {
-  if (newId) {
-    currentPage.value = 1
-    fetchTag(newId)
-    fetchArticles(newId, 1)
-  }
-})
+watch(
+  () => route.params.id,
+  (newId) => {
+    if (newId) {
+      currentPage.value = 1;
+      fetchTag(newId);
+      fetchArticles(newId, 1);
+    }
+  },
+);
 
 // 初始化
 onMounted(() => {
-  const tagId = route.params.id
+  const tagId = route.params.id;
   if (tagId) {
-    fetchTag(tagId)
-    fetchArticles(tagId, 1)
+    fetchTag(tagId);
+    fetchArticles(tagId, 1);
   }
-})
+});
 
 // 获取标签信息
 const fetchTag = async (id) => {
   try {
-    await request.get(`/tag/${id}`, {}, {
-      showDefaultMsg: false,
-      onSuccess: (data) => {
-        tag.value = data
-        document.title = `${data.name} - 标签文章 - 个人博客`
-      }
-    })
+    await request.get(
+      `/tag/${id}`,
+      {},
+      {
+        showDefaultMsg: false,
+        onSuccess: (data) => {
+          tag.value = data;
+          document.title = `${data.name} - 标签文章 - 个人博客`;
+        },
+      },
+    );
   } catch (error) {
-    console.error('获取标签信息失败:', error)
-    ElMessage.error('获取标签信息失败')
+    console.error("获取标签信息失败:", error);
+    ElMessage.error("获取标签信息失败");
   }
-}
+};
 
 // 获取标签下的文章
 const fetchArticles = async (id, page) => {
-  loading.value = true
+  loading.value = true;
   try {
-    await request.get(`/article/tag/${id}`, {
-      currentPage: page,
-      size: pageSize.value
-    }, {
-      showDefaultMsg: false,
-      onSuccess: (data) => {
-        articles.value = data.records || []
-        total.value = data.total || 0
-      }
-    })
+    await request.get(
+      `/article/tag/${id}`,
+      {
+        currentPage: page,
+        size: pageSize.value,
+      },
+      {
+        showDefaultMsg: false,
+        onSuccess: (data) => {
+          articles.value = data.records || [];
+          total.value = data.total || 0;
+        },
+      },
+    );
   } catch (error) {
-    console.error('获取标签文章失败:', error)
-    ElMessage.error('获取标签文章失败')
+    console.error("获取标签文章失败:", error);
+    ElMessage.error("获取标签文章失败");
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 // 处理页码变化
 const handlePageChange = (page) => {
-  currentPage.value = page
-  fetchArticles(route.params.id, page)
+  currentPage.value = page;
+  fetchArticles(route.params.id, page);
   // 滚动到页面顶部
-  window.scrollTo(0, 0)
-}
+  window.scrollTo(0, 0);
+};
 
 // 跳转到文章详情
 const goToArticle = (id) => {
-  router.push(`/article/${id}`)
-}
+  router.push(`/article/${id}`);
+};
 
 // 跳转到标签页
 const goToTag = (id) => {
   if (id !== Number(route.params.id)) {
-    router.push(`/tag/${id}`)
+    router.push(`/tag/${id}`);
   }
-}
+};
 
 // 跳转到分类页
 const goToCategory = (id) => {
-  router.push(`/category/${id}`)
-}
+  router.push(`/category/${id}`);
+};
 
 // 格式化日期
 const formatDate = (dateString) => {
-  if (!dateString) return ''
-  const date = new Date(dateString)
-  return date.toLocaleDateString()
-}
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  return date.toLocaleDateString();
+};
 
 // 处理图片URL
 const getImageUrl = (url) => {
-  if (!url) return ''
-  return baseAPI + url
-}
+  if (!url) return "";
+  return baseAPI + url;
+};
 </script>
 
 <style scoped>
@@ -211,10 +233,10 @@ const getImageUrl = (url) => {
 .tag-title {
   font-size: 36px;
   font-weight: 500;
-  color: #3498db;
+  color: #59a6e6;
   margin: 0;
   letter-spacing: 2px;
-  font-family: 'Consolas', 'Monaco', monospace;
+  font-family: "Consolas", "Monaco", monospace;
   position: relative;
   display: inline-block;
   padding-bottom: 0;
@@ -233,20 +255,22 @@ const getImageUrl = (url) => {
   margin-bottom: 15px;
 }
 
-.decoration-left, .decoration-right {
+.decoration-left,
+.decoration-right {
   font-size: 24px;
-  color: #2ecc71;
+  color: #3877ab;
   position: relative;
   display: inline-block;
   margin: 0 20px;
-  font-family: 'Consolas', 'Monaco', monospace;
+  font-family: "Consolas", "Monaco", monospace;
 }
 
-.decoration-left::before, .decoration-right::before {
-  content: '';
+.decoration-left::before,
+.decoration-right::before {
+  content: "";
   height: 1px;
   width: 60px;
-  background: linear-gradient(to right, transparent, #2ecc71, transparent);
+  background: linear-gradient(to right, transparent, #3877ab, transparent);
   position: absolute;
   top: 50%;
 }
@@ -261,7 +285,8 @@ const getImageUrl = (url) => {
 
 .title-wave {
   height: 15px;
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0,0 C150,40 350,0 500,20 C650,40 750,0 900,10 C1050,20 1150,40 1200,10 L1200,30 L0,30 Z" style="fill: %23f9f9f9;"/></svg>') no-repeat;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0,0 C150,40 350,0 500,20 C650,40 750,0 900,10 C1050,20 1150,40 1200,10 L1200,30 L0,30 Z" style="fill: %23f9f9f9;"/></svg>')
+    no-repeat;
   background-size: 100% 100%;
   position: absolute;
   bottom: 0;
@@ -325,7 +350,7 @@ const getImageUrl = (url) => {
 }
 
 .article-item:not(:last-child)::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 10%;
@@ -367,7 +392,7 @@ const getImageUrl = (url) => {
 }
 
 .article-item:hover .article-title {
-  color: #409EFF;
+  color: #409eff;
 }
 
 .article-summary {
@@ -398,7 +423,7 @@ const getImageUrl = (url) => {
 }
 
 .article-meta span:hover {
-  color: #409EFF;
+  color: #409eff;
 }
 
 .article-meta .el-icon {
@@ -431,33 +456,35 @@ const getImageUrl = (url) => {
   .article-item {
     flex-direction: column;
   }
-  
+
   .article-cover {
     width: 100%;
     height: 180px;
     margin-right: 0;
     margin-bottom: 15px;
   }
-  
+
   .tag-title {
     font-size: 28px;
   }
-  
-  .decoration-left, .decoration-right {
+
+  .decoration-left,
+  .decoration-right {
     font-size: 20px;
     margin: 0 10px;
   }
-  
-  .decoration-left::before, .decoration-right::before {
+
+  .decoration-left::before,
+  .decoration-right::before {
     width: 40px;
   }
-  
+
   .decoration-left::before {
     right: 25px;
   }
-  
+
   .decoration-right::before {
     left: 25px;
   }
 }
-</style> 
+</style>

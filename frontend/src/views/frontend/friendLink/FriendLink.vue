@@ -13,7 +13,9 @@
     <div class="link-list" v-loading="loading">
       <el-empty v-if="friendLinks.length === 0" description="暂无友情链接" />
       <div class="link-grid" v-else>
-        <a v-for="link in friendLinks" :key="link.id"
+        <a
+          v-for="link in friendLinks"
+          :key="link.id"
           :href="link.url"
           target="_blank"
           class="link-item"
@@ -32,7 +34,7 @@
             </div>
             <div class="link-info">
               <div class="link-name">{{ link.name }}</div>
-              <div class="link-desc">{{ link.description || '暂无描述' }}</div>
+              <div class="link-desc">{{ link.description || "暂无描述" }}</div>
             </div>
           </div>
         </a>
@@ -43,7 +45,9 @@
       <div class="section-header">
         <h2 class="section-title">申请友链</h2>
       </div>
-      <p class="apply-desc">如果您想与本站交换友情链接，请按以下格式提供信息并发送邮件：</p>
+      <p class="apply-desc">
+        如果您想与本站交换友情链接，请按以下格式提供信息并发送邮件：
+      </p>
       <div class="apply-info">
         <p><strong>网站名称：</strong>您的网站名称</p>
         <p><strong>网站链接：</strong>您的网站链接(以http://或https://开头)</p>
@@ -65,72 +69,80 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
-import request from '@/utils/request'
+import { ref, onMounted, computed } from "vue";
+import request from "@/utils/request";
 
-const loading = ref(false)
-const friendLinks = ref([])
-const blogConfig = ref({})
+const loading = ref(false);
+const friendLinks = ref([]);
+const blogConfig = ref({});
 
 // 获取友情链接
 const fetchFriendLinks = async () => {
-  loading.value = true
+  loading.value = true;
   try {
-    await request.get('/friendLinks', {}, {
-      showDefaultMsg: false,
-      onSuccess: (data) => {
-        friendLinks.value = data || []
-      }
-    })
+    await request.get(
+      "/friendLinks",
+      {},
+      {
+        showDefaultMsg: false,
+        onSuccess: (data) => {
+          friendLinks.value = data || [];
+        },
+      },
+    );
   } catch (error) {
-    console.error('获取友情链接失败:', error)
+    console.error("获取友情链接失败:", error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 // 获取博客配置
 const fetchBlogConfig = async () => {
   try {
-    await request.get('/config', {}, {
-      showDefaultMsg: false,
-      onSuccess: (data) => {
-        blogConfig.value = data || {}
-      }
-    })
+    await request.get(
+      "/config",
+      {},
+      {
+        showDefaultMsg: false,
+        onSuccess: (data) => {
+          blogConfig.value = data || {};
+        },
+      },
+    );
   } catch (error) {
-    console.error('获取博客配置失败:', error)
+    console.error("获取博客配置失败:", error);
   }
-}
+};
 
 // 获取图片URL
-const baseAPI = process.env.VUE_APP_BASE_API || '/api'
+const baseAPI = process.env.VUE_APP_BASE_API || "/api";
 const getImageUrl = (path) => {
-  if (!path) return ''
-  return baseAPI + path
-}
+  if (!path) return "";
+  return baseAPI + path;
+};
 
 // 博客名称
 const blogName = computed(() => {
-  return blogConfig.value.blog_name || '个人博客'
-})
+  return blogConfig.value.blog_name || "个人博客";
+});
 
 // 博客描述
 const blogDesc = computed(() => {
-  return blogConfig.value.blog_description || '分享技术，记录生活'
-})
+  return blogConfig.value.blog_description || "分享技术，记录生活";
+});
 
 // 当前URL
 const currentUrl = computed(() => {
-  return window.location.origin
-})
+  return window.location.origin;
+});
 
 // 生命周期钩子
 onMounted(() => {
-  fetchFriendLinks()
-  fetchBlogConfig()
-  document.title = '友情链接 - 个人博客'
-})
+  fetchFriendLinks();
+  fetchBlogConfig();
+  document.title = "友情链接 - 个人博客";
+});
 </script>
 
 <style scoped>
@@ -152,10 +164,10 @@ onMounted(() => {
 .page-title {
   font-size: 36px;
   font-weight: 500;
-  color: #3498db;
+  color: #59a6e6;
   margin: 0;
   letter-spacing: 2px;
-  font-family: '萝莉体 第二版', 'Monaco', monospace;
+  font-family: "萝莉体 第二版", "Monaco", monospace;
   position: relative;
   display: inline-block;
 }
@@ -165,20 +177,22 @@ onMounted(() => {
   margin-bottom: 15px;
 }
 
-.decoration-left, .decoration-right {
+.decoration-left,
+.decoration-right {
   font-size: 24px;
-  color: #2ecc71;
+  color: #3877ab;
   position: relative;
   display: inline-block;
   margin: 0 20px;
-  font-family: 'Consolas', 'Monaco', monospace;
+  font-family: "Consolas", "Monaco", monospace;
 }
 
-.decoration-left::before, .decoration-right::before {
-  content: '';
+.decoration-left::before,
+.decoration-right::before {
+  content: "";
   height: 1px;
   width: 60px;
-  background: linear-gradient(to right, transparent, #2ecc71, transparent);
+  background: linear-gradient(to right, transparent, #3877ab, transparent);
   position: absolute;
   top: 50%;
 }
@@ -193,7 +207,8 @@ onMounted(() => {
 
 .title-wave {
   height: 15px;
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0,0 C150,40 350,0 500,20 C650,40 750,0 900,10 C1050,20 1150,40 1200,10 L1200,30 L0,30 Z" style="fill: %23f9f9f9;"/></svg>') no-repeat;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0,0 C150,40 350,0 500,20 C650,40 750,0 900,10 C1050,20 1150,40 1200,10 L1200,30 L0,30 Z" style="fill: %23f9f9f9;"/></svg>')
+    no-repeat;
   background-size: 100% 100%;
   position: absolute;
   bottom: 0;
@@ -226,20 +241,20 @@ onMounted(() => {
 }
 
 .link-item::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   height: 3px;
-  background: linear-gradient(to right, #3498db, #2ecc71);
+  background: linear-gradient(to right, #59a6e6, #3877ab);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s ease;
 }
 
 .link-item:hover {
-  border-color: #3498db;
+  border-color: #59a6e6;
   background-color: #f9f9f9;
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -271,7 +286,7 @@ onMounted(() => {
 }
 
 .link-item:hover .link-logo {
-  border-color: #3498db;
+  border-color: #59a6e6;
   box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
 }
 
@@ -289,7 +304,7 @@ onMounted(() => {
   font-size: 24px;
   font-weight: bold;
   color: #fff;
-  background-color: #3498db;
+  background-color: #59a6e6;
 }
 
 .link-info {
@@ -309,7 +324,7 @@ onMounted(() => {
 }
 
 .link-item:hover .link-name {
-  color: #3498db;
+  color: #59a6e6;
 }
 
 .link-desc {
@@ -352,13 +367,13 @@ onMounted(() => {
 }
 
 .section-title::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 5px;
   height: 70%;
   width: 4px;
-  background: linear-gradient(to bottom, #3498db, #2ecc71);
+  background: linear-gradient(to bottom, #59a6e6, #3877ab);
   border-radius: 2px;
 }
 
@@ -374,7 +389,7 @@ onMounted(() => {
   padding: 20px 25px;
   border-radius: 8px;
   margin: 20px 0;
-  border-left: 4px solid #3498db;
+  border-left: 4px solid #59a6e6;
 }
 
 .apply-info p {
@@ -441,12 +456,14 @@ onMounted(() => {
     font-size: 28px;
   }
 
-  .decoration-left, .decoration-right {
+  .decoration-left,
+  .decoration-right {
     font-size: 20px;
     margin: 0 10px;
   }
 
-  .decoration-left::before, .decoration-right::before {
+  .decoration-left::before,
+  .decoration-right::before {
     width: 40px;
   }
 

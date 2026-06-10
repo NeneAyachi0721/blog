@@ -11,9 +11,14 @@
         <h1 class="typewriter">{{ displayText }}</h1>
         <p class="subtitle">{{ subtitle }}</p>
       </div>
-      <el-carousel height="450px" indicator-position="none" arrow="never" class="hero-carousel">
+      <el-carousel
+        height="450px"
+        indicator-position="none"
+        arrow="never"
+        class="hero-carousel"
+      >
         <el-carousel-item v-for="item in recommendArticles" :key="item.id">
-          <img :src="getImageUrl(item.cover)" alt="Recommend Article Cover">
+          <img :src="getImageUrl(item.cover)" alt="Recommend Article Cover" />
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -63,8 +68,12 @@
               </div>
               <div class="article-content">
                 <div class="article-meta">
-                  <span class="article-category">{{ article.categoryName }}</span>
-                  <span class="article-date">{{ formatDate(article.createTime) }}</span>
+                  <span class="article-category">{{
+                    article.categoryName
+                  }}</span>
+                  <span class="article-date">{{
+                    formatDate(article.createTime)
+                  }}</span>
                 </div>
                 <h3 class="article-title">{{ article.title }}</h3>
                 <p class="article-summary">{{ article.summary }}</p>
@@ -117,10 +126,18 @@
                 <div class="category-progress">
                   <div
                     class="progress-bar"
-                    :style="{ width: (category.articleCount / Math.max(...categories.map(c => c.articleCount)) * 100) + '%' }"
+                    :style="{
+                      width:
+                        (category.articleCount /
+                          Math.max(...categories.map((c) => c.articleCount))) *
+                          100 +
+                        '%',
+                    }"
                   ></div>
                 </div>
-                <span class="category-count">{{ category.articleCount }} 篇文章</span>
+                <span class="category-count"
+                  >{{ category.articleCount }} 篇文章</span
+                >
               </div>
             </div>
           </div>
@@ -151,164 +168,184 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { View, Folder, ArrowRight } from '@element-plus/icons-vue'
-import request from '@/utils/request'
+import { ref, computed, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { View, Folder, ArrowRight } from "@element-plus/icons-vue";
+import request from "@/utils/request";
 
-const router = useRouter()
-const baseAPI = process.env.VUE_APP_BASE_API || '/api'
+const router = useRouter();
+const baseAPI = process.env.VUE_APP_BASE_API || "/api";
 
 // 统计数据
 const stats = computed(() => [
-  { value: latestArticles.value.length, label: '文章', icon: 'icon-article' },
-  { value: categories.value.length, label: '分类', icon: 'icon-category' },
-  { value: tags.value.length, label: '标签', icon: 'icon-tag' }
-])
+  { value: latestArticles.value.length, label: "文章", icon: "icon-article" },
+  { value: categories.value.length, label: "分类", icon: "icon-category" },
+  { value: tags.value.length, label: "标签", icon: "icon-tag" },
+]);
 
 // 推荐文章（用于轮播图）
-const recommendArticles = ref([])
+const recommendArticles = ref([]);
 // 最新文章
-const latestArticles = ref([])
+const latestArticles = ref([]);
 // 热门文章
-const hotArticles = ref([])
+const hotArticles = ref([]);
 // 分类列表
-const categories = ref([])
+const categories = ref([]);
 // 标签列表
-const tags = ref([])
+const tags = ref([]);
 
 // 打字机效果相关
-const fullText = "わたしの部屋"
-const displayText = ref('')
-const subtitle = ref('私の0721を見て下さいっ')
-let currentIndex = 0
+const fullText = "わたしの部屋";
+const displayText = ref("");
+const subtitle = ref("私の0721を見て下さいっ");
+let currentIndex = 0;
 
 const typeText = () => {
   if (currentIndex < fullText.length) {
-    displayText.value = fullText.substring(0, currentIndex + 1)
-    currentIndex++
-    setTimeout(typeText, 230) // 每个字的打字间隔
+    displayText.value = fullText.substring(0, currentIndex + 1);
+    currentIndex++;
+    setTimeout(typeText, 230); // 每个字的打字间隔
   } else {
     // 打字完成后，等待一段时间重新开始
     setTimeout(() => {
-      currentIndex = 0
-      displayText.value = ''
-      typeText()
-    }, 2000)
+      currentIndex = 0;
+      displayText.value = "";
+      typeText();
+    }, 2000);
   }
-}
+};
 
 // 初始化
 onMounted(() => {
-  typeText() // 开始打字效果
-  fetchRecommendArticles()
-  fetchLatestArticles()
-  fetchHotArticles()
-  fetchCategories()
-  fetchTags()
-})
+  typeText(); // 开始打字效果
+  fetchRecommendArticles();
+  fetchLatestArticles();
+  fetchHotArticles();
+  fetchCategories();
+  fetchTags();
+});
 
 // 获取推荐文章
 const fetchRecommendArticles = async () => {
   try {
-    await request.get('/article/recommend', { limit: 5 }, {
-      showDefaultMsg: false,
-      onSuccess: (data) => {
-        recommendArticles.value = data
-      }
-    })
+    await request.get(
+      "/article/recommend",
+      { limit: 5 },
+      {
+        showDefaultMsg: false,
+        onSuccess: (data) => {
+          recommendArticles.value = data;
+        },
+      },
+    );
   } catch (error) {
-    console.error('获取推荐文章失败:', error)
+    console.error("获取推荐文章失败:", error);
   }
-}
+};
 
 // 获取最新文章
 const fetchLatestArticles = async () => {
   try {
-    await request.get('/article/page', {
-      currentPage: 1,
-      size: 12,
-      status: 1 // 已发布的文章
-    }, {
-      showDefaultMsg: false,
-      onSuccess: (data) => {
-        latestArticles.value = data.records
-      }
-    })
+    await request.get(
+      "/article/page",
+      {
+        currentPage: 1,
+        size: 12,
+        status: 1, // 已发布的文章
+      },
+      {
+        showDefaultMsg: false,
+        onSuccess: (data) => {
+          latestArticles.value = data.records;
+        },
+      },
+    );
   } catch (error) {
-    console.error('获取最新文章失败:', error)
+    console.error("获取最新文章失败:", error);
   }
-}
+};
 
 // 获取热门文章
 const fetchHotArticles = async () => {
   try {
-    await request.get('/article/hot', { limit: 10 }, {
-      showDefaultMsg: false,
-      onSuccess: (data) => {
-        hotArticles.value = data
-      }
-    })
+    await request.get(
+      "/article/hot",
+      { limit: 10 },
+      {
+        showDefaultMsg: false,
+        onSuccess: (data) => {
+          hotArticles.value = data;
+        },
+      },
+    );
   } catch (error) {
-    console.error('获取热门文章失败:', error)
+    console.error("获取热门文章失败:", error);
   }
-}
+};
 
 // 获取分类列表
 const fetchCategories = async () => {
   try {
-    await request.get('/category', {}, {
-      showDefaultMsg: false,
-      onSuccess: (data) => {
-        categories.value = data
-      }
-    })
+    await request.get(
+      "/category",
+      {},
+      {
+        showDefaultMsg: false,
+        onSuccess: (data) => {
+          categories.value = data;
+        },
+      },
+    );
   } catch (error) {
-    console.error('获取分类列表失败:', error)
+    console.error("获取分类列表失败:", error);
   }
-}
+};
 
 // 获取标签列表
 const fetchTags = async () => {
   try {
-    await request.get('/tag', {}, {
-      showDefaultMsg: false,
-      onSuccess: (data) => {
-        tags.value = data
-      }
-    })
+    await request.get(
+      "/tag",
+      {},
+      {
+        showDefaultMsg: false,
+        onSuccess: (data) => {
+          tags.value = data;
+        },
+      },
+    );
   } catch (error) {
-    console.error('获取标签列表失败:', error)
+    console.error("获取标签列表失败:", error);
   }
-}
+};
 
 // 格式化日期
 const formatDate = (dateString) => {
-  if (!dateString) return ''
-  const date = new Date(dateString)
-  return date.toLocaleDateString()
-}
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  return date.toLocaleDateString();
+};
 
 // 跳转到文章详情页
 const goToArticle = (id) => {
-  router.push(`/article/${id}`)
-}
+  router.push(`/article/${id}`);
+};
 
 // 跳转到分类页面
 const goToCategory = (id) => {
-  router.push(`/category/${id}`)
-}
+  router.push(`/category/${id}`);
+};
 
 // 跳转到标签页面
 const goToTag = (id) => {
-  router.push(`/tag/${id}`)
-}
+  router.push(`/tag/${id}`);
+};
 
 // 处理图片URL
 const getImageUrl = (url) => {
-  if (!url) return ''
-  return baseAPI + url
-}
+  if (!url) return "";
+  return baseAPI + url;
+};
 </script>
 
 <style lang="scss" scoped>
@@ -330,12 +367,16 @@ const getImageUrl = (url) => {
   height: 100%;
   pointer-events: none;
   z-index: 0;
-  background: linear-gradient(120deg, rgba(240, 240, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
+  background: linear-gradient(
+    120deg,
+    rgba(240, 240, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
 }
 
 .particle {
   position: absolute;
-  background: linear-gradient(120deg, #4a90e2, #79b8ff);
+  background: linear-gradient(120deg, #59a6e6, #c7e2fa);
   border-radius: 50%;
   animation: float 20s infinite linear;
 
@@ -376,7 +417,11 @@ const getImageUrl = (url) => {
   text-align: center;
   position: relative;
   z-index: 1;
-  background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.98) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.98) 100%
+  );
 }
 
 .welcome-text {
@@ -395,12 +440,12 @@ const getImageUrl = (url) => {
   font-weight: bold;
   margin-bottom: 1rem;
   color: #333;
-  font-family: '萝莉体 第二版', serif;
+  font-family: "萝莉体 第二版", serif;
   position: relative;
   display: inline-block;
 
   &::after {
-    content: '|';
+    content: "|";
     position: absolute;
     right: -8px;
     top: 0;
@@ -413,7 +458,7 @@ const getImageUrl = (url) => {
   color: #666;
   margin-top: 3rem;
   opacity: 0;
-  font-family: '萝莉体 第二版', serif;
+  font-family: "萝莉体 第二版", serif;
   animation: fadeIn 0.5s ease forwards;
   animation-delay: 1s;
 }
@@ -429,8 +474,8 @@ const getImageUrl = (url) => {
 
 .primary-btn {
   background: transparent;
-  border: 2px solid #4a90e2;
-  color: #4a90e2;
+  border: 2px solid #59a6e6;
+  color: #59a6e6;
   padding: 12px 30px;
   font-size: 1.2rem;
   position: relative;
@@ -438,7 +483,7 @@ const getImageUrl = (url) => {
   transition: all 0.3s ease;
 
   &:hover {
-    background: #4a90e2;
+    background: #59a6e6;
     color: #fff;
     transform: translateY(-2px);
     box-shadow: 0 5px 20px rgba(74, 144, 226, 0.3);
@@ -454,7 +499,7 @@ const getImageUrl = (url) => {
     left: 0;
     width: 100%;
     height: 2px;
-    background: linear-gradient(90deg, transparent, #4a90e2);
+    background: linear-gradient(90deg, transparent, #59a6e6);
     transform: translateX(-100%);
     transition: transform 0.5s ease;
   }
@@ -494,13 +539,18 @@ const getImageUrl = (url) => {
   }
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(45deg, transparent, rgba(74, 144, 226, 0.1), transparent);
+    background: linear-gradient(
+      45deg,
+      transparent,
+      rgba(74, 144, 226, 0.1),
+      transparent
+    );
     transform: translateX(-100%);
     transition: transform 0.6s ease;
   }
@@ -514,7 +564,7 @@ const getImageUrl = (url) => {
   font-size: 3rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
-  background: linear-gradient(120deg, #4a90e2, #79b8ff);
+  background: linear-gradient(120deg, #59a6e6, #c7e2fa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -541,18 +591,18 @@ const getImageUrl = (url) => {
     font-size: 2.5rem;
     font-weight: bold;
     color: #333;
-    font-family: '萝莉体 第二版', serif;
+    font-family: "萝莉体 第二版", serif;
     position: relative;
     padding-bottom: 10px;
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       bottom: 0;
       left: 0;
       width: 40%;
       height: 4px;
-      background: linear-gradient(90deg, #4a90e2, transparent);
+      background: linear-gradient(90deg, #59a6e6, transparent);
     }
   }
 }
@@ -582,7 +632,7 @@ const getImageUrl = (url) => {
   transition: all 0.3s ease;
 
   &:hover {
-    color: #4a90e2;
+    color: #59a6e6;
     transform: translateX(5px);
 
     .el-icon {
@@ -685,7 +735,7 @@ const getImageUrl = (url) => {
   font-size: 0.9rem;
 
   .article-category {
-    color: #4a90e2;
+    color: #59a6e6;
     font-weight: 500;
   }
 
@@ -773,7 +823,7 @@ const getImageUrl = (url) => {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #4a90e2, #79b8ff);
+  background: linear-gradient(135deg, #59a6e6, #c7e2fa);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -804,7 +854,7 @@ const getImageUrl = (url) => {
 
   .progress-bar {
     height: 100%;
-    background: linear-gradient(90deg, #4a90e2, #79b8ff);
+    background: linear-gradient(90deg, #59a6e6, #c7e2fa);
     border-radius: 2px;
     transition: width 0.3s ease;
   }
@@ -875,7 +925,8 @@ const getImageUrl = (url) => {
 
 /* 动画关键帧 */
 @keyframes blink {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {

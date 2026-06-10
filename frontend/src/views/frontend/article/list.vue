@@ -27,9 +27,7 @@
             <el-icon class="search-icon"><Search /></el-icon>
           </template>
           <template #append>
-            <el-button @click="handleSearch" type="primary">
-              搜索
-            </el-button>
+            <el-button @click="handleSearch" type="primary"> 搜索 </el-button>
           </template>
         </el-input>
       </div>
@@ -65,7 +63,9 @@
       <div class="section-header">
         <h2 class="section-title">
           <template v-if="isSearchMode">搜索结果</template>
-          <template v-else-if="selectedCategoryId !== null">{{ selectedCategoryName }}</template>
+          <template v-else-if="selectedCategoryId !== null">{{
+            selectedCategoryName
+          }}</template>
           <template v-else>全部文章</template>
         </h2>
         <div class="article-count" v-if="total > 0">共 {{ total }} 篇文章</div>
@@ -90,12 +90,19 @@
           <h3 class="article-title">{{ article.title }}</h3>
           <p class="article-summary">{{ article.summary }}</p>
           <div class="article-meta">
-            <span><el-icon><User /></el-icon> {{ article.authorName }}</span>
+            <span
+              ><el-icon><User /></el-icon> {{ article.authorName }}</span
+            >
             <span @click.stop="goToCategory(article.categoryId)">
               <el-icon><Folder /></el-icon> {{ article.categoryName }}
             </span>
-            <span><el-icon><Calendar /></el-icon> {{ formatDate(article.createTime) }}</span>
-            <span><el-icon><View /></el-icon> {{ article.viewCount }} 阅读</span>
+            <span
+              ><el-icon><Calendar /></el-icon>
+              {{ formatDate(article.createTime) }}</span
+            >
+            <span
+              ><el-icon><View /></el-icon> {{ article.viewCount }} 阅读</span
+            >
           </div>
           <div class="article-tags">
             <el-tag
@@ -128,293 +135,301 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { User, Folder, Calendar, View, Search } from '@element-plus/icons-vue'
-import request from '@/utils/request'
-import { ElMessage } from 'element-plus'
+import { ref, computed, onMounted, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { User, Folder, Calendar, View, Search } from "@element-plus/icons-vue";
+import request from "@/utils/request";
+import { ElMessage } from "element-plus";
 
-const route = useRoute()
-const router = useRouter()
-const baseAPI = process.env.VUE_APP_BASE_API || '/api'
+const route = useRoute();
+const router = useRouter();
+const baseAPI = process.env.VUE_APP_BASE_API || "/api";
 
 // 打字机效果
-const titleText = "Ciallo～(∠・ω< )⌒☆"
-let typingTimer = null
+const titleText = "Ciallo～(∠・ω< )⌒☆";
+let typingTimer = null;
 
 const startTypingAnimation = () => {
-  const typewriterElement = document.querySelector('.typewriter-text')
-  if (!typewriterElement) return
+  const typewriterElement = document.querySelector(".typewriter-text");
+  if (!typewriterElement) return;
 
-  let index = 0
-  typewriterElement.textContent = ''
+  let index = 0;
+  typewriterElement.textContent = "";
 
-  clearInterval(typingTimer)
+  clearInterval(typingTimer);
   typingTimer = setInterval(() => {
     if (index < titleText.length) {
-      typewriterElement.textContent += titleText.charAt(index)
-      index++
+      typewriterElement.textContent += titleText.charAt(index);
+      index++;
     } else {
-      clearInterval(typingTimer)
+      clearInterval(typingTimer);
     }
-  }, 150)
-}
+  }, 150);
+};
 
 // 加载状态
-const loading = ref(false)
+const loading = ref(false);
 // 搜索关键词
-const keyword = ref('')
+const keyword = ref("");
 // 文章列表
-const articles = ref([])
+const articles = ref([]);
 // 分页信息
-const currentPage = ref(1)
-const pageSize = ref(10)
-const total = ref(0)
+const currentPage = ref(1);
+const pageSize = ref(10);
+const total = ref(0);
 // 分类相关
-const categories = ref([])
-const selectedCategoryId = ref(null)
-const selectedCategoryName = ref('')
+const categories = ref([]);
+const selectedCategoryId = ref(null);
+const selectedCategoryName = ref("");
 
 // 是否为搜索模式
-const isSearchMode = computed(() => !!keyword.value)
+const isSearchMode = computed(() => !!keyword.value);
 
 // 获取所有分类
 const fetchCategories = async () => {
   try {
-    await request.get('/category', {}, {
-      showDefaultMsg: false,
-      onSuccess: (data) => {
-        categories.value = data||[]
-      }
-    })
+    await request.get(
+      "/category",
+      {},
+      {
+        showDefaultMsg: false,
+        onSuccess: (data) => {
+          categories.value = data || [];
+        },
+      },
+    );
   } catch (error) {
-    console.error('获取分类列表失败:', error)
+    console.error("获取分类列表失败:", error);
   }
-}
+};
 
 // 获取文章列表
 const fetchArticles = async (page) => {
-  loading.value = true
+  loading.value = true;
   try {
     const params = {
       currentPage: page,
       size: pageSize.value,
-      status: 1 // 已发布的文章
-    }
+      status: 1, // 已发布的文章
+    };
 
     // 如果选择了分类，添加分类ID参数
     if (selectedCategoryId.value !== null) {
-      params.categoryId = selectedCategoryId.value
+      params.categoryId = selectedCategoryId.value;
     }
 
-    await request.get('/article/page', params, {
+    await request.get("/article/page", params, {
       showDefaultMsg: false,
       onSuccess: (data) => {
-        articles.value = data.records||[]
-        total.value = data.total||0
-      }
-    })
+        articles.value = data.records || [];
+        total.value = data.total || 0;
+      },
+    });
   } catch (error) {
-    console.error('获取文章列表失败:', error)
-    ElMessage.error('获取文章列表失败')
+    console.error("获取文章列表失败:", error);
+    ElMessage.error("获取文章列表失败");
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 // 搜索文章
 const searchArticles = async (search, page) => {
   if (!search.trim()) {
-    fetchArticles(page)
-    return
+    fetchArticles(page);
+    return;
   }
 
-  loading.value = true
+  loading.value = true;
   try {
     const params = {
       keyword: search,
       currentPage: page,
-      size: pageSize.value
-    }
+      size: pageSize.value,
+    };
 
     // 如果选择了分类，添加分类ID参数
     if (selectedCategoryId.value !== null) {
-      params.categoryId = selectedCategoryId.value
+      params.categoryId = selectedCategoryId.value;
     }
 
-    await request.get('/article/search', params, {
+    await request.get("/article/search", params, {
       showDefaultMsg: false,
       onSuccess: (data) => {
-        articles.value = data.records
-        total.value = data.total
-      }
-    })
+        articles.value = data.records;
+        total.value = data.total;
+      },
+    });
   } catch (error) {
-    console.error('搜索文章失败:', error)
-    ElMessage.error('搜索文章失败')
+    console.error("搜索文章失败:", error);
+    ElMessage.error("搜索文章失败");
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 // 选择分类
 const selectCategory = (categoryId) => {
-  if (selectedCategoryId.value === categoryId) return
+  if (selectedCategoryId.value === categoryId) return;
 
-  selectedCategoryId.value = categoryId
+  selectedCategoryId.value = categoryId;
 
   // 设置选中分类名称
   if (categoryId === null) {
-    selectedCategoryName.value = ''
+    selectedCategoryName.value = "";
   } else {
-    const category = categories.value.find(c => c.id === categoryId)
-    selectedCategoryName.value = category ? category.name : ''
+    const category = categories.value.find((c) => c.id === categoryId);
+    selectedCategoryName.value = category ? category.name : "";
   }
 
   // 更新路由
-  const query = {...route.query}
+  const query = { ...route.query };
   if (categoryId === null) {
-    delete query.categoryId
+    delete query.categoryId;
   } else {
-    query.categoryId = categoryId
+    query.categoryId = categoryId;
   }
 
   router.push({
     path: route.path,
-    query
-  })
+    query,
+  });
 
   // 重置页码并获取文章
-  currentPage.value = 1
+  currentPage.value = 1;
   if (keyword.value) {
-    searchArticles(keyword.value, 1)
+    searchArticles(keyword.value, 1);
   } else {
-    fetchArticles(1)
+    fetchArticles(1);
   }
-}
+};
 
 // 监听路由查询参数变化
-watch(() => route.query, (query) => {
-  // 处理分类ID
-  if (query.categoryId) {
-    const categoryId = parseInt(query.categoryId)
-    if (selectedCategoryId.value !== categoryId) {
-      selectedCategoryId.value = categoryId
-      // 设置选中分类名称
-      const category = categories.value.find(c => c.id === categoryId)
-      selectedCategoryName.value = category ? category.name : ''
+watch(
+  () => route.query,
+  (query) => {
+    // 处理分类ID
+    if (query.categoryId) {
+      const categoryId = parseInt(query.categoryId);
+      if (selectedCategoryId.value !== categoryId) {
+        selectedCategoryId.value = categoryId;
+        // 设置选中分类名称
+        const category = categories.value.find((c) => c.id === categoryId);
+        selectedCategoryName.value = category ? category.name : "";
+      }
+    } else {
+      selectedCategoryId.value = null;
+      selectedCategoryName.value = "";
     }
-  } else {
-    selectedCategoryId.value = null
-    selectedCategoryName.value = ''
-  }
 
-  // 处理关键词
-  if (query.keyword) {
-    keyword.value = query.keyword
-    searchArticles(query.keyword, 1)
-  } else if (keyword.value) {
-    keyword.value = ''
-    fetchArticles(1)
-  } else {
-    fetchArticles(1)
-  }
-}, { immediate: true })
+    // 处理关键词
+    if (query.keyword) {
+      keyword.value = query.keyword;
+      searchArticles(query.keyword, 1);
+    } else if (keyword.value) {
+      keyword.value = "";
+      fetchArticles(1);
+    } else {
+      fetchArticles(1);
+    }
+  },
+  { immediate: true },
+);
 
 // 初始化
 onMounted(async () => {
   // 先获取分类列表
-  await fetchCategories()
+  await fetchCategories();
 
   // 处理路由参数
   if (route.query.categoryId) {
-    const categoryId = parseInt(route.query.categoryId)
-    selectedCategoryId.value = categoryId
+    const categoryId = parseInt(route.query.categoryId);
+    selectedCategoryId.value = categoryId;
     // 设置选中分类名称
-    const category = categories.value.find(c => c.id === categoryId)
-    selectedCategoryName.value = category ? category.name : ''
+    const category = categories.value.find((c) => c.id === categoryId);
+    selectedCategoryName.value = category ? category.name : "";
   }
 
   if (route.query.keyword) {
-    keyword.value = route.query.keyword
-    searchArticles(keyword.value, 1)
+    keyword.value = route.query.keyword;
+    searchArticles(keyword.value, 1);
   } else {
-    fetchArticles(1)
+    fetchArticles(1);
   }
 
-  document.title = '文章列表 - 个人博客'
+  document.title = "文章列表 - 个人博客";
 
   // 启动打字机动画
   setTimeout(() => {
-    startTypingAnimation()
-  }, 500)
-})
+    startTypingAnimation();
+  }, 500);
+});
 
 // 处理搜索
 const handleSearch = () => {
-  const query = {}
+  const query = {};
 
   if (keyword.value.trim()) {
-    query.keyword = keyword.value.trim()
+    query.keyword = keyword.value.trim();
   }
 
   if (selectedCategoryId.value !== null) {
-    query.categoryId = selectedCategoryId.value
+    query.categoryId = selectedCategoryId.value;
   }
 
   router.push({
-    path: '/articles',
-    query
-  })
+    path: "/articles",
+    query,
+  });
 
   if (keyword.value.trim()) {
-    searchArticles(keyword.value.trim(), 1)
+    searchArticles(keyword.value.trim(), 1);
   } else {
-    fetchArticles(1)
+    fetchArticles(1);
   }
 
-  currentPage.value = 1
-}
+  currentPage.value = 1;
+};
 
 // 处理页码变化
 const handlePageChange = (page) => {
-  currentPage.value = page
+  currentPage.value = page;
   if (isSearchMode.value) {
-    searchArticles(keyword.value, page)
+    searchArticles(keyword.value, page);
   } else {
-    fetchArticles(page)
+    fetchArticles(page);
   }
   // 滚动到页面顶部
-  window.scrollTo(0, 0)
-}
+  window.scrollTo(0, 0);
+};
 
 // 跳转到文章详情
 const goToArticle = (id) => {
-  router.push(`/article/${id}`)
-}
+  router.push(`/article/${id}`);
+};
 
 // 跳转到分类页面
 const goToCategory = (id) => {
-  router.push(`/category/${id}`)
-}
+  router.push(`/category/${id}`);
+};
 
 // 跳转到标签页面
 const goToTag = (id) => {
-  router.push(`/tag/${id}`)
-}
+  router.push(`/tag/${id}`);
+};
 
 // 格式化日期
 const formatDate = (dateString) => {
-  if (!dateString) return ''
-  const date = new Date(dateString)
-  return date.toLocaleDateString()
-}
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  return date.toLocaleDateString();
+};
 
 // 处理图片URL
 const getImageUrl = (url) => {
-  if (!url) return ''
-  return baseAPI + url
-}
+  if (!url) return "";
+  return baseAPI + url;
+};
 </script>
 
 <style scoped>
@@ -435,10 +450,10 @@ const getImageUrl = (url) => {
 .romantic-title {
   font-size: 36px;
   font-weight: 500;
-  color: #3498db;
+  color: #59a6e6;
   margin: 0;
   letter-spacing: 2px;
-  font-family: 'Consolas', 'Monaco', monospace;
+  font-family: "Consolas", "Monaco", monospace;
   position: relative;
   display: inline-block;
   min-height: 45px;
@@ -457,20 +472,22 @@ const getImageUrl = (url) => {
   margin-bottom: 15px;
 }
 
-.decoration-left, .decoration-right {
+.decoration-left,
+.decoration-right {
   font-size: 24px;
-  color: #2ecc71;
+  color: #3877ab;
   position: relative;
   display: inline-block;
   margin: 0 20px;
-  font-family: 'Consolas', 'Monaco', monospace;
+  font-family: "Consolas", "Monaco", monospace;
 }
 
-.decoration-left::before, .decoration-right::before {
-  content: '';
+.decoration-left::before,
+.decoration-right::before {
+  content: "";
   height: 1px;
   width: 60px;
-  background: linear-gradient(to right, transparent, #2ecc71, transparent);
+  background: linear-gradient(to right, transparent, #3877ab, transparent);
   position: absolute;
   top: 50%;
 }
@@ -485,7 +502,8 @@ const getImageUrl = (url) => {
 
 .title-wave {
   height: 15px;
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0,0 C150,40 350,0 500,20 C650,40 750,0 900,10 C1050,20 1150,40 1200,10 L1200,30 L0,30 Z" style="fill: %23f9f9f9;"/></svg>') no-repeat;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0,0 C150,40 350,0 500,20 C650,40 750,0 900,10 C1050,20 1150,40 1200,10 L1200,30 L0,30 Z" style="fill: %23f9f9f9;"/></svg>')
+    no-repeat;
   background-size: 100% 100%;
   position: absolute;
   bottom: 0;
@@ -554,7 +572,7 @@ const getImageUrl = (url) => {
 
 .filter-title .el-icon {
   margin-right: 6px;
-  color: #409EFF;
+  color: #409eff;
 }
 
 .category-list {
@@ -575,7 +593,7 @@ const getImageUrl = (url) => {
 
 .article-section {
   min-height: 400px;
-    background-color: #fff;
+  background-color: #fff;
   border-radius: 8px;
   padding: 20px;
 }
@@ -622,7 +640,7 @@ const getImageUrl = (url) => {
 }
 
 .article-item:not(:last-child)::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 10%;
@@ -663,7 +681,7 @@ const getImageUrl = (url) => {
 }
 
 .article-item:hover .article-title {
-  color: #409EFF;
+  color: #409eff;
 }
 
 .article-summary {
@@ -694,7 +712,7 @@ const getImageUrl = (url) => {
 }
 
 .article-meta span:hover {
-  color: #409EFF;
+  color: #409eff;
 }
 
 .article-meta .el-icon {
@@ -758,7 +776,12 @@ const getImageUrl = (url) => {
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 </style>
