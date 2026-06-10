@@ -55,7 +55,7 @@
           <div class="article-actions">
             <el-button
               type="danger"
-              :icon="isLiked ? 'ThumbUp' : 'Thumb'"
+              :icon="isLiked ? 'CircleCheck' : 'CircleCheckFilled'"
               @click="handleLike"
               :loading="likeLoading"
               class="action-button"
