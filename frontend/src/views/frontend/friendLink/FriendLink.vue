@@ -7,7 +7,6 @@
         <span class="decoration-right">&#60;/&#62;</span>
       </div>
       <h1 class="page-title">友情链接</h1>
-      <div class="title-wave"></div>
     </div>
 
     <div class="link-list" v-loading="loading">
@@ -203,17 +202,6 @@ onMounted(() => {
 
 .decoration-right::before {
   left: 30px;
-}
-
-.title-wave {
-  height: 15px;
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0,0 C150,40 350,0 500,20 C650,40 750,0 900,10 C1050,20 1150,40 1200,10 L1200,30 L0,30 Z" style="fill: %23f9f9f9;"/></svg>')
-    no-repeat;
-  background-size: 100% 100%;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  opacity: 0.8;
 }
 
 /* 链接列表样式 */

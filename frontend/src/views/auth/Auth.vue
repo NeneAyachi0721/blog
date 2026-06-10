@@ -57,11 +57,21 @@
         <div class="auth-form-container">
           <h2 class="form-title" v-if="showHeader">{{ formTitle }}</h2>
 
-          <el-form :model="formData" :rules="rules" ref="formRef" class="auth-form">
+          <el-form
+            :model="formData"
+            :rules="rules"
+            ref="formRef"
+            class="auth-form"
+          >
             <slot name="form-items"></slot>
 
             <el-form-item>
-              <el-button type="primary" :loading="loading" @click="handleSubmit" class="auth-button">
+              <el-button
+                type="primary"
+                :loading="loading"
+                @click="handleSubmit"
+                class="auth-button"
+              >
                 {{ submitText }}
               </el-button>
             </el-form-item>
@@ -77,51 +87,51 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { Notebook } from '@element-plus/icons-vue'
+import { ref } from "vue";
+import { Notebook } from "@element-plus/icons-vue";
 
 const props = defineProps({
   formData: {
     type: Object,
-    required: true
+    required: true,
   },
   rules: {
     type: Object,
-    required: true
+    required: true,
   },
   loading: {
     type: Boolean,
-    default: false
+    default: false,
   },
   submitText: {
     type: String,
-    default: '提交'
+    default: "提交",
   },
   showHeader: {
     type: Boolean,
-    default: true
+    default: true,
   },
   formTitle: {
     type: String,
-    default: '欢迎'
-  }
-})
+    default: "欢迎",
+  },
+});
 
-const formRef = ref(null)
+const formRef = ref(null);
 
-const emit = defineEmits(['submit'])
+const emit = defineEmits(["submit"]);
 
 const handleSubmit = () => {
-  formRef.value.validate(valid => {
+  formRef.value.validate((valid) => {
     if (valid) {
-      emit('submit', formRef)
+      emit("submit", formRef);
     }
-  })
-}
+  });
+};
 
 defineExpose({
-  formRef
-})
+  formRef,
+});
 </script>
 
 <style lang="scss" scoped>
@@ -165,32 +175,56 @@ defineExpose({
 }
 
 .meteor-blue {
-  background: linear-gradient(to right, rgba(65, 105, 225, 0.7), rgba(65, 105, 225, 0));
+  background: linear-gradient(
+    to right,
+    rgba(65, 105, 225, 0.7),
+    rgba(65, 105, 225, 0)
+  );
   box-shadow: 0 0 10px rgba(65, 105, 225, 0.4);
 }
 
 .meteor-purple {
-  background: linear-gradient(to right, rgba(147, 112, 219, 0.7), rgba(147, 112, 219, 0));
+  background: linear-gradient(
+    to right,
+    rgba(147, 112, 219, 0.7),
+    rgba(147, 112, 219, 0)
+  );
   box-shadow: 0 0 10px rgba(147, 112, 219, 0.4);
 }
 
 .meteor-orange {
-  background: linear-gradient(to right, rgba(255, 140, 0, 0.7), rgba(255, 140, 0, 0));
+  background: linear-gradient(
+    to right,
+    rgba(255, 140, 0, 0.7),
+    rgba(255, 140, 0, 0)
+  );
   box-shadow: 0 0 10px rgba(255, 140, 0, 0.4);
 }
 
 .meteor-green {
-  background: linear-gradient(to right, rgba(50, 205, 50, 0.7), rgba(50, 205, 50, 0));
+  background: linear-gradient(
+    to right,
+    rgba(50, 205, 50, 0.7),
+    rgba(50, 205, 50, 0)
+  );
   box-shadow: 0 0 10px rgba(50, 205, 50, 0.4);
 }
 
 .meteor-pink {
-  background: linear-gradient(to right, rgba(255, 105, 180, 0.7), rgba(255, 105, 180, 0));
+  background: linear-gradient(
+    to right,
+    rgba(255, 105, 180, 0.7),
+    rgba(255, 105, 180, 0)
+  );
   box-shadow: 0 0 10px rgba(255, 105, 180, 0.4);
 }
 
 .meteor-gold {
-  background: linear-gradient(to right, rgba(255, 215, 0, 0.7), rgba(255, 215, 0, 0));
+  background: linear-gradient(
+    to right,
+    rgba(255, 215, 0, 0.7),
+    rgba(255, 215, 0, 0)
+  );
   box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
 }
 
@@ -383,7 +417,12 @@ defineExpose({
   top: 40%;
   right: 10%;
   transform: rotate(30deg);
-  background: linear-gradient(to right, transparent, rgba(80, 80, 80, 0.2), transparent);
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(80, 80, 80, 0.2),
+    transparent
+  );
 }
 
 .sketch-line-2 {
@@ -392,7 +431,12 @@ defineExpose({
   bottom: 30%;
   right: 30%;
   transform: rotate(-20deg);
-  background: linear-gradient(to right, transparent, rgba(80, 80, 80, 0.15), transparent);
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(80, 80, 80, 0.15),
+    transparent
+  );
 }
 
 .sketch-dot {
@@ -448,7 +492,7 @@ defineExpose({
 
 .auth-left {
   flex: 1;
-  background-color: #ffffff;
+  background-color: #fff;
   color: #333;
   display: flex;
   align-items: center;
@@ -494,7 +538,7 @@ defineExpose({
   margin: 0 0 8px;
   letter-spacing: 1px;
   color: #333;
-  font-family: 'SimSun', serif; /* 宋体 */
+  font-family: "SimSun", serif; /* 宋体 */
 }
 
 .subtitle {
@@ -504,7 +548,7 @@ defineExpose({
   opacity: 0.7;
   margin-bottom: 24px;
   color: #666;
-  font-family: 'SimSun', serif; /* 宋体 */
+  font-family: "SimSun", serif; /* 宋体 */
 }
 
 .tagline {
@@ -513,7 +557,7 @@ defineExpose({
   line-height: 1.6;
   opacity: 0.8;
   color: #666;
-  font-family: 'SimSun', serif; /* 宋体 */
+  font-family: "SimSun", serif; /* 宋体 */
 }
 
 /* 装饰元素 */
@@ -587,7 +631,8 @@ defineExpose({
     height: 48px;
     transition: all 0.3s ease;
 
-    &:hover, &.is-focus {
+    &:hover,
+    &.is-focus {
       box-shadow: 0 0 0 1px #333;
     }
   }
@@ -618,7 +663,8 @@ defineExpose({
   border: none;
   transition: all 0.3s ease;
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     opacity: 0.9;

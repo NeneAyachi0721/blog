@@ -11,7 +11,6 @@
         <span class="cursor">|</span>
       </h1>
       <!-- <p class="romantic-subtitle">用代码编织理想的模样</p> -->
-      <div class="title-wave"></div>
     </div>
 
     <div class="search-header">
@@ -500,17 +499,6 @@ const getImageUrl = (url) => {
   left: 30px;
 }
 
-.title-wave {
-  height: 15px;
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0,0 C150,40 350,0 500,20 C650,40 750,0 900,10 C1050,20 1150,40 1200,10 L1200,30 L0,30 Z" style="fill: %23f9f9f9;"/></svg>')
-    no-repeat;
-  background-size: 100% 100%;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  opacity: 0.8;
-}
-
 .search-header {
   margin-bottom: 20px;
   padding-bottom: 20px;
@@ -554,7 +542,7 @@ const getImageUrl = (url) => {
 
 /* 分类筛选样式 */
 .category-filter {
-  background-color: #f9f9f9;
+  background-color: #fff;
   border-radius: 8px;
   padding: 15px 20px;
   margin-bottom: 30px;
@@ -788,12 +776,12 @@ const getImageUrl = (url) => {
 /* 选中的标签 */
 :deep(.category-tag.el-tag--dark) {
   background-color: #59a6e6;
-  color: #ffffff;
+  color: #fff;
 }
 
 /* 未选中的标签 */
 :deep(.category-tag.el-tag--plain) {
-  background-color: #ffffff;
+  background-color: #fff;
   color: #3877ab;
 }
 </style>

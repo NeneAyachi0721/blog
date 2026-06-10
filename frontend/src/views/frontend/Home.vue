@@ -518,7 +518,7 @@ const getImageUrl = (url) => {
 }
 
 .stat-card {
-  background: #ffffff;
+  background: #fff;
   padding: 30px;
   border-radius: 15px;
   text-align: center;
@@ -656,7 +656,7 @@ const getImageUrl = (url) => {
   border-radius: 15px;
   overflow: hidden;
   transition: all 0.3s ease;
-  background: #ffffff;
+  background: #fff;
   // box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   cursor: pointer;
 

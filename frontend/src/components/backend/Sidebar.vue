@@ -5,9 +5,16 @@
       <span class="logo-text" v-show="!isCollapsed">个人博客系统</span>
     </div>
     <div class="menu-wrapper">
-      <el-menu :default-active="activeMenu" :collapse="isCollapsed" :collapse-transition="false" mode="vertical" class="sidebar-menu"
-        text-color="#666" active-text-color="#333" router>
-
+      <el-menu
+        :default-active="activeMenu"
+        :collapse="isCollapsed"
+        :collapse-transition="false"
+        mode="vertical"
+        class="sidebar-menu"
+        text-color="#666"
+        active-text-color="#333"
+        router
+      >
         <!-- 固定菜单项 -->
         <el-menu-item index="/back/dashboard">
           <el-icon><HomeFilled /></el-icon>
@@ -69,9 +76,9 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import { useAppStore } from '@/store/app'
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+import { useAppStore } from "@/store/app";
 import {
   HomeFilled,
   User,
@@ -82,29 +89,29 @@ import {
   Setting,
   DocumentChecked,
   Link,
-  ChatDotRound
-} from '@element-plus/icons-vue'
+  ChatDotRound,
+} from "@element-plus/icons-vue";
 
-const route = useRoute()
-const appStore = useAppStore()
+const route = useRoute();
+const appStore = useAppStore();
 
-const isCollapsed = computed(() => appStore.sidebarCollapsed)
+const isCollapsed = computed(() => appStore.sidebarCollapsed);
 
 // 当前激活的菜单
 const activeMenu = computed(() => {
-  const { meta, path } = route
+  const { meta, path } = route;
   if (meta.activeMenu) {
-    return meta.activeMenu
+    return meta.activeMenu;
   }
-  return path
-})
+  return path;
+});
 </script>
 
 <style lang="scss" scoped>
 .sidebar-container {
   height: 100%;
   min-height: 100vh;
-  background-color: #ffffff;
+  background-color: #fff;
   border-right: 1px solid #eaeaea;
   display: flex;
   flex-direction: column;
@@ -158,7 +165,7 @@ const activeMenu = computed(() => {
       white-space: nowrap;
       opacity: 1;
       transition: opacity 0.2s;
-      font-family: 'SimSun', serif;
+      font-family: "SimSun", serif;
     }
   }
 
@@ -186,7 +193,8 @@ const activeMenu = computed(() => {
     background: transparent;
     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-    .el-menu-item, .el-sub-menu__title {
+    .el-menu-item,
+    .el-sub-menu__title {
       height: 50px;
       line-height: 50px;
       color: #666;
@@ -211,7 +219,7 @@ const activeMenu = computed(() => {
       font-weight: 500;
 
       &::before {
-        content: '';
+        content: "";
         position: absolute;
         left: 0;
         top: 0;

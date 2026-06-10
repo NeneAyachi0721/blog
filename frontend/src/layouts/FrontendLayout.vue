@@ -2,7 +2,7 @@
   <div class="frontend-layout">
     <!-- 背景装饰 -->
     <div class="bg-decoration">
-      <!-- 渐变背景 -->
+      <!-- 背景 -->
       <div class="gradient-bg"></div>
 
       <!-- 几何装饰元素 -->
@@ -176,19 +176,14 @@ onMounted(() => {
   overflow: hidden;
 }
 
-/* 渐变背景 */
+/* 背景 */
 .gradient-bg {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    135deg,
-    rgba(240, 240, 245, 0.4) 0%,
-    rgba(255, 255, 255, 0.8) 100%
-  );
-  opacity: 0.8;
+  background: #e9eff5;
 }
 
 /* 几何装饰元素 */
@@ -343,7 +338,7 @@ onMounted(() => {
 
 /* 顶部导航栏 */
 .header {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: #eaeff4;
   backdrop-filter: blur(10px);
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05);
   position: sticky;
@@ -390,6 +385,7 @@ onMounted(() => {
   justify-content: center;
   border-bottom: none;
   margin: 0 20px;
+  background-color: transparent;
 }
 
 .user-menu {
@@ -452,7 +448,7 @@ onMounted(() => {
 
 /* 页脚 */
 .footer {
-  background-color: #fff;
+  background-color: #eaeff4;
   color: #666;
   padding: 50px 40px 30px;
   text-align: center;
