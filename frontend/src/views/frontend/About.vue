@@ -328,17 +328,17 @@ onMounted(() => {
   align-items: center;
   gap: 6px;
   padding: 8px 16px;
-  background-color: #f5f5f5;
+  background-color: #e3f1fd;
   border-radius: 20px;
-  color: #555;
+  color: #3877ab;
   text-decoration: none;
   transition: all 0.3s ease;
   border: 1px solid transparent;
 }
 
 .social-item:hover {
-  background-color: #e8f4fc;
-  color: #59a6e6;
+  background-color: #c7e2fa;
+  color: #3877ab;
   border-color: #59a6e6;
   transform: translateY(-2px);
 }
