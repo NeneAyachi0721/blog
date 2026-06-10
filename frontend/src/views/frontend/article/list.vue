@@ -786,13 +786,13 @@ const getImageUrl = (url) => {
 }
 
 /* 选中的标签 */
-:deep(.el-tag--dark) {
+:deep(.category-tag.el-tag--dark) {
   background-color: #59a6e6;
   color: #ffffff;
 }
 
 /* 未选中的标签 */
-:deep(.el-tag--plain) {
+:deep(.category-tag.el-tag--plain) {
   background-color: #ffffff;
   color: #3877ab;
 }
