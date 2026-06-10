@@ -572,7 +572,7 @@ const getImageUrl = (url) => {
 
 .filter-title .el-icon {
   margin-right: 6px;
-  color: #409eff;
+  color: #59a6e6;
 }
 
 .category-list {
@@ -681,7 +681,7 @@ const getImageUrl = (url) => {
 }
 
 .article-item:hover .article-title {
-  color: #409eff;
+  color: #59a6e6;
 }
 
 .article-summary {
@@ -712,7 +712,7 @@ const getImageUrl = (url) => {
 }
 
 .article-meta span:hover {
-  color: #409eff;
+  color: #59a6e6;
 }
 
 .article-meta .el-icon {

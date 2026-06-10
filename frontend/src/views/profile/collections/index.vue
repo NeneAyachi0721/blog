@@ -1,35 +1,58 @@
 <template>
   <div class="my-collections">
     <h2>我的收藏</h2>
-    
+
     <div v-loading="loading">
       <el-empty v-if="collections.length === 0" description="暂无收藏内容" />
-      
+
       <div v-else class="collection-list">
-        <el-card v-for="item in collections" :key="item.id" class="collection-item">
+        <el-card
+          v-for="item in collections"
+          :key="item.id"
+          class="collection-item"
+        >
           <div class="article-info">
             <div class="article-cover" v-if="item.coverImage">
               <el-image :src="getImageUrl(item.coverImage)" fit="cover" />
             </div>
             <div class="article-content">
               <h3 class="article-title">
-                <router-link :to="`/article/${item.id}`">{{ item.title }}</router-link>
+                <router-link :to="`/article/${item.id}`">{{
+                  item.title
+                }}</router-link>
               </h3>
-              <div class="article-summary" v-if="item.summary">{{ item.summary }}</div>
+              <div class="article-summary" v-if="item.summary">
+                {{ item.summary }}
+              </div>
               <div class="article-meta">
-                <span><el-icon><User /></el-icon> {{ item.authorName }}</span>
-                <span><el-icon><Calendar /></el-icon> {{ formatDate(item.createTime) }}</span>
-                <span><el-icon><View /></el-icon> {{ item.viewCount }} 阅读</span>
-                <span><el-icon><ThumbsUp /></el-icon> {{ item.likeCount }} 点赞</span>
-                <span><el-icon><ChatDotRound /></el-icon> {{ item.commentCount }} 评论</span>
+                <span
+                  ><el-icon><User /></el-icon> {{ item.authorName }}</span
+                >
+                <span
+                  ><el-icon><Calendar /></el-icon>
+                  {{ formatDate(item.createTime) }}</span
+                >
+                <span
+                  ><el-icon><View /></el-icon> {{ item.viewCount }} 阅读</span
+                >
+                <span
+                  ><el-icon><ThumbsUp /></el-icon>
+                  {{ item.likeCount }} 点赞</span
+                >
+                <span
+                  ><el-icon><ChatDotRound /></el-icon>
+                  {{ item.commentCount }} 评论</span
+                >
               </div>
             </div>
           </div>
           <div class="article-actions">
-            <span class="collect-time">收藏于：{{ formatDate(item.collectTime) }}</span>
-            <el-button 
-              size="small" 
-              type="danger" 
+            <span class="collect-time"
+              >收藏于：{{ formatDate(item.collectTime) }}</span
+            >
+            <el-button
+              size="small"
+              type="danger"
               @click="cancelCollect(item.id)"
               :loading="canceling === item.id"
             >
@@ -38,7 +61,7 @@
           </div>
         </el-card>
       </div>
-      
+
       <!-- 分页 -->
       <div class="pagination-container" v-if="total > 0">
         <el-pagination
@@ -56,88 +79,106 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import request from '@/utils/request'
-import DateUtils from '@/utils/dateUtils'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { User, Calendar, View, ThumbsUp, ChatDotRound } from '@element-plus/icons-vue'
+import { ref, onMounted } from "vue";
+import request from "@/utils/request";
+import DateUtils from "@/utils/dateUtils";
+import { ElMessage, ElMessageBox } from "element-plus";
+import {
+  User,
+  Calendar,
+  View,
+  ThumbsUp,
+  ChatDotRound,
+} from "@element-plus/icons-vue";
 
 // 使用DateUtils格式化日期
 const formatDate = (date) => {
   return DateUtils.formatDateTime(date);
-}
+};
 
-const collections = ref([])
-const loading = ref(false)
-const canceling = ref(null)
-const currentPage = ref(1)
-const pageSize = ref(10)
-const total = ref(0)
-const baseAPI = process.env.VUE_APP_BASE_API || '/api'
+const collections = ref([]);
+const loading = ref(false);
+const canceling = ref(null);
+const currentPage = ref(1);
+const pageSize = ref(10);
+const total = ref(0);
+const baseAPI = process.env.VUE_APP_BASE_API || "/api";
 
 // 获取用户收藏列表
 const fetchCollections = async () => {
-  loading.value = true
+  loading.value = true;
   try {
-    await request.get('/article/user/collects/page', {
-      currentPage: currentPage.value,
-      size: pageSize.value
-    }, {
-      showDefaultMsg: false,
-      onSuccess: (data) => {
-        collections.value = data.records
-        total.value = data.total
-      }
-    })
+    await request.get(
+      "/article/user/collects/page",
+      {
+        currentPage: currentPage.value,
+        size: pageSize.value,
+      },
+      {
+        showDefaultMsg: false,
+        onSuccess: (data) => {
+          collections.value = data.records;
+          total.value = data.total;
+        },
+      },
+    );
   } catch (error) {
-    console.error('获取收藏列表失败:', error)
+    console.error("获取收藏列表失败:", error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 // 取消收藏
 const cancelCollect = async (articleId) => {
-  ElMessageBox.confirm('确定要取消收藏该文章吗？', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  }).then(async () => {
-    canceling.value = articleId
-    try {
-      await request.post(`/article/${articleId}/collect`, {}, {
-        successMsg: '已取消收藏',
-        onSuccess: () => {
-          // 从列表中移除该文章
-          collections.value = collections.value.filter(item => item.id !== articleId)
-          // 如果当前页没有数据且不是第一页，则跳转到上一页
-          if (collections.value.length === 0 && currentPage.value > 1) {
-            currentPage.value--
-            fetchCollections()
-          }
-          // 更新总数
-          total.value--
-        }
-      })
-    } catch (error) {
-      console.error('取消收藏失败:', error)
-    } finally {
-      canceling.value = null
-    }
-  }).catch(() => {
-    // 用户取消操作
+  ElMessageBox.confirm("确定要取消收藏该文章吗？", "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
   })
-}
+    .then(async () => {
+      canceling.value = articleId;
+      try {
+        await request.post(
+          `/article/${articleId}/collect`,
+          {},
+          {
+            successMsg: "已取消收藏",
+            onSuccess: () => {
+              // 从列表中移除该文章
+              collections.value = collections.value.filter(
+                (item) => item.id !== articleId,
+              );
+              // 如果当前页没有数据且不是第一页，则跳转到上一页
+              if (collections.value.length === 0 && currentPage.value > 1) {
+                currentPage.value--;
+                fetchCollections();
+              }
+              // 更新总数
+              total.value--;
+            },
+          },
+        );
+      } catch (error) {
+        console.error("取消收藏失败:", error);
+      } finally {
+        canceling.value = null;
+      }
+    })
+    .catch(() => {
+      // 用户取消操作
+    });
+};
 
 // 获取图片URL
 const getImageUrl = (url) => {
-  if (!url) return ''
-  return baseAPI + url
-}
+  if (!url) return "";
+  return baseAPI + url;
+};
 
 onMounted(() => {
-  fetchCollections()
-})
+  fetchCollections();
+});
 </script>
 
 <style scoped>
@@ -200,7 +241,7 @@ h2 {
 }
 
 .article-title a:hover {
-  color: #409eff;
+  color: #59a6e6;
 }
 
 .article-summary {
@@ -249,4 +290,4 @@ h2 {
   display: flex;
   justify-content: center;
 }
-</style> 
+</style>

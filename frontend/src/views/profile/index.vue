@@ -6,7 +6,7 @@
           <h2>个人中心</h2>
         </div>
       </template>
-      
+
       <el-tabs v-model="activeTab" type="border-card">
         <!-- 基本信息 Tab -->
         <el-tab-pane label="个人资料" name="basic">
@@ -57,7 +57,9 @@
                 </el-form-item>
 
                 <el-form-item>
-                  <el-button type="primary" @click="submitUserInfo">保存修改</el-button>
+                  <el-button type="primary" @click="submitUserInfo"
+                    >保存修改</el-button
+                  >
                 </el-form-item>
               </el-form>
             </div>
@@ -99,7 +101,9 @@
             </el-form-item>
 
             <el-form-item>
-              <el-button type="primary" @click="submitPassword">修改密码</el-button>
+              <el-button type="primary" @click="submitPassword"
+                >修改密码</el-button
+              >
             </el-form-item>
           </el-form>
         </el-tab-pane>
@@ -115,23 +119,25 @@
             >
               <el-table-column prop="title" label="文章标题">
                 <template #default="{ row }">
-                  <router-link :to="`/article/${row.id}`">{{ row.title }}</router-link>
+                  <router-link :to="`/article/${row.id}`">{{
+                    row.title
+                  }}</router-link>
                 </template>
               </el-table-column>
-              
+
               <el-table-column prop="authorName" label="作者"></el-table-column>
-              
+
               <el-table-column prop="createTime" label="点赞时间">
                 <template #default="{ row }">
                   {{ formatDate(row.createTime) }}
                 </template>
               </el-table-column>
-              
+
               <el-table-column label="操作" width="150">
                 <template #default="{ row }">
-                  <el-button 
-                    size="small" 
-                    type="danger" 
+                  <el-button
+                    size="small"
+                    type="danger"
                     @click="cancelLike(row.id)"
                     :loading="cancelingLike === row.id"
                   >
@@ -140,7 +146,7 @@
                 </template>
               </el-table-column>
             </el-table>
-            
+
             <div class="pagination-container">
               <el-pagination
                 v-model:current-page="likesCurrentPage"
@@ -159,33 +165,64 @@
         <el-tab-pane label="我的收藏" name="collections">
           <div class="my-collections">
             <div v-loading="collectionsLoading">
-              <el-empty v-if="collections.length === 0" description="暂无收藏内容" />
-              
+              <el-empty
+                v-if="collections.length === 0"
+                description="暂无收藏内容"
+              />
+
               <div v-else class="collection-list">
-                <el-card v-for="item in collections" :key="item.id" class="collection-item">
+                <el-card
+                  v-for="item in collections"
+                  :key="item.id"
+                  class="collection-item"
+                >
                   <div class="article-info">
                     <div class="article-cover" v-if="item.coverImage">
-                      <el-image :src="getImageUrl(item.coverImage)" fit="cover" />
+                      <el-image
+                        :src="getImageUrl(item.coverImage)"
+                        fit="cover"
+                      />
                     </div>
                     <div class="article-content">
                       <h3 class="article-title">
-                        <router-link :to="`/article/${item.id}`">{{ item.title }}</router-link>
+                        <router-link :to="`/article/${item.id}`">{{
+                          item.title
+                        }}</router-link>
                       </h3>
-                      <div class="article-summary" v-if="item.summary">{{ item.summary }}</div>
+                      <div class="article-summary" v-if="item.summary">
+                        {{ item.summary }}
+                      </div>
                       <div class="article-meta">
-                        <span><el-icon><User /></el-icon> {{ item.authorName }}</span>
-                        <span><el-icon><Calendar /></el-icon> {{ formatDate(item.createTime) }}</span>
-                        <span><el-icon><View /></el-icon> {{ item.viewCount }} 阅读</span>
-                        <span><el-icon><ThumbsUp /></el-icon> {{ item.likeCount }} 点赞</span>
-                        <span><el-icon><ChatDotRound /></el-icon> {{ item.commentCount }} 评论</span>
+                        <span
+                          ><el-icon><User /></el-icon>
+                          {{ item.authorName }}</span
+                        >
+                        <span
+                          ><el-icon><Calendar /></el-icon>
+                          {{ formatDate(item.createTime) }}</span
+                        >
+                        <span
+                          ><el-icon><View /></el-icon>
+                          {{ item.viewCount }} 阅读</span
+                        >
+                        <span
+                          ><el-icon><ThumbsUp /></el-icon>
+                          {{ item.likeCount }} 点赞</span
+                        >
+                        <span
+                          ><el-icon><ChatDotRound /></el-icon>
+                          {{ item.commentCount }} 评论</span
+                        >
                       </div>
                     </div>
                   </div>
                   <div class="article-actions">
-                    <span class="collect-time">收藏于：{{ formatDate(item.collectTime) }}</span>
-                    <el-button 
-                      size="small" 
-                      type="danger" 
+                    <span class="collect-time"
+                      >收藏于：{{ formatDate(item.collectTime) }}</span
+                    >
+                    <el-button
+                      size="small"
+                      type="danger"
                       @click="cancelCollect(item.id)"
                       :loading="cancelingCollect === item.id"
                     >
@@ -194,7 +231,7 @@
                   </div>
                 </el-card>
               </div>
-              
+
               <!-- 分页 -->
               <div class="pagination-container" v-if="collectionsTotal > 0">
                 <el-pagination
@@ -220,24 +257,35 @@
               style="width: 100%"
               empty-text="暂无评论内容"
             >
-              <el-table-column prop="content" label="评论内容" min-width="300" show-overflow-tooltip>
+              <el-table-column
+                prop="content"
+                label="评论内容"
+                min-width="300"
+                show-overflow-tooltip
+              >
                 <template #default="{ row }">
                   <div class="comment-content">{{ row.content }}</div>
                 </template>
               </el-table-column>
-              
-              <el-table-column prop="articleTitle" label="文章标题" min-width="200">
+
+              <el-table-column
+                prop="articleTitle"
+                label="文章标题"
+                min-width="200"
+              >
                 <template #default="{ row }">
-                  <router-link :to="`/article/${row.articleId}`">{{ row.articleTitle }}</router-link>
+                  <router-link :to="`/article/${row.articleId}`">{{
+                    row.articleTitle
+                  }}</router-link>
                 </template>
               </el-table-column>
-              
+
               <el-table-column prop="createTime" label="评论时间" width="180">
                 <template #default="{ row }">
                   {{ formatDate(row.createTime) }}
                 </template>
               </el-table-column>
-              
+
               <el-table-column prop="status" label="状态" width="100">
                 <template #default="{ row }">
                   <el-tag :type="getStatusType(row.status)">
@@ -245,12 +293,12 @@
                   </el-tag>
                 </template>
               </el-table-column>
-              
+
               <el-table-column label="操作" width="100" fixed="right">
                 <template #default="{ row }">
-                  <el-button 
-                    size="small" 
-                    type="danger" 
+                  <el-button
+                    size="small"
+                    type="danger"
                     @click="deleteComment(row.id)"
                     :loading="deletingComment === row.id"
                   >
@@ -259,7 +307,7 @@
                 </template>
               </el-table-column>
             </el-table>
-            
+
             <div class="pagination-container">
               <el-pagination
                 v-model:current-page="commentsCurrentPage"
@@ -280,12 +328,18 @@
 
 <script setup>
 import { ref, reactive, computed, onMounted, watch } from "vue";
-import { useRoute } from 'vue-router';
+import { useRoute } from "vue-router";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { useUserStore } from "@/store/user";
 import request from "@/utils/request";
-import { User, Calendar, View, ThumbsUp, ChatDotRound } from '@element-plus/icons-vue';
-import DateUtils from '@/utils/dateUtils';
+import {
+  User,
+  Calendar,
+  View,
+  ThumbsUp,
+  ChatDotRound,
+} from "@element-plus/icons-vue";
+import DateUtils from "@/utils/dateUtils";
 
 const route = useRoute();
 const baseAPI = process.env.VUE_APP_BASE_API || "/api";
@@ -295,7 +349,7 @@ const activeTab = ref("basic");
 // 使用DateUtils格式化日期
 const formatDate = (date) => {
   return DateUtils.formatDateTime(date);
-}
+};
 
 // ===== 个人资料 =====
 // 表单引用
@@ -484,7 +538,7 @@ const updateUserAvatar = async (avatarPath) => {
           console.error("头像信息保存失败", error);
           ElMessage.error("头像信息保存失败");
         },
-      }
+      },
     );
   } catch (error) {
     console.error("头像信息保存失败", error);
@@ -527,9 +581,8 @@ const submitUserInfo = async () => {
           console.error("用户信息更新失败", error);
           ElMessage.error("用户信息更新失败");
         },
-      }
+      },
     );
-
   } catch (error) {
     console.error("保存个人信息失败", error);
     ElMessage.error("保存个人信息失败");
@@ -574,7 +627,7 @@ const submitPassword = async () => {
           console.error("密码信息保存失败", error);
           ElMessage.error("密码信息保存失败");
         },
-      }
+      },
     );
   } catch (error) {
     console.error("密码修改失败", error);
@@ -594,18 +647,22 @@ const likesTotal = ref(0);
 const fetchLikedArticles = async () => {
   likesLoading.value = true;
   try {
-    await request.get('/article/user/likes/page', {
-      currentPage: likesCurrentPage.value,
-      size: likesPageSize.value
-    }, {
-      showDefaultMsg: false,
-      onSuccess: (data) => {
-        likedArticles.value = data && data.records ? data.records : [];
-        likesTotal.value = data && data.total ? data.total : 0;
-      }
-    });
+    await request.get(
+      "/article/user/likes/page",
+      {
+        currentPage: likesCurrentPage.value,
+        size: likesPageSize.value,
+      },
+      {
+        showDefaultMsg: false,
+        onSuccess: (data) => {
+          likedArticles.value = data && data.records ? data.records : [];
+          likesTotal.value = data && data.total ? data.total : 0;
+        },
+      },
+    );
   } catch (error) {
-    console.error('获取点赞文章列表失败:', error);
+    console.error("获取点赞文章列表失败:", error);
     likedArticles.value = [];
     likesTotal.value = 0;
   } finally {
@@ -615,35 +672,46 @@ const fetchLikedArticles = async () => {
 
 // 取消点赞
 const cancelLike = async (articleId) => {
-  ElMessageBox.confirm('确定要取消点赞该文章吗?', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  }).then(async () => {
-    cancelingLike.value = articleId;
-    try {
-      await request.post(`/article/${articleId}/like`, {}, {
-        successMsg: '已取消点赞',
-        onSuccess: () => {
-          // 从列表中移除该文章
-          likedArticles.value = likedArticles.value.filter(item => item.id !== articleId);
-          // 如果当前页没有数据且不是第一页，则跳转到上一页
-          if (likedArticles.value.length === 0 && likesCurrentPage.value > 1) {
-            likesCurrentPage.value--;
-            fetchLikedArticles();
-          }
-          // 更新总数
-          likesTotal.value--;
-        }
-      });
-    } catch (error) {
-      console.error('取消点赞失败:', error);
-    } finally {
-      cancelingLike.value = null;
-    }
-  }).catch(() => {
-    // 用户取消操作
-  });
+  ElMessageBox.confirm("确定要取消点赞该文章吗?", "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
+  })
+    .then(async () => {
+      cancelingLike.value = articleId;
+      try {
+        await request.post(
+          `/article/${articleId}/like`,
+          {},
+          {
+            successMsg: "已取消点赞",
+            onSuccess: () => {
+              // 从列表中移除该文章
+              likedArticles.value = likedArticles.value.filter(
+                (item) => item.id !== articleId,
+              );
+              // 如果当前页没有数据且不是第一页，则跳转到上一页
+              if (
+                likedArticles.value.length === 0 &&
+                likesCurrentPage.value > 1
+              ) {
+                likesCurrentPage.value--;
+                fetchLikedArticles();
+              }
+              // 更新总数
+              likesTotal.value--;
+            },
+          },
+        );
+      } catch (error) {
+        console.error("取消点赞失败:", error);
+      } finally {
+        cancelingLike.value = null;
+      }
+    })
+    .catch(() => {
+      // 用户取消操作
+    });
 };
 
 // ===== 我的收藏 =====
@@ -658,18 +726,22 @@ const collectionsTotal = ref(0);
 const fetchCollections = async () => {
   collectionsLoading.value = true;
   try {
-    await request.get('/article/user/collects/page', {
-      currentPage: collectionsCurrentPage.value,
-      size: collectionsPageSize.value
-    }, {
-      showDefaultMsg: false,
-      onSuccess: (data) => {
-        collections.value = data && data.records ? data.records : [];
-        collectionsTotal.value = data && data.total ? data.total : 0;
-      }
-    });
+    await request.get(
+      "/article/user/collects/page",
+      {
+        currentPage: collectionsCurrentPage.value,
+        size: collectionsPageSize.value,
+      },
+      {
+        showDefaultMsg: false,
+        onSuccess: (data) => {
+          collections.value = data && data.records ? data.records : [];
+          collectionsTotal.value = data && data.total ? data.total : 0;
+        },
+      },
+    );
   } catch (error) {
-    console.error('获取收藏列表失败:', error);
+    console.error("获取收藏列表失败:", error);
     collections.value = [];
     collectionsTotal.value = 0;
   } finally {
@@ -679,40 +751,51 @@ const fetchCollections = async () => {
 
 // 取消收藏
 const cancelCollect = async (articleId) => {
-  ElMessageBox.confirm('确定要取消收藏该文章吗？', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  }).then(async () => {
-    cancelingCollect.value = articleId;
-    try {
-      await request.post(`/article/${articleId}/collect`, {}, {
-        successMsg: '已取消收藏',
-        onSuccess: () => {
-          // 从列表中移除该文章
-          collections.value = collections.value.filter(item => item.id !== articleId);
-          // 如果当前页没有数据且不是第一页，则跳转到上一页
-          if (collections.value.length === 0 && collectionsCurrentPage.value > 1) {
-            collectionsCurrentPage.value--;
-            fetchCollections();
-          }
-          // 更新总数
-          collectionsTotal.value--;
-        }
-      });
-    } catch (error) {
-      console.error('取消收藏失败:', error);
-    } finally {
-      cancelingCollect.value = null;
-    }
-  }).catch(() => {
-    // 用户取消操作
-  });
+  ElMessageBox.confirm("确定要取消收藏该文章吗？", "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
+  })
+    .then(async () => {
+      cancelingCollect.value = articleId;
+      try {
+        await request.post(
+          `/article/${articleId}/collect`,
+          {},
+          {
+            successMsg: "已取消收藏",
+            onSuccess: () => {
+              // 从列表中移除该文章
+              collections.value = collections.value.filter(
+                (item) => item.id !== articleId,
+              );
+              // 如果当前页没有数据且不是第一页，则跳转到上一页
+              if (
+                collections.value.length === 0 &&
+                collectionsCurrentPage.value > 1
+              ) {
+                collectionsCurrentPage.value--;
+                fetchCollections();
+              }
+              // 更新总数
+              collectionsTotal.value--;
+            },
+          },
+        );
+      } catch (error) {
+        console.error("取消收藏失败:", error);
+      } finally {
+        cancelingCollect.value = null;
+      }
+    })
+    .catch(() => {
+      // 用户取消操作
+    });
 };
 
 // 获取图片URL
 const getImageUrl = (url) => {
-  if (!url) return '';
+  if (!url) return "";
   return baseAPI + url;
 };
 
@@ -728,18 +811,22 @@ const commentsTotal = ref(0);
 const fetchComments = async () => {
   commentsLoading.value = true;
   try {
-    await request.get('/comment/user', {
-      currentPage: commentsCurrentPage.value,
-      size: commentsPageSize.value
-    }, {
-      showDefaultMsg: false,
-      onSuccess: (data) => {
-        comments.value = data && data.records ? data.records : [];
-        commentsTotal.value = data && data.total ? data.total : 0;
-      }
-    });
+    await request.get(
+      "/comment/user",
+      {
+        currentPage: commentsCurrentPage.value,
+        size: commentsPageSize.value,
+      },
+      {
+        showDefaultMsg: false,
+        onSuccess: (data) => {
+          comments.value = data && data.records ? data.records : [];
+          commentsTotal.value = data && data.total ? data.total : 0;
+        },
+      },
+    );
   } catch (error) {
-    console.error('获取评论列表失败:', error);
+    console.error("获取评论列表失败:", error);
     comments.value = [];
     commentsTotal.value = 0;
   } finally {
@@ -749,71 +836,83 @@ const fetchComments = async () => {
 
 // 删除评论
 const deleteComment = async (commentId) => {
-  ElMessageBox.confirm('确定要删除这条评论吗？', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  }).then(async () => {
-    deletingComment.value = commentId;
-    try {
-      await request.delete(`/comment/${commentId}`, {
-        successMsg: '评论删除成功',
-        onSuccess: () => {
-          // 从列表中移除该评论
-          comments.value = comments.value.filter(item => item.id !== commentId);
-          // 如果当前页没有数据且不是第一页，则跳转到上一页
-          if (comments.value.length === 0 && commentsCurrentPage.value > 1) {
-            commentsCurrentPage.value--;
-            fetchComments();
-          }
-          // 更新总数
-          commentsTotal.value--;
-        }
-      });
-    } catch (error) {
-      console.error('删除评论失败:', error);
-    } finally {
-      deletingComment.value = null;
-    }
-  }).catch(() => {
-    // 用户取消操作
-  });
+  ElMessageBox.confirm("确定要删除这条评论吗？", "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
+  })
+    .then(async () => {
+      deletingComment.value = commentId;
+      try {
+        await request.delete(`/comment/${commentId}`, {
+          successMsg: "评论删除成功",
+          onSuccess: () => {
+            // 从列表中移除该评论
+            comments.value = comments.value.filter(
+              (item) => item.id !== commentId,
+            );
+            // 如果当前页没有数据且不是第一页，则跳转到上一页
+            if (comments.value.length === 0 && commentsCurrentPage.value > 1) {
+              commentsCurrentPage.value--;
+              fetchComments();
+            }
+            // 更新总数
+            commentsTotal.value--;
+          },
+        });
+      } catch (error) {
+        console.error("删除评论失败:", error);
+      } finally {
+        deletingComment.value = null;
+      }
+    })
+    .catch(() => {
+      // 用户取消操作
+    });
 };
 
 // 获取状态类型
 const getStatusType = (status) => {
   switch (status) {
-    case 0: return 'warning';  // 待审核
-    case 1: return 'success';  // 已通过
-    case 2: return 'danger';   // 已拒绝
-    default: return 'info';
+    case 0:
+      return "warning"; // 待审核
+    case 1:
+      return "success"; // 已通过
+    case 2:
+      return "danger"; // 已拒绝
+    default:
+      return "info";
   }
 };
 
 // 获取状态文本
 const getStatusText = (status) => {
   switch (status) {
-    case 0: return '待审核';
-    case 1: return '已通过';
-    case 2: return '已拒绝';
-    default: return '未知';
+    case 0:
+      return "待审核";
+    case 1:
+      return "已通过";
+    case 2:
+      return "已拒绝";
+    default:
+      return "未知";
   }
 };
 
 // 监听标签页变化，加载对应数据
 watch(activeTab, (newTab) => {
-  switch(newTab) {
-    case 'likes':
+  switch (newTab) {
+    case "likes":
       if (likedArticles.value.length === 0) {
         fetchLikedArticles();
       }
       break;
-    case 'collections':
+    case "collections":
       if (collections.value.length === 0) {
         fetchCollections();
       }
       break;
-    case 'comments':
+    case "comments":
       if (comments.value.length === 0) {
         fetchComments();
       }
@@ -824,10 +923,13 @@ watch(activeTab, (newTab) => {
 // 组件挂载时获取用户信息
 onMounted(() => {
   getUserInfo();
-  
+
   // 根据URL参数切换标签页
   const tabParam = route.query.tab;
-  if (tabParam && ['basic', 'password', 'likes', 'collections', 'comments'].includes(tabParam)) {
+  if (
+    tabParam &&
+    ["basic", "password", "likes", "collections", "comments"].includes(tabParam)
+  ) {
     activeTab.value = tabParam;
   }
 });
@@ -939,7 +1041,7 @@ onMounted(() => {
 }
 
 .article-title a:hover {
-  color: #409eff;
+  color: #59a6e6;
 }
 
 .article-summary {
@@ -1013,4 +1115,4 @@ onMounted(() => {
 :deep(.el-tabs__header) {
   margin-bottom: 20px;
 }
-</style> 
+</style>

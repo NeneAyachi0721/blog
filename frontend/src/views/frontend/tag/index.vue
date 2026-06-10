@@ -392,7 +392,7 @@ const getImageUrl = (url) => {
 }
 
 .article-item:hover .article-title {
-  color: #409eff;
+  color: #59a6e6;
 }
 
 .article-summary {
@@ -423,7 +423,7 @@ const getImageUrl = (url) => {
 }
 
 .article-meta span:hover {
-  color: #409eff;
+  color: #59a6e6;
 }
 
 .article-meta .el-icon {

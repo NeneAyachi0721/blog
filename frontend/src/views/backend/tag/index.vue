@@ -7,13 +7,16 @@
           <el-button type="primary" @click="handleAdd">新增标签</el-button>
         </div>
       </template>
-      
+
       <el-table :data="tagList" style="width: 100%" v-loading="loading" border>
         <el-table-column prop="id" label="ID" width="80" />
         <el-table-column prop="name" label="标签名称" />
         <el-table-column label="标签颜色" width="120">
           <template #default="scope">
-            <div class="color-preview" :style="{ backgroundColor: scope.row.color }"></div>
+            <div
+              class="color-preview"
+              :style="{ backgroundColor: scope.row.color }"
+            ></div>
             <span>{{ scope.row.color }}</span>
           </template>
         </el-table-column>
@@ -21,7 +24,12 @@
         <el-table-column prop="createTime" label="创建时间" width="180" />
         <el-table-column label="操作" width="180" fixed="right">
           <template #default="scope">
-            <el-button type="primary" size="small" @click="handleEdit(scope.row)">编辑</el-button>
+            <el-button
+              type="primary"
+              size="small"
+              @click="handleEdit(scope.row)"
+              >编辑</el-button
+            >
             <el-popconfirm
               title="确定删除该标签吗？"
               @confirm="handleDelete(scope.row)"
@@ -35,14 +43,14 @@
         </el-table-column>
       </el-table>
     </el-card>
-    
+
     <!-- 标签表单对话框 -->
-    <el-dialog 
-      v-model="dialogVisible" 
+    <el-dialog
+      v-model="dialogVisible"
       :title="dialogType === 'add' ? '新增标签' : '编辑标签'"
       width="500px"
     >
-      <el-form 
+      <el-form
         ref="tagFormRef"
         :model="tagForm"
         :rules="tagRules"
@@ -66,134 +74,136 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
-import request from '@/utils/request'
-import { ElMessage } from 'element-plus'
+import { ref, reactive, onMounted } from "vue";
+import request from "@/utils/request";
+import { ElMessage } from "element-plus";
 
 // 加载状态
-const loading = ref(false)
+const loading = ref(false);
 // 标签列表
-const tagList = ref([])
+const tagList = ref([]);
 // 对话框可见性
-const dialogVisible = ref(false)
+const dialogVisible = ref(false);
 // 对话框类型（add / edit）
-const dialogType = ref('add')
+const dialogType = ref("add");
 // 表单引用
-const tagFormRef = ref(null)
+const tagFormRef = ref(null);
 // 表单数据
 const tagForm = reactive({
   id: null,
-  name: '',
-  color: '#409EFF'
-})
+  name: "",
+  color: "#59a6e6",
+});
 // 表单验证规则
 const tagRules = {
   name: [
-    { required: true, message: '请输入标签名称', trigger: 'blur' },
-    { min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur' }
+    { required: true, message: "请输入标签名称", trigger: "blur" },
+    { min: 1, max: 50, message: "长度在 1 到 50 个字符", trigger: "blur" },
   ],
-  color: [
-    { required: true, message: '请选择标签颜色', trigger: 'change' }
-  ]
-}
+  color: [{ required: true, message: "请选择标签颜色", trigger: "change" }],
+};
 
 // 初始化
 onMounted(() => {
-  fetchTagList()
-})
+  fetchTagList();
+});
 
 // 获取标签列表
 const fetchTagList = async () => {
-  loading.value = true
+  loading.value = true;
   try {
-    const res = await request.get('/tag', {}, {
-      showDefaultMsg: false,
-      onSuccess: (data) => {
-        tagList.value = data
-      }
-    })
+    const res = await request.get(
+      "/tag",
+      {},
+      {
+        showDefaultMsg: false,
+        onSuccess: (data) => {
+          tagList.value = data;
+        },
+      },
+    );
   } catch (error) {
-    console.error('获取标签列表失败:', error)
+    console.error("获取标签列表失败:", error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 // 重置表单
 const resetForm = () => {
-  tagForm.id = null
-  tagForm.name = ''
-  tagForm.color = '#409EFF'
-  
+  tagForm.id = null;
+  tagForm.name = "";
+  tagForm.color = "#59a6e6";
+
   if (tagFormRef.value) {
-    tagFormRef.value.resetFields()
+    tagFormRef.value.resetFields();
   }
-}
+};
 
 // 处理添加标签
 const handleAdd = () => {
-  dialogType.value = 'add'
-  resetForm()
-  dialogVisible.value = true
-}
+  dialogType.value = "add";
+  resetForm();
+  dialogVisible.value = true;
+};
 
 // 处理编辑标签
 const handleEdit = (row) => {
-  dialogType.value = 'edit'
-  resetForm()
-  
+  dialogType.value = "edit";
+  resetForm();
+
   // 填充表单数据
-  tagForm.id = row.id
-  tagForm.name = row.name
-  tagForm.color = row.color
-  
-  dialogVisible.value = true
-}
+  tagForm.id = row.id;
+  tagForm.name = row.name;
+  tagForm.color = row.color;
+
+  dialogVisible.value = true;
+};
 
 // 处理删除标签
 const handleDelete = async (row) => {
   try {
     await request.delete(`/tag/${row.id}`, {
-      successMsg: '删除成功',
+      successMsg: "删除成功",
       onSuccess: () => {
-        fetchTagList()
-      }
-    })
+        fetchTagList();
+      },
+    });
   } catch (error) {
-    console.error('删除标签失败:', error)
+    console.error("删除标签失败:", error);
   }
-}
+};
 
 // 提交表单
 const submitForm = () => {
   tagFormRef.value.validate(async (valid) => {
     if (valid) {
       try {
-        if (dialogType.value === 'add') {
+        if (dialogType.value === "add") {
           // 新增标签
-          await request.post('/tag', tagForm, {
-            successMsg: '添加成功',
+          await request.post("/tag", tagForm, {
+            successMsg: "添加成功",
             onSuccess: () => {
-              dialogVisible.value = false
-              fetchTagList()
-            }
-          })
+              dialogVisible.value = false;
+              fetchTagList();
+            },
+          });
         } else {
           // 更新标签
           await request.put(`/tag/${tagForm.id}`, tagForm, {
-            successMsg: '更新成功',
+            successMsg: "更新成功",
             onSuccess: () => {
-              dialogVisible.value = false
-              fetchTagList()
-            }
-          })
+              dialogVisible.value = false;
+              fetchTagList();
+            },
+          });
         }
       } catch (error) {
-        console.error('保存标签失败:', error)
+        console.error("保存标签失败:", error);
       }
     }
-  })
-}
+  });
+};
 </script>
 
 <style scoped>
@@ -363,4 +373,4 @@ const submitForm = () => {
   justify-content: flex-end;
   gap: 12px;
 }
-</style> 
+</style>

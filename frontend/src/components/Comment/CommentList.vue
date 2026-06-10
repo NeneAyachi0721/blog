@@ -1,7 +1,7 @@
 <template>
   <div class="comment-list-container">
     <h3 class="section-title">评论 ({{ total }})</h3>
-    
+
     <!-- 评论表单 -->
     <div class="comment-form">
       <el-input
@@ -12,61 +12,125 @@
         class="comment-textarea"
       />
       <div class="form-actions">
-        <el-button type="primary" @click="submitComment" :loading="submitting" class="submit-btn">发表评论</el-button>
+        <el-button
+          type="primary"
+          @click="submitComment"
+          :loading="submitting"
+          class="submit-btn"
+          >发表评论</el-button
+        >
       </div>
     </div>
-    
+
     <!-- 评论列表 -->
     <div class="comment-list" v-loading="loading">
-      <el-empty v-if="!comments || comments.length === 0" description="暂无评论" />
-      
-      <div v-else class="comment-item" v-for="comment in comments" :key="comment.id">
+      <el-empty
+        v-if="!comments || comments.length === 0"
+        description="暂无评论"
+      />
+
+      <div
+        v-else
+        class="comment-item"
+        v-for="comment in comments"
+        :key="comment.id"
+      >
         <div class="comment-avatar">
           <el-avatar :src="getAvatarUrl(comment.avatar)" :size="40"></el-avatar>
         </div>
         <div class="comment-content">
           <div class="comment-header">
-            <span class="comment-author">{{ comment.name || comment.username }}</span>
-            <span class="comment-time">{{ formatDate(comment.createTime) }}</span>
+            <span class="comment-author">{{
+              comment.name || comment.username
+            }}</span>
+            <span class="comment-time">{{
+              formatDate(comment.createTime)
+            }}</span>
           </div>
           <div class="comment-text">{{ comment.content }}</div>
           <div class="comment-actions">
-            <span class="action-btn" @click="showReplyForm(comment.id, comment.userId, comment.name || comment.username)">
+            <span
+              class="action-btn"
+              @click="
+                showReplyForm(
+                  comment.id,
+                  comment.userId,
+                  comment.name || comment.username,
+                )
+              "
+            >
               <el-icon><ChatDotRound /></el-icon> 回复
             </span>
-            <span class="action-btn" v-if="canDelete(comment.userId)" @click="deleteComment(comment.id)">
+            <span
+              class="action-btn"
+              v-if="canDelete(comment.userId)"
+              @click="deleteComment(comment.id)"
+            >
               <el-icon><Delete /></el-icon> 删除
             </span>
           </div>
-          
+
           <!-- 回复列表 -->
-          <div class="replies-list" v-if="comment.replies && Array.isArray(comment.replies) && comment.replies.length > 0">
-            <div class="reply-item" v-for="reply in comment.replies" :key="reply.id">
+          <div
+            class="replies-list"
+            v-if="
+              comment.replies &&
+              Array.isArray(comment.replies) &&
+              comment.replies.length > 0
+            "
+          >
+            <div
+              class="reply-item"
+              v-for="reply in comment.replies"
+              :key="reply.id"
+            >
               <div class="reply-avatar">
-                <el-avatar :src="getAvatarUrl(reply.avatar)" :size="32"></el-avatar>
+                <el-avatar
+                  :src="getAvatarUrl(reply.avatar)"
+                  :size="32"
+                ></el-avatar>
               </div>
               <div class="reply-content">
                 <div class="reply-header">
-                  <span class="reply-author">{{ reply.name || reply.username }}</span>
+                  <span class="reply-author">{{
+                    reply.name || reply.username
+                  }}</span>
                   <template v-if="reply.toUserId">
                     <span class="reply-to">回复</span>
-                    <span class="reply-to-author">{{ reply.toName || reply.toUsername }}</span>
+                    <span class="reply-to-author">{{
+                      reply.toName || reply.toUsername
+                    }}</span>
                   </template>
-                  <span class="reply-time">{{ formatDate(reply.createTime) }}</span>
+                  <span class="reply-time">{{
+                    formatDate(reply.createTime)
+                  }}</span>
                 </div>
                 <div class="reply-text">{{ reply.content }}</div>
                 <div class="reply-actions">
-                  <span class="action-btn" @click="showReplyForm(comment.id, reply.userId, reply.name || reply.username)">
+                  <span
+                    class="action-btn"
+                    @click="
+                      showReplyForm(
+                        comment.id,
+                        reply.userId,
+                        reply.name || reply.username,
+                      )
+                    "
+                  >
                     <el-icon><ChatDotRound /></el-icon> 回复
                   </span>
-                  <span class="action-btn" v-if="canDelete(reply.userId)" @click="deleteComment(reply.id)">
+                  <span
+                    class="action-btn"
+                    v-if="canDelete(reply.userId)"
+                    @click="deleteComment(reply.id)"
+                  >
                     <el-icon><Delete /></el-icon> 删除
                   </span>
                 </div>
               </div>
             </div>
           </div>
-          
+
           <!-- 回复表单 -->
           <div class="reply-form" v-if="replyInfo.parentId === comment.id">
             <el-input
@@ -77,14 +141,23 @@
               class="reply-textarea"
             />
             <div class="form-actions">
-              <el-button size="small" @click="cancelReply" class="cancel-btn">取消</el-button>
-              <el-button size="small" type="primary" @click="submitReply" :loading="submitting" class="reply-btn">回复</el-button>
+              <el-button size="small" @click="cancelReply" class="cancel-btn"
+                >取消</el-button
+              >
+              <el-button
+                size="small"
+                type="primary"
+                @click="submitReply"
+                :loading="submitting"
+                class="reply-btn"
+                >回复</el-button
+              >
             </div>
           </div>
         </div>
       </div>
     </div>
-    
+
     <!-- 分页 -->
     <div class="pagination-container" v-if="total > 0">
       <el-pagination
@@ -99,216 +172,222 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, defineProps, defineEmits } from 'vue'
-import { useUserStore } from '@/store/user'
-import request from '@/utils/request'
-import DateUtils from '@/utils/dateUtils'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { ChatDotRound, Delete } from '@element-plus/icons-vue'
+import { ref, computed, onMounted, defineProps, defineEmits } from "vue";
+import { useUserStore } from "@/store/user";
+import request from "@/utils/request";
+import DateUtils from "@/utils/dateUtils";
+import { ElMessage, ElMessageBox } from "element-plus";
+import { ChatDotRound, Delete } from "@element-plus/icons-vue";
 
 const props = defineProps({
   articleId: {
     type: [Number, String],
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
-const emit = defineEmits(['comment-added', 'comment-deleted'])
+const emit = defineEmits(["comment-added", "comment-deleted"]);
 
-const userStore = useUserStore()
-const baseAPI = process.env.VUE_APP_BASE_API || '/api'
+const userStore = useUserStore();
+const baseAPI = process.env.VUE_APP_BASE_API || "/api";
 
 // 状态变量
-const comments = ref([])
-const loading = ref(false)
-const submitting = ref(false)
-const total = ref(0)
-const currentPage = ref(1)
-const pageSize = ref(10)
-const commentContent = ref('')
+const comments = ref([]);
+const loading = ref(false);
+const submitting = ref(false);
+const total = ref(0);
+const currentPage = ref(1);
+const pageSize = ref(10);
+const commentContent = ref("");
 
 // 回复相关状态
 const replyInfo = ref({
   parentId: null,
   toUserId: null,
-  toUsername: '',
-  content: ''
-})
+  toUsername: "",
+  content: "",
+});
 
 // 使用DateUtils格式化日期
 const formatDate = (date) => {
   return DateUtils.formatDateTime(date);
-}
+};
 
 // 获取评论列表
 const fetchComments = async () => {
-  loading.value = true
+  loading.value = true;
   try {
-    await request.get(`/comment/article/${props.articleId}`, {
-      currentPage: currentPage.value,
-      size: pageSize.value
-    }, {
-      showDefaultMsg: false,
-      onSuccess: (data) => {
-        // 确保data.records存在，否则初始化为空数组
-        comments.value = data && data.records ? data.records : []
-        total.value = data && data.total ? data.total : 0
-      }
-    })
+    await request.get(
+      `/comment/article/${props.articleId}`,
+      {
+        currentPage: currentPage.value,
+        size: pageSize.value,
+      },
+      {
+        showDefaultMsg: false,
+        onSuccess: (data) => {
+          // 确保data.records存在，否则初始化为空数组
+          comments.value = data && data.records ? data.records : [];
+          total.value = data && data.total ? data.total : 0;
+        },
+      },
+    );
   } catch (error) {
-    console.error('获取评论失败:', error)
-    ElMessage.error('获取评论失败')
+    console.error("获取评论失败:", error);
+    ElMessage.error("获取评论失败");
     // 出错时初始化为空数组
-    comments.value = []
-    total.value = 0
+    comments.value = [];
+    total.value = 0;
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 // 提交评论
 const submitComment = async () => {
   if (!userStore.isLoggedIn) {
-    ElMessage.warning('请先登录再评论')
-    return
+    ElMessage.warning("请先登录再评论");
+    return;
   }
-  
+
   if (!commentContent.value.trim()) {
-    ElMessage.warning('评论内容不能为空')
-    return
+    ElMessage.warning("评论内容不能为空");
+    return;
   }
-  
-  submitting.value = true
+
+  submitting.value = true;
   try {
     const comment = {
       articleId: props.articleId,
       content: commentContent.value,
       parentId: 0,
-      toUserId: 0
-    }
-    
-    await request.post('/comment', comment, {
-      successMsg: '评论提交成功，等待审核',
+      toUserId: 0,
+    };
+
+    await request.post("/comment", comment, {
+      successMsg: "评论提交成功，等待审核",
       onSuccess: () => {
-        commentContent.value = ''
+        commentContent.value = "";
         // 刷新评论列表
-        fetchComments()
+        fetchComments();
         // 通知父组件评论已添加
-        emit('comment-added')
-      }
-    })
+        emit("comment-added");
+      },
+    });
   } catch (error) {
-    console.error('提交评论失败:', error)
+    console.error("提交评论失败:", error);
   } finally {
-    submitting.value = false
+    submitting.value = false;
   }
-}
+};
 
 // 显示回复表单
 const showReplyForm = (parentId, toUserId, toUsername) => {
   if (!userStore.isLoggedIn) {
-    ElMessage.warning('请先登录再回复')
-    return
+    ElMessage.warning("请先登录再回复");
+    return;
   }
-  
+
   replyInfo.value = {
     parentId,
     toUserId,
     toUsername,
-    content: ''
-  }
-}
+    content: "",
+  };
+};
 
 // 取消回复
 const cancelReply = () => {
   replyInfo.value = {
     parentId: null,
     toUserId: null,
-    toUsername: '',
-    content: ''
-  }
-}
+    toUsername: "",
+    content: "",
+  };
+};
 
 // 提交回复
 const submitReply = async () => {
   if (!replyInfo.value.content.trim()) {
-    ElMessage.warning('回复内容不能为空')
-    return
+    ElMessage.warning("回复内容不能为空");
+    return;
   }
-  
-  submitting.value = true
+
+  submitting.value = true;
   try {
     const comment = {
       articleId: props.articleId,
       content: replyInfo.value.content,
       parentId: replyInfo.value.parentId,
-      toUserId: replyInfo.value.toUserId
-    }
-    
-    await request.post('/comment', comment, {
-      successMsg: '回复提交成功，等待审核',
+      toUserId: replyInfo.value.toUserId,
+    };
+
+    await request.post("/comment", comment, {
+      successMsg: "回复提交成功，等待审核",
       onSuccess: () => {
-        cancelReply()
+        cancelReply();
         // 刷新评论列表
-        fetchComments()
+        fetchComments();
         // 通知父组件评论已添加
-        emit('comment-added')
-      }
-    })
+        emit("comment-added");
+      },
+    });
   } catch (error) {
-    console.error('提交回复失败:', error)
+    console.error("提交回复失败:", error);
   } finally {
-    submitting.value = false
+    submitting.value = false;
   }
-}
+};
 
 // 删除评论
 const deleteComment = async (commentId) => {
-  ElMessageBox.confirm('确定要删除这条评论吗？', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  }).then(async () => {
-    try {
-      await request.delete(`/comment/${commentId}`, {
-        successMsg: '评论删除成功',
-        onSuccess: () => {
-          // 刷新评论列表
-          fetchComments()
-          // 通知父组件评论已删除
-          emit('comment-deleted')
-        }
-      })
-    } catch (error) {
-      console.error('删除评论失败:', error)
-    }
-  }).catch(() => {
-    // 用户取消操作
+  ElMessageBox.confirm("确定要删除这条评论吗？", "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
   })
-}
+    .then(async () => {
+      try {
+        await request.delete(`/comment/${commentId}`, {
+          successMsg: "评论删除成功",
+          onSuccess: () => {
+            // 刷新评论列表
+            fetchComments();
+            // 通知父组件评论已删除
+            emit("comment-deleted");
+          },
+        });
+      } catch (error) {
+        console.error("删除评论失败:", error);
+      }
+    })
+    .catch(() => {
+      // 用户取消操作
+    });
+};
 
 // 处理分页变化
 const handlePageChange = (page) => {
-  currentPage.value = page
-  fetchComments()
-}
+  currentPage.value = page;
+  fetchComments();
+};
 
 // 获取头像URL
 const getAvatarUrl = (avatar) => {
-  if (!avatar) return baseAPI + '/img/avatar/default.png'
-  return baseAPI + avatar
-}
+  if (!avatar) return baseAPI + "/img/avatar/default.png";
+  return baseAPI + avatar;
+};
 
 // 判断当前用户是否可以删除评论
 const canDelete = (commentUserId) => {
-  if (!userStore.isLoggedIn) return false
+  if (!userStore.isLoggedIn) return false;
   // 管理员或评论作者可以删除
-  return userStore.isAdmin || userStore.userInfo.id === commentUserId
-}
+  return userStore.isAdmin || userStore.userInfo.id === commentUserId;
+};
 
 onMounted(() => {
-  fetchComments()
-})
+  fetchComments();
+});
 </script>
 
 <style scoped>
@@ -419,7 +498,7 @@ onMounted(() => {
 }
 
 .action-btn:hover {
-  color: #409eff;
+  color: #59a6e6;
 }
 
 .action-btn .el-icon {
@@ -497,7 +576,7 @@ onMounted(() => {
 .reply-form {
   margin: 15px 0;
   padding: 15px;
-  border-left: 2px solid #409eff;
+  border-left: 2px solid #59a6e6;
   background-color: #f9f9f9;
   border-radius: 0 6px 6px 0;
 }
@@ -506,7 +585,8 @@ onMounted(() => {
   border-radius: 6px;
 }
 
-.cancel-btn, .reply-btn {
+.cancel-btn,
+.reply-btn {
   border-radius: 20px;
   transition: all 0.2s;
 }
@@ -525,14 +605,14 @@ onMounted(() => {
   .comment-item {
     flex-direction: column;
   }
-  
+
   .comment-avatar {
     margin-bottom: 10px;
   }
-  
+
   .replies-list {
     margin-left: 10px;
     padding-left: 10px;
   }
 }
-</style> 
+</style>
