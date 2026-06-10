@@ -235,7 +235,7 @@ const getImageUrl = (url) => {
   color: #59a6e6;
   margin: 0;
   letter-spacing: 2px;
-  font-family: "Consolas", "Monaco", monospace;
+  font-family: "萝莉体 第二版", "Monaco", monospace;
   position: relative;
   display: inline-block;
   padding-bottom: 0;
