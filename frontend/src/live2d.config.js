@@ -3,7 +3,7 @@ import { createWidget } from "l2d-widget";
 export function initLive2D() {
   createWidget({
     model: {
-      path: "/models/NOIR/noir.model3.json",
+      path: "/static/models/NOIR/noir.model3.json",
       position: "left",
       width: 280,
       height: 250,

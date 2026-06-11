@@ -458,7 +458,7 @@ const getImageUrl = (url) => {
   //     rgba(234, 239, 244, 0.95) 0%,
   //     rgba(234, 239, 244, 0.98) 100%
   //   );
-  background-image: url("https://server.wallpaperalchemy.com/storage/wallpapers/620/hatsune-miku-thousand-year-crossing-anime-wallpaper.jpg");
+  background-image: url("@/assets/images/60141148_p0.png");
   background-size: cover;
   background-position: center;
   overflow: hidden;
