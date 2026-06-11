@@ -141,7 +141,7 @@ defineExpose({
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f8f9fa;
+  background-color: #eaeff4;
   position: relative;
   overflow: hidden;
 }
