@@ -772,16 +772,4 @@ const getImageUrl = (url) => {
     opacity: 0;
   }
 }
-
-/* 选中的标签 */
-:deep(.category-tag.el-tag--dark) {
-  background-color: #59a6e6;
-  color: #fff;
-}
-
-/* 未选中的标签 */
-:deep(.category-tag.el-tag--plain) {
-  background-color: #e3f1fd;
-  color: #3877ab;
-}
 </style>
