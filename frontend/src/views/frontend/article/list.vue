@@ -255,8 +255,8 @@ const searchArticles = async (search, page) => {
     await request.get("/article/search", params, {
       showDefaultMsg: false,
       onSuccess: (data) => {
-        articles.value = data.records;
-        total.value = data.total;
+        articles.value = data?.records || [];
+        total.value = data?.total || 0;
       },
     });
   } catch (error) {
