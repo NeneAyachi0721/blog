@@ -384,7 +384,7 @@ const handleCommentDeleted = () => {
 
 .article-content {
   margin-bottom: 40px;
-  border-bottom: 1px solid #e01818;
+  border-bottom: 1px solid #c7e2fa;
   padding-bottom: 40px;
 }
 
