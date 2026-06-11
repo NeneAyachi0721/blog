@@ -445,7 +445,7 @@ const getImageUrl = (url) => {
 /* 英雄区域 */
 .hero-section {
   width: 100%;
-  margin-bottom: 40px;
+  margin-bottom: 0;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -550,7 +550,8 @@ const getImageUrl = (url) => {
   display: flex;
   justify-content: center;
   gap: 30px;
-  padding: 50px 20px;
+  padding: 20px 20px 50px;
+//   margin-top: -20px;
   position: relative;
   z-index: 1;
   width: 100%;
@@ -929,6 +930,11 @@ const getImageUrl = (url) => {
 
 /* 响应式调整 */
 @media (max-width: 768px) {
+  .stat-card {
+    min-width: 0;
+    flex: 1;
+    padding: 20px 14px;
+  }
   .section-header {
     flex-direction: column;
     align-items: flex-start;
