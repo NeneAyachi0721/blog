@@ -384,7 +384,7 @@ const handleCommentDeleted = () => {
 
 .article-content {
   margin-bottom: 40px;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid #e01818;
   padding-bottom: 40px;
 }
 
@@ -538,7 +538,7 @@ const handleCommentDeleted = () => {
 }
 
 .related-item:hover .related-title {
-  color: #59a6e6;
+  color: #1878c6;
 }
 
 .related-meta {
