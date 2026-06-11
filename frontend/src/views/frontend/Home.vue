@@ -21,6 +21,46 @@
           <img :src="getImageUrl(item.cover)" alt="Recommend Article Cover" />
         </el-carousel-item>
       </el-carousel>
+
+      <!-- 波浪动画 -->
+      <div class="header-waves">
+        <svg
+          class="waves"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          viewBox="0 24 150 28"
+          preserveAspectRatio="none"
+          shape-rendering="auto"
+        >
+          <defs>
+            <path
+              id="gentle-wave"
+              d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+            />
+          </defs>
+          <g class="parallax">
+            <use
+              xlink:href="#gentle-wave"
+              x="48"
+              y="0"
+              fill="rgba(234,239,244,0.7)"
+            />
+            <use
+              xlink:href="#gentle-wave"
+              x="48"
+              y="3"
+              fill="rgba(234,239,244,0.5)"
+            />
+            <use
+              xlink:href="#gentle-wave"
+              x="48"
+              y="5"
+              fill="rgba(234,239,244,0.3)"
+            />
+            <use xlink:href="#gentle-wave" x="48" y="7" fill="#eaeff4" />
+          </g>
+        </svg>
+      </div>
     </div>
 
     <!-- 统计数字 -->
@@ -413,14 +453,15 @@ const getImageUrl = (url) => {
   text-align: center;
   position: relative;
   z-index: 1;
-//   background: linear-gradient(
-//     180deg,
-//     rgba(234, 239, 244, 0.95) 0%,
-//     rgba(234, 239, 244, 0.98) 100%
-//   );
+  //   background: linear-gradient(
+  //     180deg,
+  //     rgba(234, 239, 244, 0.95) 0%,
+  //     rgba(234, 239, 244, 0.98) 100%
+  //   );
   background-image: url("https://server.wallpaperalchemy.com/storage/wallpapers/620/hatsune-miku-thousand-year-crossing-anime-wallpaper.jpg");
   background-size: cover;
   background-position: center;
+  overflow: hidden;
 }
 
 .welcome-text {
@@ -941,6 +982,91 @@ const getImageUrl = (url) => {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* 波浪动画 */
+.header-waves {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  z-index: 5;
+  pointer-events: none;
+  isolation: isolate;
+  contain: layout style;
+  margin-bottom: -1px;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+.waves {
+  overflow: visible;
+  width: 100%;
+  height: 100%;
+  transform: translateZ(0);
+  will-change: transform;
+  contain: layout style;
+}
+
+.waves svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* 波浪动画 */
+.parallax {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.parallax use {
+  animation: mizuki-wave 25s cubic-bezier(0.5, 0.5, 0.45, 0.5) infinite;
+}
+
+.parallax use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 7s;
+}
+
+.parallax use:nth-child(2) {
+  animation-delay: -3s;
+  animation-duration: 10s;
+}
+
+.parallax use:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 13s;
+}
+
+.parallax use:nth-child(4) {
+  animation-delay: -5s;
+  animation-duration: 20s;
+}
+
+@keyframes mizuki-wave {
+  0% {
+    transform: translate3d(-90px, 0, 0);
+  }
+  100% {
+    transform: translate3d(85px, 0, 0);
+  }
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+  .header-waves {
+    height: 80px;
+  }
+
+  .waves svg {
+    min-height: 60px;
   }
 }
 </style>
