@@ -161,7 +161,7 @@ onMounted(() => {
   min-height: 100vh;
   background-color: #f8f9fa;
   position: relative;
-  overflow-x: hidden;
+//   overflow-x: hidden;
 }
 
 /* 背景装饰 */
