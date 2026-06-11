@@ -272,7 +272,7 @@ onMounted(() => {
 }
 
 .avatar {
-  border: 4px solid rgba(89, 166, 230, 0.2);
+  border: 4px solid rgba(227, 241, 253, 0.2);
   transition: transform 0.3s ease;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
