@@ -1527,7 +1527,7 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'admin', '$2a$10$Cc6gX7Jel5UtKreBdrY8SeRiqwqEuccdySNafjQRMtz30KE92sPaS', 'Sherry1318476070@gmail.com', '13502340721', 'ADMIN', '王可昕', '女', '/img/王可昕.png', 1, '2026-05-20 11:45:14', '2026-05-20 11:45:14');
+INSERT INTO `user` VALUES (1, 'admin', '$2a$10$Cc6gX7Jel5UtKreBdrY8SeRiqwqEuccdySNafjQRMtz30KE92sPaS', 'Sherry1318476070@gmail.com', '13502340721', 'ADMIN', '王可昕', '女', '/img/王可昕.jpg', 1, '2026-05-20 11:45:14', '2026-05-20 11:45:14');
 INSERT INTO `user` VALUES (2, 'AyachiNene', '$2a$10$Cc6gX7Jel5UtKreBdrY8SeRiqwqEuccdySNafjQRMtz30KE92sPaS', 'AyachiNene@gmail.com', '13502340721', 'USER', '绫地宁宁', '女', '/img/绫地宁宁.jpg', 1, '2026-05-20 11:45:14', '2026-05-20 11:45:14');
 INSERT INTO `user` VALUES (3, 'TomotakeYoshino', '$2a$10$Cc6gX7Jel5UtKreBdrY8SeRiqwqEuccdySNafjQRMtz30KE92sPaS', 'TomotakeYoshino@gmail.com', '13502340721', 'USER', '朝武芳乃', '女', '/img/朝武芳乃.jpg', 1, '2026-05-20 11:45:14', '2026-05-20 11:45:14');
 INSERT INTO `user` VALUES (4, 'HitachiMako', '$2a$10$Cc6gX7Jel5UtKreBdrY8SeRiqwqEuccdySNafjQRMtz30KE92sPaS', 'HitachiMako@gmail.com', '13502340721', 'USER', '常陆茉子', '女', '/img/常陆茉子.jpg', 1, '2026-05-20 11:45:14', '2026-05-20 11:45:14');
