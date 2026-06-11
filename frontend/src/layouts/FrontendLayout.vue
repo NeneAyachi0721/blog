@@ -6,7 +6,7 @@
       <div class="gradient-bg"></div>
 
       <!-- 几何装饰元素 -->
-      <div class="geometric-elements">
+      <!-- <div class="geometric-elements">
         <div class="geo-circle geo-circle-1"></div>
         <div class="geo-circle geo-circle-2"></div>
         <div class="geo-circle geo-circle-3"></div>
@@ -17,13 +17,13 @@
         <div class="geo-dot geo-dot-1"></div>
         <div class="geo-dot geo-dot-2"></div>
         <div class="geo-dot geo-dot-3"></div>
-      </div>
+      </div> -->
 
       <!-- 波浪效果 -->
-      <div class="wave-container">
+      <!-- <div class="wave-container">
         <div class="wave wave1"></div>
         <div class="wave wave2"></div>
-      </div>
+      </div> -->
     </div>
 
     <!-- 顶部导航栏 -->
