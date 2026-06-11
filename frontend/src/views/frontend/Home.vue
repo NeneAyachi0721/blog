@@ -590,7 +590,7 @@ const getImageUrl = (url) => {
     font-size: 2.5rem;
     font-weight: bold;
     color: #333;
-    font-family: "萝莉体 第二版", serif;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
     position: relative;
     padding-bottom: 10px;
 
