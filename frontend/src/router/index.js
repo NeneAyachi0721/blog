@@ -1,260 +1,257 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import { useUserStore } from '@/store/user'
-import BackendLayout from '@/layouts/BackendLayout.vue'
+import { createRouter, createWebHistory } from "vue-router";
+import { useUserStore } from "@/store/user";
+import BackendLayout from "@/layouts/BackendLayout.vue";
 
 // 后台路由
 export const backendRoutes = [
   {
-    path: '/back',
+    path: "/back",
     component: BackendLayout,
-    redirect: '/back/dashboard',
+    redirect: "/back/dashboard",
     children: [
       {
-        path: 'dashboard',
-        name: 'Dashboard',
-        component: () => import('@/views/backend/Dashboard.vue'),
-        meta: { title: '首页', icon: 'HomeFilled' }
+        path: "dashboard",
+        name: "Dashboard",
+        component: () => import("@/views/backend/Dashboard.vue"),
+        meta: { title: "首页", icon: "HomeFilled" },
       },
       {
-        path: 'user',
-        name: 'UserManagement',
-        component: () => import('@/views/backend/user/index.vue'),
-        meta: { title: '用户管理', icon: 'User' }
+        path: "user",
+        name: "UserManagement",
+        component: () => import("@/views/backend/user/index.vue"),
+        meta: { title: "用户管理", icon: "User" },
       },
       {
-        path: 'article',
-        name: 'ArticleManagement',
-        component: () => import('@/views/backend/article/index.vue'),
-        meta: { title: '文章管理', icon: 'Document' }
+        path: "article",
+        name: "ArticleManagement",
+        component: () => import("@/views/backend/article/index.vue"),
+        meta: { title: "文章管理", icon: "Document" },
       },
       {
-        path: 'article/create',
-        name: 'ArticleCreate',
-        component: () => import('@/views/backend/article/edit.vue'),
-        meta: { title: '写文章', activeMenu: '/back/article' },
-        hidden: true
+        path: "article/create",
+        name: "ArticleCreate",
+        component: () => import("@/views/backend/article/edit.vue"),
+        meta: { title: "写文章", activeMenu: "/back/article" },
+        hidden: true,
       },
       {
-        path: 'article/edit/:id',
-        name: 'ArticleEdit',
-        component: () => import('@/views/backend/article/edit.vue'),
-        meta: { title: '编辑文章', activeMenu: '/back/article' },
-        hidden: true
+        path: "article/edit/:id",
+        name: "ArticleEdit",
+        component: () => import("@/views/backend/article/edit.vue"),
+        meta: { title: "编辑文章", activeMenu: "/back/article" },
+        hidden: true,
       },
       {
-        path: 'category',
-        name: 'CategoryManagement',
-        component: () => import('@/views/backend/category/index.vue'),
-        meta: { title: '分类管理', icon: 'Folder' }
+        path: "category",
+        name: "CategoryManagement",
+        component: () => import("@/views/backend/category/index.vue"),
+        meta: { title: "分类管理", icon: "Folder" },
       },
       {
-        path: 'tag',
-        name: 'TagManagement',
-        component: () => import('@/views/backend/tag/index.vue'),
-        meta: { title: '标签管理', icon: 'Collection' }
+        path: "tag",
+        name: "TagManagement",
+        component: () => import("@/views/backend/tag/index.vue"),
+        meta: { title: "标签管理", icon: "Collection" },
       },
       {
-        path: 'comment',
-        name: 'CommentManagement',
-        component: () => import('@/views/backend/comment/index.vue'),
-        meta: { title: '评论管理', icon: 'ChatDotRound' }
+        path: "comment",
+        name: "CommentManagement",
+        component: () => import("@/views/backend/comment/index.vue"),
+        meta: { title: "评论管理", icon: "ChatDotRound" },
       },
       {
-        path: 'profile',
-        name: 'BackendProfile',
-        component: () => import('@/views/backend/user/PersonInfo.vue'),
-        meta: { title: '个人信息', icon: 'UserFilled' }
+        path: "profile",
+        name: "BackendProfile",
+        component: () => import("@/views/backend/user/PersonInfo.vue"),
+        meta: { title: "个人信息", icon: "UserFilled" },
       },
       // 系统设置路由
       {
-        path: 'system',
-        name: 'SystemSettings',
-        component: () => import('@/views/backend/system/index.vue'),
-        meta: { title: '系统设置', icon: 'Setting' },
+        path: "system",
+        name: "SystemSettings",
+        component: () => import("@/views/backend/system/index.vue"),
+        meta: { title: "系统设置", icon: "Setting" },
         children: [
           {
-            path: 'config',
-            name: 'BlogConfig',
-            component: () => import('@/views/backend/system/BlogConfig.vue'),
-            meta: { title: '博客设置', icon: 'DocumentChecked' }
+            path: "config",
+            name: "BlogConfig",
+            component: () => import("@/views/backend/system/BlogConfig.vue"),
+            meta: { title: "博客设置", icon: "DocumentChecked" },
           },
           {
-            path: 'friendLink',
-            name: 'FriendLinkManagement',
-            component: () => import('@/views/backend/system/FriendLink.vue'),
-            meta: { title: '友情链接', icon: 'Link' }
+            path: "friendLink",
+            name: "FriendLinkManagement",
+            component: () => import("@/views/backend/system/FriendLink.vue"),
+            meta: { title: "友情链接", icon: "Link" },
           },
           {
-            path: 'about',
-            name: 'AboutMe',
-            component: () => import('@/views/backend/system/AboutMe.vue'),
-            meta: { title: '关于我', icon: 'User' }
-          }
-        ]
-      }
-    ]
-  }
-]
+            path: "about",
+            name: "AboutMe",
+            component: () => import("@/views/backend/system/AboutMe.vue"),
+            meta: { title: "关于我", icon: "User" },
+          },
+        ],
+      },
+    ],
+  },
+];
 
 // 前台路由配置
 const frontendRoutes = [
   {
-    path: '/',
-    component: () => import('@/layouts/FrontendLayout.vue'),
+    path: "/",
+    component: () => import("@/layouts/FrontendLayout.vue"),
     children: [
       {
-        path: '',
-        name: 'Home',
-        component: () => import('@/views/frontend/Home.vue'),
-        meta: { title: '首页' }
+        path: "",
+        name: "Home",
+        component: () => import("@/views/frontend/Home.vue"),
+        meta: { title: "首页" },
       },
       {
-        path: 'article/:id',
-        name: 'ArticleDetail',
-        component: () => import('@/views/frontend/article/detail.vue'),
-        meta: { title: '文章详情' }
+        path: "article/:id",
+        name: "ArticleDetail",
+        component: () => import("@/views/frontend/article/detail.vue"),
+        meta: { title: "文章详情" },
       },
       {
-        path: 'category/:id',
-        name: 'CategoryArticles',
-        component: () => import('@/views/frontend/category/index.vue'),
-        meta: { title: '分类文章' }
+        path: "category/:id",
+        name: "CategoryArticles",
+        component: () => import("@/views/frontend/category/index.vue"),
+        meta: { title: "分类文章" },
       },
       {
-        path: 'tag/:id',
-        name: 'TagArticles',
-        component: () => import('@/views/frontend/tag/index.vue'),
-        meta: { title: '标签文章' }
+        path: "tag/:id",
+        name: "TagArticles",
+        component: () => import("@/views/frontend/tag/index.vue"),
+        meta: { title: "标签文章" },
       },
       {
-        path: 'articles',
-        name: 'ArticleList',
-        component: () => import('@/views/frontend/article/list.vue'),
-        meta: { title: '文章列表' }
+        path: "articles",
+        name: "ArticleList",
+        component: () => import("@/views/frontend/article/list.vue"),
+        meta: { title: "文章列表" },
       },
       {
-        path: 'profile',
-        name: 'Profile',
-        component: () => import('@/views/profile/index.vue'),
-        meta: { title: '个人中心', requiresAuth: true }
+        path: "profile",
+        name: "Profile",
+        component: () => import("@/views/profile/index.vue"),
+        meta: { title: "个人中心", requiresAuth: true },
       },
       {
-        path: 'friend-link',
-        name: 'FriendLink',
-        component: () => import('@/views/frontend/friendLink/FriendLink.vue'),
-        meta: { title: '友情链接' }
+        path: "friend-link",
+        name: "FriendLink",
+        component: () => import("@/views/frontend/friendLink/FriendLink.vue"),
+        meta: { title: "友情链接" },
       },
       {
-        path: 'about',
-        name: 'About',
-        component: () => import('@/views/frontend/About.vue'),
-        meta: { title: '关于我' }
-      }
-    ]
+        path: "about",
+        name: "About",
+        component: () => import("@/views/frontend/About.vue"),
+        meta: { title: "关于我" },
+      },
+    ],
   },
   {
-    path: '/login',
-    name: 'Login',
-    component: () => import('@/views/auth/Login.vue'),
-    meta: { title: '登录' }
+    path: "/login",
+    name: "Login",
+    component: () => import("@/views/auth/Login.vue"),
+    meta: { title: "登录" },
   },
   {
-    path: '/register',
-    name: 'Register',
-    component: () => import('@/views/auth/Register.vue'),
-    meta: { title: '注册' }
+    path: "/register",
+    name: "Register",
+    component: () => import("@/views/auth/Register.vue"),
+    meta: { title: "注册" },
   },
   {
-    path: '/forget',
-    name: 'ForgetPassword',
-    component: () => import('@/views/auth/ForgetPassword.vue'),
-    meta: { title: '忘记密码' }
-  }
-]
-
-
+    path: "/forget",
+    name: "ForgetPassword",
+    component: () => import("@/views/auth/ForgetPassword.vue"),
+    meta: { title: "忘记密码" },
+  },
+];
 
 // 错误页面路由
 const errorRoutes = [
   {
-    path: '/404',
-    name: '404',
-    component: () => import('@/views/error/404.vue'),
-    meta: { title: '404' }
+    path: "/404",
+    name: "404",
+    component: () => import("@/views/error/404.vue"),
+    meta: { title: "404" },
   },
   {
-    path: '/:pathMatch(.*)*',
-    redirect: '/404'
-  }
-]
+    path: "/:pathMatch(.*)*",
+    redirect: "/404",
+  },
+];
 
 // 路由配置
 const router = createRouter({
   history: createWebHistory(),
-  routes: [
-    ...frontendRoutes,
-    ...backendRoutes,
-    ...errorRoutes
-  ]
-})
+  routes: [...frontendRoutes, ...backendRoutes, ...errorRoutes],
+});
 
 // 路由守卫
 router.beforeEach((to, from, next) => {
   // 设置页面标题
   if (to.meta.title) {
-    document.title = `${to.meta.title} - 个人博客`
+    document.title = `${to.meta.title} - 个人博客`;
   }
 
-  const userStore = useUserStore()
-  console.log("Current route:", to.path)
+  const userStore = useUserStore();
+  console.log("Current route:", to.path);
   console.log("User status:", {
     isLoggedIn: userStore.isLoggedIn,
-    isUser: userStore.isUser
-  })
+    isUser: userStore.isUser,
+  });
 
   // 检查是否需要登录权限
-  if (to.matched.some(record => record.meta?.requiresAuth) && !userStore.isLoggedIn) {
+  if (
+    to.matched.some((record) => record.meta?.requiresAuth) &&
+    !userStore.isLoggedIn
+  ) {
     next({
-      path: '/login',
-      query: { redirect: to.fullPath }
-    })
-    return
+      path: "/login",
+      query: { redirect: to.fullPath },
+    });
+    return;
   }
 
   // 已登录用户的路由控制
   if (userStore.isLoggedIn) {
     // 处理登录页面访问
-    if (to.path === '/login') {
-      next(userStore.isUser ? '/' : '/back/dashboard')
-      return
+    if (to.path === "/login") {
+      next(userStore.isUser ? "/" : "/back/dashboard");
+      return;
     }
 
     if (!userStore.isUser) {
       // 非普通用户只能访问后台路由
-      if (to.path.startsWith('/back')) {
-        next()
+      if (to.path.startsWith("/back")) {
+        next();
       } else {
-        next('/back/dashboard')
+        next("/back/dashboard");
       }
-      return
+      return;
     } else {
       // 普通用户只能访问前台路由
-      if (to.path.startsWith('/back')) {
-        next('/')
+      if (to.path.startsWith("/back")) {
+        next("/");
       } else {
-        next()
+        next();
       }
-      return
+      return;
     }
   } else {
     // 未登录用户
-    if (to.path.startsWith('/back')) {
-      next('/login')
-      return
+    if (to.path.startsWith("/back")) {
+      next("/login");
+      return;
     }
   }
 
-  next()
-})
+  next();
+});
 
-export default router
+export default router;

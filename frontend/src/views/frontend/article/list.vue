@@ -517,22 +517,22 @@ const getImageUrl = (url) => {
 
 .search-input :deep(.el-input__wrapper) {
   border-radius: 8px 0 0 8px;
-  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   padding-left: 5px;
   transition: all 0.3s ease;
 }
 
 .search-input :deep(.el-input__wrapper:hover) {
-  /* box-shadow: 0 6px 16px rgba(64, 158, 255, 0.1); */
+  box-shadow: 0 6px 16px rgba(64, 158, 255, 0.1);
 }
 
 .search-input :deep(.el-input__wrapper.is-focus) {
-  /* box-shadow: 0 6px 16px rgba(64, 158, 255, 0.15); */
+  box-shadow: 0 6px 16px rgba(64, 158, 255, 0.15);
 }
 
 .search-input :deep(.el-input-group__append) {
   border-radius: 0 8px 8px 0;
-  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .search-icon {
@@ -546,7 +546,7 @@ const getImageUrl = (url) => {
   border-radius: 15px;
   padding: 15px 20px;
   margin-bottom: 30px;
-  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03); */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
 .filter-title {

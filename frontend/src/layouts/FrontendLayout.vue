@@ -4,26 +4,6 @@
     <div class="bg-decoration">
       <!-- 背景 -->
       <div class="gradient-bg"></div>
-
-      <!-- 几何装饰元素 -->
-      <!-- <div class="geometric-elements">
-        <div class="geo-circle geo-circle-1"></div>
-        <div class="geo-circle geo-circle-2"></div>
-        <div class="geo-circle geo-circle-3"></div>
-        <div class="geo-square"></div>
-        <div class="geo-triangle"></div>
-        <div class="geo-line geo-line-1"></div>
-        <div class="geo-line geo-line-2"></div>
-        <div class="geo-dot geo-dot-1"></div>
-        <div class="geo-dot geo-dot-2"></div>
-        <div class="geo-dot geo-dot-3"></div>
-      </div> -->
-
-      <!-- 波浪效果 -->
-      <!-- <div class="wave-container">
-        <div class="wave wave1"></div>
-        <div class="wave wave2"></div>
-      </div> -->
     </div>
 
     <!-- 顶部导航栏 -->
@@ -161,7 +141,6 @@ onMounted(() => {
   min-height: 100vh;
   background-color: #f8f9fa;
   position: relative;
-//   overflow-x: hidden;
 }
 
 /* 背景装饰 */
@@ -184,156 +163,6 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   background: #eaeff4;
-}
-
-/* 几何装饰元素 */
-.geometric-elements {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-}
-
-.geo-circle {
-  position: absolute;
-  border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.geo-circle-1 {
-  width: 300px;
-  height: 300px;
-  top: 10%;
-  right: -100px;
-}
-
-.geo-circle-2 {
-  width: 200px;
-  height: 200px;
-  bottom: 20%;
-  left: -50px;
-}
-
-.geo-circle-3 {
-  width: 150px;
-  height: 150px;
-  top: 40%;
-  left: 30%;
-  border-style: dashed;
-}
-
-.geo-square {
-  position: absolute;
-  width: 100px;
-  height: 100px;
-  bottom: 15%;
-  right: 20%;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  transform: rotate(25deg);
-}
-
-.geo-triangle {
-  position: absolute;
-  width: 0;
-  height: 0;
-  top: 25%;
-  left: 15%;
-  border-left: 50px solid transparent;
-  border-right: 50px solid transparent;
-  border-bottom: 86px solid rgba(0, 0, 0, 0.03);
-}
-
-.geo-line {
-  position: absolute;
-  background: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0.03),
-    rgba(0, 0, 0, 0.06),
-    rgba(0, 0, 0, 0.03)
-  );
-  height: 1px;
-}
-
-.geo-line-1 {
-  width: 400px;
-  top: 35%;
-  right: 10%;
-  transform: rotate(30deg);
-}
-
-.geo-line-2 {
-  width: 300px;
-  bottom: 30%;
-  left: 5%;
-  transform: rotate(-15deg);
-}
-
-.geo-dot {
-  position: absolute;
-  border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.06);
-}
-
-.geo-dot-1 {
-  width: 10px;
-  height: 10px;
-  top: 20%;
-  left: 25%;
-}
-
-.geo-dot-2 {
-  width: 15px;
-  height: 15px;
-  top: 60%;
-  right: 15%;
-}
-
-.geo-dot-3 {
-  width: 8px;
-  height: 8px;
-  bottom: 25%;
-  left: 40%;
-}
-
-/* 波浪效果 */
-.wave-container {
-  position: absolute;
-  width: 100%;
-  height: 100px;
-  top: 50%;
-  left: 0;
-  opacity: 0.3;
-}
-
-.wave {
-  position: absolute;
-  width: 200%;
-  height: 100%;
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(0,0,0,0.05)" fill-opacity="1" d="M0,192L60,186.7C120,181,240,171,360,181.3C480,192,600,224,720,224C840,224,960,192,1080,176C1200,160,1320,160,1380,160L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg>')
-    repeat-x;
-  background-size: 1440px 100px;
-}
-
-.wave1 {
-  animation: wave 30s linear infinite;
-  z-index: 1;
-  opacity: 0.7;
-}
-
-.wave2 {
-  animation: wave 15s linear reverse infinite;
-  z-index: 2;
-  opacity: 0.5;
-}
-
-@keyframes wave {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
 }
 
 /* 顶部导航栏 */

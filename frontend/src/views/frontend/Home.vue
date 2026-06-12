@@ -453,11 +453,6 @@ const getImageUrl = (url) => {
   text-align: center;
   position: relative;
   z-index: 1;
-  //   background: linear-gradient(
-  //     180deg,
-  //     rgba(234, 239, 244, 0.95) 0%,
-  //     rgba(234, 239, 244, 0.98) 100%
-  //   );
   background-image: url("@/assets/images/60141148_p0.png");
   background-size: cover;
   background-position: center;
@@ -545,13 +540,85 @@ const getImageUrl = (url) => {
   }
 }
 
+/* 波浪动画 */
+.header-waves {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  z-index: 5;
+  pointer-events: none;
+  isolation: isolate;
+  contain: layout style;
+  margin-bottom: -1px;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+.waves {
+  overflow: visible;
+  width: 100%;
+  height: 100%;
+  transform: translateZ(0);
+  will-change: transform;
+  contain: layout style;
+}
+
+.waves svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.parallax {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.parallax use {
+  animation: mizuki-wave 25s cubic-bezier(0.5, 0.5, 0.45, 0.5) infinite;
+}
+
+.parallax use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 7s;
+}
+
+.parallax use:nth-child(2) {
+  animation-delay: -3s;
+  animation-duration: 10s;
+}
+
+.parallax use:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 13s;
+}
+
+.parallax use:nth-child(4) {
+  animation-delay: -5s;
+  animation-duration: 20s;
+}
+
+@keyframes mizuki-wave {
+  0% {
+    transform: translate3d(-90px, 0, 0);
+  }
+  100% {
+    transform: translate3d(85px, 0, 0);
+  }
+}
+
 /* 统计卡片 */
 .stats-section {
   display: flex;
   justify-content: center;
   gap: 30px;
   padding: 20px 20px 50px;
-//   margin-top: -20px;
   position: relative;
   z-index: 1;
   width: 100%;
@@ -606,6 +673,7 @@ const getImageUrl = (url) => {
   font-weight: bold;
   margin-bottom: 0.5rem;
   background: linear-gradient(120deg, #59a6e6, #c7e2fa);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -826,7 +894,7 @@ const getImageUrl = (url) => {
 /* 分类和标签区域 */
 .taxonomy-section {
   padding: 40px;
-  // background: linear-gradient(180deg, #f8f9fa 0%, #fff 100%);
+  background: transparent;
 }
 
 .categories-container {
@@ -988,91 +1056,6 @@ const getImageUrl = (url) => {
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-/* 波浪动画 */
-.header-waves {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 150px;
-  z-index: 5;
-  pointer-events: none;
-  isolation: isolate;
-  contain: layout style;
-  margin-bottom: -1px;
-  will-change: transform;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-}
-
-.waves {
-  overflow: visible;
-  width: 100%;
-  height: 100%;
-  transform: translateZ(0);
-  will-change: transform;
-  contain: layout style;
-}
-
-.waves svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-
-/* 波浪动画 */
-.parallax {
-  will-change: transform;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-
-.parallax use {
-  animation: mizuki-wave 25s cubic-bezier(0.5, 0.5, 0.45, 0.5) infinite;
-}
-
-.parallax use:nth-child(1) {
-  animation-delay: -2s;
-  animation-duration: 7s;
-}
-
-.parallax use:nth-child(2) {
-  animation-delay: -3s;
-  animation-duration: 10s;
-}
-
-.parallax use:nth-child(3) {
-  animation-delay: -4s;
-  animation-duration: 13s;
-}
-
-.parallax use:nth-child(4) {
-  animation-delay: -5s;
-  animation-duration: 20s;
-}
-
-@keyframes mizuki-wave {
-  0% {
-    transform: translate3d(-90px, 0, 0);
-  }
-  100% {
-    transform: translate3d(85px, 0, 0);
-  }
-}
-
-/* 移动端优化 */
-@media (max-width: 768px) {
-  .header-waves {
-    height: 80px;
-  }
-
-  .waves svg {
-    min-height: 60px;
   }
 }
 </style>

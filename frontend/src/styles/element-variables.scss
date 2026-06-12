@@ -1,41 +1,27 @@
 /* 只需要重写你需要的即可 */
-@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+@forward "element-plus/theme-chalk/src/common/var.scss" with (
   $colors: (
+    "primary": (
+      // 'base': #5cb5ec,
+    ),
 
-  'primary': (
+    "success": (
+      "base": #8db596,
+    ),
 
-    // 'base': #5cb5ec,
+    "warning": (
+      "base": #f4b393,
+    ),
 
-  ),
+    "danger": (
+      "base": #e8998d,
+    ),
 
-  'success': (
-
-    'base': #8DB596,
-
-  ),
-
-  'warning': (
-
-    'base': #F4B393,
-
-  ),
-
-  'danger': (
-
-    'base': #E8998D,
-
-  ),
-
-  'info': (
-
-    'base': #A1A9B7,
-
+    "info": (
+      "base": #a1a9b7,
+    ),
   )
-
-),
-
 );
-
 
 @use "element-plus/theme-chalk/src/index.scss" as *;
 
@@ -47,12 +33,12 @@
     box-shadow: none !important;
   }
 }
-.el-select{
+.el-select {
   width: 150px !important;
 }
 
 // // 如果需要，可以在最后添加额外的 switch 样式覆盖
- .el-switch__core .el-switch__action{
+.el-switch__core .el-switch__action {
   border-radius: 50% !important;
 }
 
@@ -66,23 +52,21 @@
 
 // 添加对话框样式覆盖
 .el-dialog {
-
-  
   .el-dialog__header {
     margin: 0;
     padding: 20px 24px;
     border-bottom: 1px solid #ebeef5;
-    
+
     .el-dialog__title {
       font-size: 16px;
       font-weight: 600;
     }
   }
-  
+
   .el-dialog__body {
     padding: 24px;
   }
-  
+
   .el-dialog__footer {
     padding: 16px 24px;
     border-top: 1px solid #ebeef5;
@@ -94,14 +78,14 @@
   // 表单项样式
   .el-form-item {
     margin-bottom: 24px;
-    
+
     // 表单标签样式
     .el-form-item__label {
       font-weight: 500;
       color: #333;
       padding-bottom: 8px;
     }
-    
+
     // 错误提示样式
     .el-form-item__error {
       padding-top: 4px;
@@ -114,16 +98,16 @@
   .el-input__wrapper {
     box-shadow: 0 0 0 1px #dcdfe6 inset;
     transition: all 0.2s;
-    
+
     &:hover {
-      box-shadow: 0 0 0 1px #2B5BA1 inset;
+      box-shadow: 0 0 0 1px #2b5ba1 inset;
     }
-    
+
     &.is-focus {
-      box-shadow: 0 0 0 1px #2B5BA1 inset !important;
+      box-shadow: 0 0 0 1px #2b5ba1 inset !important;
     }
   }
-  
+
   // 禁用状态样式
   &.is-disabled .el-input__wrapper {
     background-color: #f5f7fa;
@@ -140,5 +124,5 @@
 
 // 必填星号样式
 .el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:before {
-  color: #F56C6C;
+  color: #f56c6c;
 }

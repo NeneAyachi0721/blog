@@ -2,7 +2,7 @@ import { createApp } from "vue";
 import { createPinia } from "pinia";
 import App from "./App.vue";
 import router from "./router";
-// 导入 Element Plus
+// 导入Element Plus
 import ElementPlus from "element-plus";
 // 导入自定义主题色配置
 import "./styles/element-variables.scss";
@@ -11,7 +11,7 @@ import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import "./assets/global.css";
 // 中文
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
-// 导入Live2D 配置
+// 导入Live2D配置
 import { initLive2D } from "./live2d.config";
 
 // 添加全局错误处理器来抑制ResizeObserver警告

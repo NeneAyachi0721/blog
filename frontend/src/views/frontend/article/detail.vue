@@ -556,7 +556,8 @@ const handleCommentDeleted = () => {
 
 /* 富文本编辑器内容样式 */
 :deep(.rich-text-content) {
-  /* font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif; */
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+    sans-serif;
   font-size: 16px;
   line-height: 1.5;
   color: #333;
@@ -601,7 +602,11 @@ const handleCommentDeleted = () => {
 :deep(.rich-text-content h5):hover,
 :deep(.rich-text-content h6):hover {
   transform: translateX(5px);
-  background: linear-gradient(135deg, rgba(32, 160, 255, 0.15) 0%, rgba(32, 160, 255, 0.1) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(32, 160, 255, 0.15) 0%,
+    rgba(32, 160, 255, 0.1) 100%
+  );
   box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.08);
 }
 
