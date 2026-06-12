@@ -1356,7 +1356,7 @@ INSERT INTO `blog_config` VALUES (4, 'blog_footer', 'Copyright © 2026 个人博
 INSERT INTO `blog_config` VALUES (8, 'about_name', '王可昕', '2026-05-20 11:45:14', '2026-05-20 11:45:14');
 INSERT INTO `blog_config` VALUES (9, 'about_job', '学生', '2026-05-20 11:45:14', '2026-05-20 11:45:14');
 INSERT INTO `blog_config` VALUES (10, 'about_intro', '北邮世纪软工1班学生', '2026-05-20 11:45:14', '2026-05-20 11:45:14');
-INSERT INTO `blog_config` VALUES (11, 'about_content', 'INTP / ACG / LOL / 单机 / 高达 / 蝴蝶刀 / 911 GT3 RS / Ninja400', '2026-05-20 11:45:14', '2026-05-20 11:45:14');
+INSERT INTO `blog_config` VALUES (11, 'about_content', 'INTP / ACG / LOL / 单机 / 高达 / 蝴蝶刀 / 911 GT3 RS / Ninja 400', '2026-05-20 11:45:14', '2026-05-20 11:45:14');
 INSERT INTO `blog_config` VALUES (12, 'social_github', 'https://github.com/NeneAyachi0721', '2026-05-20 11:45:14', '2026-05-20 11:45:14');
 INSERT INTO `blog_config` VALUES (13, 'social_bilibili', 'https://space.bilibili.com/436646687', '2026-05-20 11:45:14', '2026-05-20 11:45:14');
 INSERT INTO `blog_config` VALUES (14, 'social_steam', 'https://steamcommunity.com/profiles/76561199568695173', '2026-05-20 11:45:14', '2026-05-20 11:45:14');
