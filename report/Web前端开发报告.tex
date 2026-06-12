@@ -1,0 +1,1151 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{ctex}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{setspace}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, shapes.misc, arrows.meta, positioning, fit, backgrounds}
+
+% TikZ flowchart styles
+\tikzset{
+    base/.style = {draw, align=center, minimum height=1cm, minimum width=2.5cm},
+    terminal/.style = {base, rounded rectangle, fill=green!20},
+    process/.style = {base, rectangle, fill=blue!15},
+    decision/.style = {base, diamond, aspect=2, fill=yellow!20},
+    io/.style = {base, trapezium, trapezium left angle=70, trapezium right angle=110, fill=purple!15},
+    arrow/.style = {->, thick, >=Stealth},
+    doc/.style = {base, rectangle, draw=black!60, fill=white, double copy shadow={shadow xshift=-1mm, shadow yshift=1mm, fill=gray!20}}
+}
+
+% Define colors
+\definecolor{codebg}{RGB}{245,245,245}
+\definecolor{codecmt}{RGB}{0,128,0}
+\definecolor{codekey}{RGB}{0,0,255}
+\definecolor{codestr}{RGB}{163,21,21}
+\definecolor{titleblue}{RGB}{15,52,96}
+\definecolor{subtitleblue}{RGB}{22,33,62}
+\definecolor{accentblue}{RGB}{79,172,254}
+
+% Page geometry
+\geometry{top=2.5cm, bottom=2.5cm, left=3cm, right=2.5cm}
+
+% Line spacing
+\onehalfspacing
+
+% Header and footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{\small Web前端开发项目报告 - 个人博客系统}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Code listing style
+\lstset{
+    language={}, basicstyle=\ttfamily\small,
+    basicstyle=\ttfamily\small,
+    backgroundcolor=\color{codebg},
+    frame=single,
+    framerule=0pt,
+    rulecolor=\color{codebg},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=2,
+    showstringspaces=false,
+    keywordstyle=\color{codekey},
+    commentstyle=\color{codecmt},
+    stringstyle=\color{codestr},
+    aboveskip=10pt,
+    belowskip=10pt,
+    xleftmargin=2em,
+    framexleftmargin=1em,
+    framextopmargin=5pt,
+    framexbottommargin=5pt,
+}
+
+% Section formatting
+\titleformat{\section}{\Large\bfseries\color{titleblue}\heiti}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries\color{subtitleblue}\heiti}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{black!70}\heiti}{\thesubsubsection}{1em}{}
+
+\begin{document}
+
+% ========== Cover ==========
+\begin{titlepage}
+\begin{tikzpicture}[remember picture, overlay]
+    \fill[titleblue] (current page.south west) rectangle (current page.north east);
+    \fill[subtitleblue, opacity=0.5] (current page.south west) rectangle ++(21cm, 3cm);
+    \foreach \i in {1,...,50} {
+        \pgfmathsetmacro{\x}{rand*21}
+        \pgfmathsetmacro{\y}{rand*29.7}
+        \pgfmathsetmacro{\o}{rnd*0.3+0.1}
+        \fill[white, opacity=\o] (\x,\y) circle (1pt);
+    }
+\end{tikzpicture}
+\vspace*{4cm}
+\begin{center}
+    {\fontsize{22}{26}\selectfont\heiti\color{white} 项\ 目\ 报\ 告}\par\vspace{1cm}
+    {\fontsize{36}{44}\selectfont\heiti\color{accentblue} Web前端开发}\par\vspace{0.8cm}
+    {\fontsize{28}{34}\selectfont\heiti\color{white} 个人博客系统}\par\vspace{4cm}
+    {\large\color{white}\kaishu
+    \begin{tabular}{rl}
+        专\qquad 业：& 软件工程 \\
+        班\qquad 级：& 24软工1班 \\
+        学\qquad 号：& xxxxxx \\
+        姓\qquad 名：& xxx \\
+        指导教师：& 冯新元 \\
+    \end{tabular}\par\vspace{2cm}
+    2026年6月20日\par}
+\end{center}
+\end{titlepage}
+
+% ========== TOC ==========
+\newpage
+\tableofcontents
+\newpage
+
+% ========== Chapter 1 ==========
+\section{设计概述}
+
+\subsection{设计目的}
+
+本项目旨在设计并实现一个功能完备、界面美观的个人博客系统。通过该项目的开发，深入实践Vue3前端框架的核心技术，包括组件化开发、响应式数据绑定、路由管理、状态管理等，同时掌握前后端分离架构下的前端开发流程。
+
+具体设计目的包括：全面检验对Vue3课程中基础理论知识的理解与掌握情况，如Vue3的响应式原理、Composition API、组件化开发、状态管理（Pinia）、路由导航（Vue Router）等核心知识点；培养将Vue3知识与其他前端技术（HTML、CSS、JavaScript、Axios等）综合运用的能力；通过设计并开发具有实际功能的前端项目，提升综合应用与创新能力；深入理解前后端分离架构的设计思想，掌握与后端RESTful API接口的联调方法。
+
+本博客系统采用Vue3作为前端框架，Element Plus作为UI组件库，实现了用户认证、文章管理、分类标签、评论互动、友情链接、后台管理等核心功能。前端通过Axios与Spring Boot后端进行数据交互，采用JWT Token实现身份认证，Markdown编辑器支持富文本文章发布，ECharts实现数据可视化展示。
+
+\subsection{需求分析}
+
+根据项目要求，本博客系统需要满足以下功能需求和样式需求：
+
+\subsubsection{功能需求}
+
+系统包含前台展示功能和后台管理功能两大模块。前台展示功能包括：博客首页展示（最新文章列表、热门推荐、置顶文章）、文章浏览详情（支持Markdown渲染、点赞、收藏）、评论互动系统（支持多级评论回复）、分类与标签筛选、全文搜索、友情链接展示、关于我页面。
+
+用户认证功能包括：用户注册（用户名、密码、邮箱）、用户登录（JWT Token认证）、忘记密码重置。后台管理功能包括：仪表盘数据统计（ECharts可视化图表）、文章管理（发布、编辑、删除、Markdown编辑器）、分类管理、标签管理、评论审核、用户管理、系统设置。
+
+\subsubsection{样式需求}
+
+页面设计需满足以下样式需求：包含Logo和主题展示区；导航栏带下拉列表（二级菜单）；搜索栏支持关键词搜索；展示区包含文本、图像、列表、表格、表单、控件等多媒体元素；底部包含友情链接、联系方式、版权信息。页面布局采用响应式设计，适配不同屏幕尺寸的设备。
+
+整体配色以深色为主调，搭配亮蓝色作为强调色，营造科技感和专业感。采用卡片式布局，圆角设计，阴影效果增强层次感。
+
+\subsubsection{页面流程图}
+
+系统的页面流程如图\ref{fig:flowchart}所示。用户访问博客首页后，可通过导航栏访问文章列表、分类、标签、关于我等页面。已登录用户可发表评论、点赞、收藏文章，并进入个人中心管理资料。管理员可进入后台管理系统，进行文章发布、评论审核、用户管理等操作。
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    node distance=1.8cm and 2.5cm,
+    auto,
+    font=\small
+]
+    \node[terminal] (start) {用户访问};
+    \node[process, below=of start] (home) {博客首页};
+    \node[process, right=of home] (article) {文章浏览};
+    \node[process, left=of home] (category) {分类/标签};
+    \node[process, below=of home] (auth) {登录/注册};
+    \node[decision, right=of auth] (islogin) {已登录?};
+    \node[process, right=of islogin] (comment) {评论互动};
+    \node[process, below=of auth] (profile) {个人中心};
+    \node[decision, left=of profile] (isadmin) {管理员?};
+    \node[process, left=of isadmin] (backend) {后台管理};
+    \node[terminal, below=of profile] (end) {退出};
+    
+    \draw[arrow] (start) -- (home);
+    \draw[arrow] (home) -- (article);
+    \draw[arrow] (home) -- (category);
+    \draw[arrow] (home) -- (auth);
+    \draw[arrow] (auth) -- (islogin);
+    \draw[arrow] (islogin) -- node {是} (comment);
+    \draw[arrow] (islogin) -- node {否} (profile);
+    \draw[arrow] (comment) -- (profile);
+    \draw[arrow] (profile) -- (isadmin);
+    \draw[arrow] (isadmin) -- node {是} (backend);
+    \draw[arrow] (isadmin) -- node {否} (end);
+    \draw[arrow] (backend) -- (end);
+\end{tikzpicture}
+\caption{系统页面流程图}
+\label{fig:flowchart}
+\end{figure}
+
+% ========== Chapter 2 ==========
+\section{技术简介}
+
+\subsection{开发工具介绍}
+
+\subsubsection{Visual Studio Code}
+
+Visual Studio Code（简称VS Code）是微软开发的一款轻量级但功能强大的源代码编辑器。它支持多种编程语言，拥有丰富的插件生态系统。在本项目中，VS Code作为主要的前端开发工具，配合Vetur插件提供Vue单文件组件的语法高亮、智能提示、代码格式化等功能，极大地提升了开发效率。
+
+\subsubsection{Node.js}
+
+Node.js是一个基于Chrome V8引擎的JavaScript运行时环境。本项目使用Node.js 22+版本，用于运行前端开发服务器、构建生产环境代码以及管理项目依赖。npm（Node Package Manager）作为Node.js的包管理工具，用于安装Vue CLI、Element Plus等前端依赖库。
+
+\subsubsection{Vue CLI}
+
+Vue CLI是Vue.js官方提供的脚手架工具，用于快速搭建Vue项目。本项目使用@vue/cli 5.0版本创建项目骨架，内置了Babel转译器、ESLint代码检查、开发服务器热更新等功能。
+
+\subsubsection{Maven}
+
+Maven是Java项目的构建和依赖管理工具。本项目的Spring Boot后端使用Maven 3.9+进行构建管理。
+
+\subsubsection{MySQL}
+
+MySQL 8.0+是本项目使用的开源关系型数据库管理系统，用于存储用户信息、文章内容、分类标签、评论数据等核心数据。
+
+\subsection{关键技术介绍}
+
+\subsubsection{Vue 3 框架}
+
+Vue 3是渐进式JavaScript框架Vue.js的第三个主要版本。相比Vue 2，Vue 3引入了多项重要改进：采用Proxy实现更强大的响应式系统；Composition API提供了更灵活的逻辑复用方式；性能优化使得渲染速度提升1.3-2倍；更完善的TypeScript支持。本项目采用Vue 3.2版本，使用Composition API组织组件逻辑。
+
+\subsubsection{Vue Router 4}
+
+Vue Router是Vue.js官方的路由管理库。Vue Router 4专为Vue 3设计，支持组合式API。本项目使用Vue Router实现前端页面的路由导航，包括：声明式路由配置、嵌套路由、动态路由、路由守卫、路由懒加载。
+
+\subsubsection{Pinia 状态管理}
+
+Pinia是Vue 3官方推荐的状态管理库，作为Vuex的继任者。Pinia具有更简洁的API设计，更好的TypeScript支持，更轻量的体积。本项目使用Pinia 3管理全局状态。
+
+\subsubsection{Element Plus}
+
+Element Plus是基于Vue 3的组件库，是Element UI的升级版。提供了丰富的UI组件，包括按钮、表单、表格、对话框、菜单、分页等。本项目使用Element Plus 2.9版本作为UI基础。
+
+\subsubsection{Axios HTTP客户端}
+
+Axios是一个基于Promise的HTTP客户端，用于浏览器和Node.js环境。本项目使用Axios 1.7版本与后端RESTful API进行数据交互。
+
+\subsubsection{ECharts 数据可视化}
+
+ECharts是百度开源的数据可视化库。本项目在后台仪表盘使用ECharts 5.6展示博客核心数据统计。
+
+\subsubsection{Markdown编辑器}
+
+本项目集成了md-editor-v3和mavon-editor两款Markdown编辑器，分别用于文章展示和文章编辑。
+
+\subsubsection{Sass预处理器}
+
+Sass是一种CSS预处理器，提供变量、嵌套、混合、继承等功能。本项目使用Sass编写组件样式。
+
+
+% ========== Chapter 3 ==========
+\section{设计步骤}
+
+\subsection{项目架构设计}
+
+本项目采用前后端分离架构，前端基于Vue 3框架，后端基于Spring Boot框架。
+
+\subsubsection{项目目录结构}
+
+前端项目采用模块化的目录组织方式，主要目录包括：
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{src/api/} -- 封装Axios请求，按模块组织API接口
+    \item \textbf{src/assets/} -- 存放静态资源文件（图片、字体、全局样式）
+    \item \textbf{src/components/} -- 可复用的公共组件
+    \item \textbf{src/layouts/} -- 页面布局组件（前台/后台）
+    \item \textbf{src/router/} -- Vue Router路由配置
+    \item \textbf{src/store/} -- Pinia状态管理
+    \item \textbf{src/styles/} -- 全局样式文件
+    \item \textbf{src/utils/} -- 工具函数
+    \item \textbf{src/views/} -- 页面视图组件，按功能模块分组
+\end{itemize}
+
+\subsubsection{路由配置}
+
+路由配置采用模块化设计，将前台路由、后台路由分别定义。关键代码如下：
+
+\begin{lstlisting}[language={}, caption=路由配置代码]
+// router/index.js
+import { createRouter, createWebHistory } from 'vue-router'
+import { useUserStore } from '@/store/user'
+import BackendLayout from '@/layouts/BackendLayout.vue'
+
+// 后台路由
+export const backendRoutes = [
+  {
+    path: '/back',
+    component: BackendLayout,
+    redirect: '/back/dashboard',
+    children: [
+      {
+        path: 'dashboard',
+        name: 'Dashboard',
+        component: () => import('@/views/backend/Dashboard.vue'),
+        meta: { title: '首页', icon: 'HomeFilled' }
+      },
+      {
+        path: 'article',
+        name: 'ArticleManagement',
+        component: () => import('@/views/backend/article/index.vue'),
+        meta: { title: '文章管理', icon: 'Document' }
+      }
+    ]
+  }
+]
+
+// 路由守卫
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore()
+  if (to.path.startsWith('/back') && !userStore.token) {
+    next('/login')
+  } else {
+    next()
+  }
+})
+\end{lstlisting}
+
+\subsubsection{状态管理设计}
+
+使用Pinia进行全局状态管理，定义了多个Store模块：userStore管理用户登录状态；appStore管理应用级状态；articleStore管理文章相关状态。
+
+\subsection{头部与导航栏设计}
+
+头部导航栏是博客系统的重要组成部分，包含Logo、主导航菜单、搜索栏、用户操作入口等元素。
+
+\subsubsection{头部布局设计}
+
+头部采用固定定位（position: fixed）始终显示在页面顶部，高度为60px，背景色为半透明深色配合backdrop-filter毛玻璃效果。
+
+\subsubsection{导航菜单实现}
+
+导航菜单使用Element Plus的el-menu组件，支持二级下拉菜单。菜单项包括：首页、文章（下拉展开分类列表）、分类、标签、友情链接、关于。当前路由对应的菜单项高亮显示。
+
+\begin{lstlisting}[language={}, basicstyle=\ttfamily\small, caption=头部导航组件代码]
+<template>
+  <header class="app-header" :class="{ scrolled: isScrolled }">
+    <div class="header-content">
+      <router-link to="/" class="logo">
+        <img src="@/assets/logo.png" alt="logo" />
+        <span class="site-name">个人博客</span>
+      </router-link>
+      <el-menu :default-active="activeIndex" mode="horizontal" router
+        background-color="transparent" text-color="#fff"
+        active-text-color="#4facfe">
+        <el-menu-item index="/">
+          <el-icon><HomeFilled /></el-icon>首页
+        </el-menu-item>
+        <el-sub-menu index="/article">
+          <template #title>
+            <el-icon><Document /></el-icon>文章
+          </template>
+          <el-menu-item v-for="cat in categories" :key="cat.id"
+            :index="`/category/${cat.id}`">{{ cat.name }}</el-menu-item>
+        </el-sub-menu>
+      </el-menu>
+      <div class="search-box">
+        <el-input v-model="searchKeyword" placeholder="搜索文章..."
+          @keyup.enter="handleSearch" />
+      </div>
+    </div>
+  </header>
+</template>
+\end{lstlisting}
+
+\subsubsection{滚动效果实现}
+
+通过监听窗口滚动事件，当滚动距离超过50px时为头部添加scrolled类名，改变背景透明度。使用lodash的throttle函数进行节流处理。
+
+\begin{lstlisting}[language={}, caption=滚动监听代码]
+// 滚动监听
+import { ref, onMounted, onUnmounted } from 'vue'
+import { throttle } from 'lodash'
+
+const isScrolled = ref(false)
+const handleScroll = throttle(() => {
+  isScrolled.value = window.scrollY > 50
+}, 100)
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
+\end{lstlisting}
+
+\subsection{首页设计}
+
+首页是博客系统的门面，需要展示博客的核心内容并给用户留下良好的第一印象。
+
+\subsubsection{英雄区域（Hero Section）}
+
+页面顶部为英雄区域，包含全屏的3D视差背景动画和欢迎文字。背景使用CSS动画创建50个浮动粒子效果，营造科技感。欢迎文字使用打字机效果逐字显示博客名称和副标题。右侧使用Element Plus的el-carousel轮播组件展示推荐文章封面图。底部使用SVG绘制三层波浪动画，实现平滑的过渡效果。
+
+\begin{lstlisting}[language={}, basicstyle=\ttfamily\small, caption=英雄区域代码]
+<template>
+  <div class="home-container">
+    <div class="parallax-background">
+      <div class="particle" v-for="n in 50" :key="n"></div>
+    </div>
+    <div class="hero-section">
+      <div class="welcome-text">
+        <h1 class="typewriter">{{ displayText }}</h1>
+        <p class="subtitle">{{ subtitle }}</p>
+      </div>
+      <el-carousel height="450px" indicator-position="none"
+        arrow="never" class="hero-carousel">
+        <el-carousel-item v-for="item in recommendArticles" :key="item.id">
+          <img :src="getImageUrl(item.cover)" alt="Cover" />
+        </el-carousel-item>
+      </el-carousel>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+const displayText = ref('')
+const fullText = '欢迎来到我的个人博客'
+
+onMounted(() => {
+  let index = 0
+  const timer = setInterval(() => {
+    if (index < fullText.length) {
+      displayText.value += fullText[index]
+      index++
+    } else {
+      clearInterval(timer)
+    }
+  }, 150)
+})
+</script>
+\end{lstlisting}
+
+\subsubsection{粒子动画CSS实现}
+
+粒子动画使用纯CSS实现，通过为每个粒子设置随机的位置、大小、动画延迟和持续时间，营造星空般的视觉效果。
+
+\begin{lstlisting}[language={}, caption=粒子动画CSS代码]
+/* 粒子动画样式 */
+.parallax-background {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  z-index: -1;
+}
+
+.particle {
+  position: absolute;
+  width: 2px; height: 2px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 50%;
+  animation: float linear infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+}
+\end{lstlisting}
+
+\subsubsection{文章列表展示}
+
+首页主体区域展示最新文章列表，采用卡片式布局。每篇文章卡片包含封面图、标题、摘要、作者、发布时间、浏览量、分类标签等信息。使用CSS Grid布局实现自适应的列数。
+
+\begin{lstlisting}[language={}, basicstyle=\ttfamily\small, caption=文章列表组件代码]
+<template>
+  <div class="article-section">
+    <h2 class="section-title">最新文章</h2>
+    <div class="article-grid">
+      <article-card
+        v-for="article in articleList"
+        :key="article.id"
+        :article="article"
+        @click="$router.push(`/article/${article.id}`)"
+      />
+    </div>
+    <el-pagination
+      v-model:current-page="pageNum"
+      v-model:page-size="pageSize"
+      :total="total"
+      :page-sizes="[9, 12, 15, 18]"
+      layout="total, sizes, prev, pager, next, jumper"
+    />
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import { getArticleList } from '@/api/article'
+
+const articleList = ref([])
+const pageNum = ref(1)
+const pageSize = ref(9)
+const total = ref(0)
+
+const fetchArticles = async () => {
+  const res = await getArticleList({
+    pageNum: pageNum.value,
+    pageSize: pageSize.value
+  })
+  articleList.value = res.data.list
+  total.value = res.data.total
+}
+onMounted(fetchArticles)
+</script>
+\end{lstlisting}
+
+\subsubsection{文章卡片组件}
+
+ArticleCard是一个可复用的组件，接收article对象作为props，展示文章的缩略信息。卡片采用圆角矩形设计，图片区域占高度的60\%，信息区域占40\%。
+
+\begin{lstlisting}[language={}, basicstyle=\ttfamily\small, caption=文章卡片组件代码]
+<template>
+  <div class="article-card" :class="{ featured: article.isTop }">
+    <div class="card-image">
+      <img :src="getImageUrl(article.cover)" :alt="article.title" />
+      <span v-if="article.isTop" class="badge top">置顶</span>
+      <span v-if="article.isRecommend" class="badge recommend">推荐</span>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">{{ article.title }}</h3>
+      <p class="card-summary">{{ article.summary }}</p>
+      <div class="card-meta">
+        <span><el-icon><User /></el-icon>{{ article.authorName }}</span>
+        <span><el-icon><Clock /></el-icon>{{ formatDate(article.createTime) }}</span>
+        <span><el-icon><View /></el-icon>{{ article.viewCount }}</span>
+      </div>
+      <div class="card-tags">
+        <el-tag v-for="tag in article.tagList" :key="tag.id"
+          size="small" effect="plain">{{ tag.name }}</el-tag>
+      </div>
+    </div>
+  </div>
+</template>
+\end{lstlisting}
+
+\subsection{文章浏览页设计}
+
+文章详情页是博客最核心的页面，需要优雅地展示文章内容并提供良好的阅读体验。
+
+\subsubsection{页面布局}
+
+文章详情页采用左右两栏布局。左侧为主内容区（占8/12宽度），包含文章标题、元信息、正文内容、标签、点赞收藏按钮、评论区。右侧为侧边栏（占4/12宽度），包含作者信息卡片、目录导航、相关文章推荐。
+
+\subsubsection{Markdown渲染}
+
+文章内容使用Markdown格式存储，前台展示时使用md-editor-v3的预览组件进行渲染。支持代码高亮、表格、图片、数学公式等Markdown语法。
+
+\begin{lstlisting}[language={}, basicstyle=\ttfamily\small, caption=文章详情页代码]
+<template>
+  <div class="article-detail">
+    <div class="content-wrapper">
+      <main class="main-content">
+        <div class="article-header">
+          <h1 class="article-title">{{ article.title }}</h1>
+          <div class="article-meta">
+            <img :src="article.authorAvatar" class="author-avatar" />
+            <span>{{ article.authorName }}</span>
+            <el-icon><Clock /></el-icon>
+            <span>{{ formatDate(article.createTime) }}</span>
+            <el-icon><View /></el-icon>
+            <span>{{ article.viewCount }}次浏览</span>
+          </div>
+        </div>
+        <md-preview :modelValue="article.content" preview-only />
+        <div class="article-tags">
+          <el-tag v-for="tag in article.tagList" :key="tag.id">
+            {{ tag.name }}</el-tag>
+        </div>
+        <div class="article-actions">
+          <el-button :type="isLiked ? 'danger' : 'default'"
+            @click="handleLike">
+            <el-icon><Pointer /></el-icon>{{ article.likeCount }} 点赞
+          </el-button>
+          <el-button :type="isCollected ? 'primary' : 'default'"
+            @click="handleCollect">
+            <el-icon><Star /></el-icon>{{ article.collectCount }} 收藏
+          </el-button>
+        </div>
+        <comment-list :article-id="articleId" :comments="comments" />
+      </main>
+      <aside class="sidebar">
+        <author-card :author="article.author" />
+        <toc-nav :content="article.content" />
+      </aside>
+    </div>
+  </div>
+</template>
+\end{lstlisting}
+
+\subsubsection{目录导航组件}
+
+目录导航组件（TOC）自动解析文章中的标题标签（h1-h4），生成可点击的目录树。使用Intersection Observer API监听标题元素的可见性，高亮当前阅读的章节。
+
+\begin{lstlisting}[language={}, caption=目录导航组件代码]
+// TocNav.vue - 目录导航
+import { ref, onMounted } from 'vue'
+import MarkdownIt from 'markdown-it'
+
+const tocItems = ref([])
+const activeId = ref('')
+
+const generateToc = (markdown) => {
+  const md = new MarkdownIt()
+  const tokens = md.parse(markdown, {})
+  const headings = []
+  tokens.forEach((token, i) => {
+    if (token.type === 'heading_open') {
+      const level = parseInt(token.tag[1])
+      const content = tokens[i + 1].content
+      headings.push({ level, content, id: `h-${i}` })
+    }
+  })
+  tocItems.value = headings
+}
+
+onMounted(() => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        activeId.value = entry.target.id
+      }
+    })
+  }, { rootMargin: '-100px 0px -60% 0px' })
+  document.querySelectorAll('h1, h2, h3, h4').forEach(h => {
+    observer.observe(h)
+  })
+})
+\end{lstlisting}
+
+\subsubsection{评论系统设计}
+
+评论系统支持多级嵌套回复。数据库采用自关联表结构（parent\_id字段），前端通过递归组件渲染嵌套评论树。
+
+\begin{lstlisting}[language={}, basicstyle=\ttfamily\small, caption=递归评论组件代码]
+<template>
+  <div class="comment-section">
+    <h3>评论 ({{ total }})</h3>
+    <div v-if="isLoggedIn" class="comment-input">
+      <el-input v-model="commentContent" type="textarea"
+        :rows="3" placeholder="写下你的评论..." />
+      <el-button type="primary" @click="submitComment">发表评论</el-button>
+    </div>
+    <div class="comment-list">
+      <comment-item v-for="comment in commentTree" :key="comment.id"
+        :comment="comment" @reply="handleReply" />
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue'
+const props = defineProps({ comments: Array })
+const commentTree = computed(() => {
+  const map = {}
+  const roots = []
+  props.comments.forEach(c => { map[c.id] = { ...c, children: [] } })
+  props.comments.forEach(c => {
+    if (c.parentId && map[c.parentId]) {
+      map[c.parentId].children.push(map[c.id])
+    } else { roots.push(map[c.id]) }
+  })
+  return roots
+})
+</script>
+\end{lstlisting}
+
+
+\subsection{用户认证设计}
+
+用户认证是博客系统的基础功能，包括注册、登录、登出、权限控制等功能。
+
+\subsubsection{登录页面设计}
+
+登录页面采用居中卡片布局，背景为动态粒子效果。卡片内包含用户名输入框、密码输入框、验证码输入框、记住我选项和登录按钮。表单验证使用Element Plus的rules配置，在提交前进行前端校验。
+
+\begin{lstlisting}[language={}, basicstyle=\ttfamily\small, caption=登录页面代码]
+<template>
+  <div class="auth-page">
+    <div class="auth-card">
+      <h2>{{ isLogin ? '用户登录' : '注册账号' }}</h2>
+      <el-form :model="form" :rules="rules" ref="formRef"
+        @keyup.enter="handleSubmit">
+        <el-form-item prop="username">
+          <el-input v-model="form.username" placeholder="用户名"
+            :prefix-icon="User" size="large" />
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input v-model="form.password" type="password"
+            placeholder="密码" :prefix-icon="Lock" size="large" show-password />
+        </el-form-item>
+        <el-form-item prop="captcha">
+          <div class="captcha-row">
+            <el-input v-model="form.captcha" placeholder="验证码"
+              size="large" style="flex: 1" />
+            <img :src="captchaUrl" @click="refreshCaptcha" class="captcha-img" />
+          </div>
+        </el-form-item>
+        <el-button type="primary" size="large" :loading="loading"
+          @click="handleSubmit">{{ isLogin ? '登 录' : '注 册' }}</el-button>
+      </el-form>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/store/user'
+
+const router = useRouter()
+const userStore = useUserStore()
+const form = reactive({
+  username: '', password: '', captcha: '', remember: false
+})
+const rules = {
+  username: [
+    { required: true, message: '请输入用户名', trigger: 'blur' },
+    { min: 3, max: 20, message: '长度3-20个字符', trigger: 'blur' }
+  ],
+  password: [
+    { required: true, message: '请输入密码', trigger: 'blur' },
+    { min: 6, message: '密码至少6位', trigger: 'blur' }
+  ]
+}
+const handleSubmit = async () => {
+  await formRef.value.validate()
+  const res = await login(form)
+  userStore.setToken(res.data.token)
+  userStore.setUserInfo(res.data.userInfo)
+  router.push('/')
+}
+</script>
+\end{lstlisting}
+
+\subsubsection{Pinia用户状态管理}
+
+使用Pinia管理用户登录状态，包括token存储、用户信息、登录登出操作。通过localStorage持久化存储token，实现刷新页面后保持登录状态。
+
+\begin{lstlisting}[language={}, caption=Pinia用户状态管理代码]
+// store/user.js
+import { defineStore } from 'pinia'
+import { ref, computed } from 'vue'
+
+export const useUserStore = defineStore('user', () => {
+  const token = ref(localStorage.getItem('token') || '')
+  const userInfo = ref(null)
+  const isLoggedIn = computed(() => !!token.value)
+  const isAdmin = computed(() => userInfo.value?.role === 'ADMIN')
+
+  const setToken = (newToken) => {
+    token.value = newToken
+    localStorage.setItem('token', newToken)
+  }
+  const setUserInfo = (info) => { userInfo.value = info }
+  const logout = () => {
+    token.value = ''
+    userInfo.value = null
+    localStorage.removeItem('token')
+  }
+  return {
+    token, userInfo, isLoggedIn, isAdmin,
+    setToken, setUserInfo, logout
+  }
+})
+\end{lstlisting}
+
+\subsubsection{Axios请求拦截器}
+
+在Axios请求拦截器中统一添加JWT Token到请求头，在响应拦截器中处理401未授权错误。
+
+\begin{lstlisting}[language={}, caption=Axios封装代码]
+// utils/request.js - Axios封装
+import axios from 'axios'
+import { useUserStore } from '@/store/user'
+
+const request = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+  timeout: 10000
+})
+
+request.interceptors.request.use((config) => {
+  const userStore = useUserStore()
+  if (userStore.token) {
+    config.headers.Authorization = `Bearer ${userStore.token}`
+  }
+  return config
+})
+
+request.interceptors.response.use(
+  (response) => {
+    const res = response.data
+    if (res.code !== 200) {
+      ElMessage.error(res.message || '请求失败')
+      if (res.code === 401) {
+        const userStore = useUserStore()
+        userStore.logout()
+        window.location.href = '/login'
+      }
+      return Promise.reject(new Error(res.message))
+    }
+    return res
+  },
+  (error) => {
+    ElMessage.error(error.message || '网络错误')
+    return Promise.reject(error)
+  }
+)
+
+export default request
+\end{lstlisting}
+
+\subsection{后台管理系统设计}
+
+后台管理系统是博客的核心运营平台，采用Element Plus的Container布局容器，左侧为导航菜单，右侧为内容区域。
+
+\subsubsection{后台布局组件}
+
+BackendLayout.vue定义后台管理系统的整体布局。使用el-container实现经典的侧边栏+头部+主体的三段式布局。
+
+\begin{lstlisting}[language={}, basicstyle=\ttfamily\small, caption=后台布局组件代码]
+<template>
+  <el-container class="backend-layout">
+    <el-aside width="200px" class="sidebar">
+      <div class="logo-area"><span>博客后台管理</span></div>
+      <el-menu :default-active="activeMenu" router
+        background-color="#304156" text-color="#bfcbd9"
+        active-text-color="#409EFF">
+        <el-menu-item v-for="route in backendRoutes"
+          :key="route.path" :index="route.path"
+          v-show="!route.hidden">
+          <el-icon><component :is="route.meta?.icon" /></el-icon>
+          <span>{{ route.meta?.title }}</span>
+        </el-menu-item>
+      </el-menu>
+    </el-aside>
+    <el-container>
+      <el-header class="header">
+        <breadcrumb />
+        <el-dropdown>
+          <span>{{ userStore.userInfo?.username }}</span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item @click="goProfile">个人设置</el-dropdown-item>
+              <el-dropdown-item divided @click="logout">退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </el-header>
+      <el-main>
+        <router-view v-slot="{ Component }">
+          <transition name="fade" mode="out-in">
+            <component :is="Component" />
+          </transition>
+        </router-view>
+      </el-main>
+    </el-container>
+  </el-container>
+</template>
+\end{lstlisting}
+
+\subsubsection{仪表盘设计}
+
+仪表盘是后台管理的首页，使用ECharts图表展示博客的核心数据统计。
+
+\begin{lstlisting}[language={}, basicstyle=\ttfamily\small, caption=仪表盘组件代码]
+<template>
+  <div class="dashboard">
+    <el-row :gutter="20">
+      <el-col :span="6" v-for="stat in stats" :key="stat.title">
+        <el-card class="stat-card">
+          <div class="stat-icon" :style="{ background: stat.color }">
+            <el-icon :size="40"><component :is="stat.icon" /></el-icon>
+          </div>
+          <div class="stat-info">
+            <p>{{ stat.title }}</p>
+            <p class="value">{{ stat.value }}</p>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="16">
+        <el-card>
+          <template #header>近30天文章发布趋势</template>
+          <div ref="trendChart" style="height: 350px"></div>
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card>
+          <template #header>文章分类分布</template>
+          <div ref="pieChart" style="height: 350px"></div>
+        </el-card>
+      </el-col>
+    </el-row>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import * as echarts from 'echarts'
+
+const stats = ref([
+  { title: '文章总数', value: 0, icon: 'Document', color: '#409EFF' },
+  { title: '用户总数', value: 0, icon: 'User', color: '#67C23A' },
+  { title: '评论总数', value: 0, icon: 'ChatDotRound', color: '#E6A23C' },
+  { title: '今日访问', value: 0, icon: 'View', color: '#F56C6C' }
+])
+
+const trendChart = ref()
+const pieChart = ref()
+
+onMounted(async () => {
+  const res = await getDashboardStats()
+  const data = res.data
+  stats.value[0].value = data.articleCount
+  stats.value[1].value = data.userCount
+  stats.value[2].value = data.commentCount
+  stats.value[3].value = data.todayViews
+
+  const trend = echarts.init(trendChart.value)
+  trend.setOption({
+    tooltip: { trigger: 'axis' },
+    xAxis: { type: 'category', data: data.trendDates },
+    yAxis: { type: 'value' },
+    series: [{
+      data: data.trendValues, type: 'line', smooth: true,
+      areaStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          { offset: 0, color: 'rgba(64,158,255,0.3)' },
+          { offset: 1, color: 'rgba(64,158,255,0.05)' }
+        ])
+      }
+    }]
+  })
+
+  const pie = echarts.init(pieChart.value)
+  pie.setOption({
+    tooltip: { trigger: 'item' },
+    series: [{
+      type: 'pie', radius: ['40%', '70%'],
+      itemStyle: { borderRadius: 10, borderColor: '#fff', borderWidth: 2 },
+      data: data.categoryDistribution
+    }]
+  })
+})
+</script>
+\end{lstlisting}
+
+\subsubsection{文章管理}
+
+文章管理页面提供文章的增删改查功能。列表页使用el-table展示文章数据，支持分页、排序、筛选。新增/编辑页使用mavon-editor组件提供Markdown编辑功能。
+
+\begin{lstlisting}[language={}, basicstyle=\ttfamily\small, caption=文章编辑页代码]
+<template>
+  <div class="article-edit">
+    <el-form :model="form" :rules="rules" ref="formRef" label-width="80px">
+      <el-form-item label="标题" prop="title">
+        <el-input v-model="form.title" placeholder="请输入文章标题" />
+      </el-form-item>
+      <el-form-item label="分类" prop="categoryId">
+        <el-select v-model="form.categoryId" placeholder="选择分类">
+          <el-option v-for="cat in categories" :key="cat.id"
+            :label="cat.name" :value="cat.id" />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="标签">
+        <el-select-v2 v-model="form.tagIds" :options="tagOptions"
+          placeholder="选择标签" multiple clearable />
+      </el-form-item>
+      <el-form-item label="封面">
+        <el-upload class="cover-uploader" :action="uploadUrl"
+          :headers="headers" :show-file-list="false"
+          :on-success="handleUploadSuccess">
+          <img v-if="form.cover" :src="form.cover" class="cover" />
+          <el-icon v-else class="uploader-icon"><Plus /></el-icon>
+        </el-upload>
+      </el-form-item>
+      <el-form-item label="内容" prop="content">
+        <mavon-editor v-model="form.content" :toolbars="toolbars"
+          @imgAdd="handleEditorImgAdd" style="height: 500px" />
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="submitForm" :loading="saving">
+          {{ isEdit ? '保存修改' : '发布文章' }}</el-button>
+        <el-button @click="$router.back()">取消</el-button>
+      </el-form-item>
+    </el-form>
+  </div>
+</template>
+\end{lstlisting}
+
+\subsection{响应式布局设计}
+
+本项目采用多种技术实现响应式布局，确保在不同设备上都有良好的浏览体验。
+
+\subsubsection{Flexbox弹性布局}
+
+Flexbox用于一维布局场景，如头部导航、表单元素排列、卡片内部结构等。
+
+\subsubsection{CSS Grid网格布局}
+
+CSS Grid用于二维布局场景，如文章列表的网格排列。使用auto-fill和minmax函数实现自适应列数。
+
+\begin{lstlisting}[language={}, caption=响应式布局CSS代码]
+/* 响应式网格布局 */
+.article-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+@media screen and (max-width: 768px) {
+  .article-grid { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .main-content { width: 100%; }
+}
+\end{lstlisting}
+
+\subsubsection{Element Plus响应式组件}
+
+Element Plus的栅格系统（el-row/el-col）内置了响应式支持，通过xs、sm、md、lg、xl属性设置不同屏幕尺寸下的列宽。
+
+\subsection{底部设计}
+
+底部（Footer）区域位于页面最下方，包含版权信息、友情链接、联系方式等内容。
+
+\subsubsection{底部布局}
+
+底部采用深色背景，三栏布局。左侧为博客简介和Logo；中间为友情链接列表，以标签形式展示；右侧为联系方式和社交媒体链接。
+
+\begin{lstlisting}[language={}, basicstyle=\ttfamily\small, caption=底部组件代码]
+<template>
+  <footer class="app-footer">
+    <div class="footer-content">
+      <div class="footer-section about">
+        <h4>个人博客</h4>
+        <p>记录学习，分享技术，探索未知。</p>
+      </div>
+      <div class="footer-section links">
+        <h4>友情链接</h4>
+        <div class="link-tags">
+          <a v-for="link in friendLinks" :key="link.id"
+            :href="link.url" target="_blank" class="link-tag">
+            {{ link.name }}</a>
+        </div>
+      </div>
+      <div class="footer-section contact">
+        <h4>联系方式</h4>
+        <p><el-icon><Message /></el-icon> contact@example.com</p>
+        <p><el-icon><Location /></el-icon> 北京市</p>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2026 个人博客 版权所有</p>
+    </div>
+  </footer>
+</template>
+\end{lstlisting}
+
+
+% ========== Chapter 4 ==========
+\section{总体页面效果}
+
+本章展示博客系统各主要页面的整体效果。由于页面截图无法直接在文档中展示，以下通过文字描述各页面的布局和元素。
+
+\subsection{前台页面效果}
+
+\subsubsection{首页效果}
+
+首页整体效果大气现代，深色调背景搭配亮蓝色强调色，营造专业的技术博客氛围。顶部为固定导航栏，左侧为博客Logo和名称，中间为水平导航菜单（包含二级下拉菜单），右侧为搜索框和用户入口。
+
+英雄区域占满首屏高度，左侧为打字机效果的欢迎标题和副标题，右侧为推荐文章轮播图。底部为SVG波浪动画，自然过渡到内容区域。内容区域展示最新文章卡片网格，每张卡片包含封面图、标题、摘要、作者信息和标签。底部分页组件支持页码跳转和每页数量选择。
+
+\subsubsection{文章列表页效果}
+
+文章列表页采用左右两栏布局。左侧为主内容区，顶部为面包屑导航和排序选项（最新、最热、最多评论），下方为文章卡片列表。与首页不同的是，列表页卡片采用水平布局（图片在左，内容在右），信息密度更高。右侧为侧边栏，包含搜索框、分类列表、标签云、热门文章推荐。
+
+\subsubsection{文章详情页效果}
+
+文章详情页同样为左右两栏布局。左侧主内容区从上到下依次为：文章标题、作者和发布元信息、Markdown渲染的正文内容（包含代码高亮块）、文章标签、点赞/收藏按钮、上一篇/下一篇导航、评论区。右侧为粘性侧边栏，包含作者信息卡片、目录导航（自动高亮当前阅读位置）、相关文章推荐。
+
+\subsubsection{分类/标签页效果}
+
+分类页面展示所有文章分类的卡片网格，每个分类卡片显示分类名称、描述和文章数量。点击分类进入该分类下的文章列表。标签页以标签云的形式展示所有标签，标签大小根据文章数量动态调整。
+
+\subsubsection{用户认证页面效果}
+
+登录/注册页面背景为深色粒子动画，中央为半透明的登录卡片。卡片包含标题、输入表单（带图标前缀）、验证码图片、提交按钮。表单验证实时反馈，输入错误时显示提示信息。
+
+\subsubsection{个人中心页面效果}
+
+个人中心采用卡片式布局，包含以下功能模块：个人资料卡片、资料编辑表单、我的文章列表、我的收藏列表、我的评论记录、我的点赞记录。
+
+\subsection{后台管理页面效果}
+
+\subsubsection{仪表盘效果}
+
+后台仪表盘为数据概览页面。顶部为四张统计卡片，分别以不同颜色展示文章数、用户数、评论数、今日访问量。下方左侧为近30天文章发布趋势折线图，右侧为文章分类分布饼图。图表采用ECharts渲染，支持交互提示。
+
+\subsubsection{文章管理效果}
+
+文章管理页面上方为搜索栏和筛选条件，以及"写文章"按钮。下方为el-table表格，列包括ID、标题、分类、作者、状态、创建时间、操作。操作列包含编辑、删除、预览按钮。
+
+\subsubsection{文章编辑页面效果}
+
+文章编辑页面为表单布局，包含标题输入框、分类选择器、标签多选器、封面上传组件和Markdown编辑器。Markdown编辑器占据主要区域，高度500px。
+
+\subsubsection{用户/评论管理效果}
+
+用户管理页面以表格形式展示注册用户列表，支持按用户名搜索、按角色筛选。评论管理页面展示所有评论列表，支持对评论进行审核（通过/拒绝）和删除操作。
+
+% ========== Chapter 5 ==========
+\section{心得体会}
+
+通过本次Web前端开发课程项目的实践，我获得了丰富的开发经验和技术成长。以下是我在项目开发过程中的主要心得体会。
+
+\subsection{技术能力提升}
+
+通过本次项目，我深入掌握了Vue 3框架的核心概念和最佳实践。特别是Composition API的使用让我对Vue组件的逻辑组织有了全新的认识。相比于Options API，Composition API通过setup函数将相关逻辑聚合在一起，使得代码更加清晰易维护。我学会了如何使用ref和reactive创建响应式数据，如何使用computed计算属性，如何使用watch监听数据变化，以及如何使用provide/inject进行跨层级依赖注入。
+
+路由管理方面，我深入学习了Vue Router 4的嵌套路由、动态路由、路由守卫等高级特性。通过路由守卫实现了基于角色的权限控制，确保未登录用户无法访问后台管理页面。路由懒加载的使用也显著提升了首屏加载速度。
+
+状态管理方面，Pinia的简洁API设计让状态管理变得轻松愉快。我学会了如何合理划分Store模块，如何将Pinia与localStorage结合实现状态持久化，以及如何在组件外部使用Store。
+
+\subsection{工程化意识培养}
+
+本项目让我深刻认识到前端工程化的重要性。通过使用Vue CLI搭建项目，我了解了Webpack的构建流程、Babel的代码转译、ESLint的代码规范检查等工程化工具的作用。合理配置路径别名（@指向src目录）让模块导入更加简洁清晰。
+
+代码规范方面，我养成了良好的编码习惯：组件命名采用大驼峰（PascalCase），组合式函数使用use前缀，API接口按模块组织，工具函数独立封装。注释规范方面，关键逻辑添加清晰的注释，复杂算法解释实现思路。
+
+性能优化方面，我学习了组件懒加载、图片懒加载、虚拟滚动、防抖节流等优化技巧。特别是在处理大量评论数据时，递归组件的合理使用避免了页面卡顿。
+
+\subsection{UI/UX设计感悟}
+
+在项目开发过程中，我深刻体会到用户体验的重要性。一个好的产品不仅要功能完善，更要让用户用得舒服。我学习了响应式设计的核心原则，确保博客在手机、平板、电脑等不同设备上都能正常显示。
+
+动画效果的合理运用可以提升用户体验。本项目中的打字机效果、粒子背景、波浪动画、卡片悬浮效果等，都是通过CSS动画和JavaScript配合实现的。但我也认识到动画要适度，过多的动画反而会影响用户体验。
+
+色彩搭配上，我研究了深色主题的设计方法。通过合理的对比度控制、强调色的点缀，营造出既美观又护眼的深色界面。Element Plus的主题定制功能让组件库与整体风格完美融合。
+
+\subsection{问题解决能力}
+
+项目开发过程中遇到了许多技术难题，每解决一个问题都是一次成长。例如：Markdown编辑器图片上传的处理、多级评论的递归渲染、ECharts图表的响应式适配、JWT Token过期刷新机制等。通过查阅官方文档、搜索技术博客、阅读源码等方式，我逐步建立了解决问题的能力和信心。
+
+前后端联调是一个考验耐心的过程。接口数据格式不一致、跨域问题、认证失败等问题都需要前后端协同解决。通过这个过程，我学会了如何使用浏览器开发者工具调试网络请求，如何阅读后端接口文档，如何与后端开发有效沟通。
+
+\subsection{总结与展望}
+
+本次课程项目是一次完整的Web前端开发实践，从需求分析、技术选型、UI设计到编码实现、测试调试、部署上线，完整经历了软件开发的整个生命周期。通过这个项目，我不仅巩固了课堂所学的Vue3知识，还拓展学习了Element Plus、ECharts、Markdown编辑器等第三方库的使用。
+
+展望未来，我希望继续深耕前端技术领域。下一步学习计划包括：深入TypeScript类型系统，提升代码质量；学习前端性能优化的高级技巧；了解服务端渲染（SSR）和静态站点生成（SSG）；探索微前端架构等前沿技术。本项目为我的前端技术之路奠定了坚实的基础，我会继续保持学习的热情，不断提升自己的技术水平。
+
+\end{document}
