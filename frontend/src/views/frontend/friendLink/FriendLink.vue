@@ -225,7 +225,7 @@ onMounted(() => {
   transition: all 0.3s ease;
   overflow: hidden;
   position: relative;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
 .link-item::before {
@@ -333,7 +333,7 @@ onMounted(() => {
   border-radius: 15px;
   margin-top: 40px;
   border: 1px solid #eaeaea;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
 .section-header {

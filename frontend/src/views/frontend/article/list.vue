@@ -546,7 +546,7 @@ const getImageUrl = (url) => {
   border-radius: 15px;
   padding: 15px 20px;
   margin-bottom: 30px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
 .filter-title {
@@ -584,6 +584,7 @@ const getImageUrl = (url) => {
   background-color: #fff;
   border-radius: 15px;
   padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
 .section-header {

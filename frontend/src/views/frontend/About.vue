@@ -262,6 +262,7 @@ onMounted(() => {
   text-align: center;
   position: relative;
   border: 1px solid #eaeaea;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   overflow: hidden;
 }
 
@@ -337,6 +338,7 @@ onMounted(() => {
   padding: 30px;
   border-radius: 15px;
   border: 1px solid #eaeaea;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
 .section-header {

@@ -916,11 +916,11 @@ const getImageUrl = (url) => {
   gap: 20px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(74, 144, 226, 0.15);
+    box-shadow: 0 15px 40px rgba(74, 144, 226, 0.15);
 
     .category-icon {
       transform: scale(1.1);
