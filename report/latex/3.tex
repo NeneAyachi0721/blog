@@ -1,0 +1,68 @@
+\documentclass{standalone}
+\usepackage{ctex}
+\usepackage[edges]{forest}
+
+\begin{document}
+\begin{forest}
+    for tree={
+        draw,
+        grow'=east,
+        anchor=west,
+        parent anchor=east,
+        child anchor=west,
+        fit=band,
+        forked edge,
+    },
+    [个人博客系统架构
+        [前端 (Vue 3)
+            [路由层 (Vue Router 4)
+                [前台路由
+                    [首页]
+                    [文章列表/详情]
+                    [分类/标签]
+                    [用户认证]
+                ]
+                [后台路由
+                    [仪表盘]
+                    [文章管理]
+                    [用户管理]
+                    [系统设置]
+                ]
+            ]
+            [状态层 (Pinia)
+                [userStore (用户状态)]
+                [appStore (应用状态)]
+                [articleStore (文章状态)]
+            ]
+            [视图层 (Vue Components)
+                [layouts (布局组件)
+                    [FrontendLayout]
+                    [BackendLayout]
+                ]
+                [views (页面组件)
+                    [frontend (前台页面)]
+                    [backend (后台管理)]
+                    [auth (认证页面)]
+                ]
+                [components (公共组件)
+                    [ArticleCard]
+                    [CommentList]
+                    [TocNav]
+                ]
+            ]
+            [API层 (Axios)
+                [request.js (请求拦截)]
+                [article.js]
+                [user.js]
+                [category.js]
+            ]
+        ]
+        [后端 (Spring Boot)
+            [Controller层]
+            [Service层]
+            [Mapper层 (MyBatis-Plus)]
+            [数据库 (MySQL)]
+        ]
+    ]
+\end{forest}
+\end{document}
