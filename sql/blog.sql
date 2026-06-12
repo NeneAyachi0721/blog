@@ -58,13 +58,7 @@ $ npm update vue@next
 
 # 卸载Vue 3
 $ npm uninstall vue@next</pre><p>有时访问npm源速度会很慢，建议使用淘宝npm镜像：</p><pre>$ npm install -g cnpm --registry=https://registry.npm.taobao.org
-$ cnpm install vue@next</pre><h4>方式四：使用前端脚手架安装</h4><p>前端脚手架指通过选择几个选项快速搭建项目基础代码的工具。常见的Vue 3脚手架有<strong>Vue CLI</strong>和<strong>Vite</strong>，第9章会详细讲解。前端脚手架会在初始化的时候自动地帮助开发者安装好Vue 3。</p><h3>3.4 熟悉vue-devtools调试工具</h3><p>vue-devtools是一款基于Chrome浏览器的插件，它用于调试Vue 3应用，可以极大地提高调试效率。安装方式有以下两种：</p><ol><li><strong>从Chrome商店中安装</strong>：vue-devtools可以从Chrome商店中直接下载安装</li><li><strong>手动安装</strong>：
-    <ol type="a">
-      <li>在命令行中执行<code>git clone https://github.com/vuejs/vue-devtools.git</code>命令，将Github项目克隆到本地</li>
-      <li>在命令行中执行<code>npm install</code>命令，安装项目所需的npm包</li>
-      <li>在命令行中执行<code>npm run build</code>命令，编译项目文件</li>
-      <li>在浏览器中输入地址<code>chrome://extensions/</code>进入扩展程序页面，单击"加载已解压的扩展程序..."按钮，选择vue-devtools > shells下的Chrome文件夹，将vue-devtools添加至Chrome浏览器</li>
-    </ol>
+$ cnpm install vue@next</pre><h4>方式四：使用前端脚手架安装</h4><p>前端脚手架指通过选择几个选项快速搭建项目基础代码的工具。常见的Vue 3脚手架有<strong>Vue CLI</strong>和<strong>Vite</strong>，第9章会详细讲解。前端脚手架会在初始化的时候自动地帮助开发者安装好Vue 3。</p><h3>3.4 熟悉vue-devtools调试工具</h3><p>vue-devtools是一款基于Chrome浏览器的插件，它用于调试Vue 3应用，可以极大地提高调试效率。安装方式有以下两种：</p><ol><li><strong>从Chrome商店中安装</strong></li><li><strong>手动安装</strong>
   </li></ol>', '介绍Web前端框架发展历程、Vue 3框架的MVVM模式特性、8大改进与5大优势，以及VSCode IDE选择、Node.js环境配置、Vue 3四种安装方式和vue-devtools调试工具的使用', '/img/2.jpg', 1, 1, 1145, 3, 3, 1, '2026-05-20 11:45:14', '2026-05-20 11:45:14', 0, 0);
 
 INSERT INTO `article` VALUES (3, '第2章 Hello World 与 Vue 3 基础特性', '', '<h2>一、Hello World示例</h2><h3>1.1 基本数据绑定演示</h3><p>Vue 3的最基本使用方法是通过createApp创建应用实例，并在data()函数中返回数据对象。以下代码演示了多种数据绑定方式：</p><pre>&lt;div id=''app''&gt;
