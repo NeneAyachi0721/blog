@@ -1,74 +1,67 @@
 \documentclass{standalone}
 \usepackage{ctex}
 \usepackage[edges]{forest}
-\usetikzlibrary{arrows.meta}
 
 \begin{document}
 \begin{forest}
     for tree={
         draw,
-        align=center,
-        grow=south,
-        anchor=north,
+        grow'=east,
+        anchor=west,
+        parent anchor=east,
+        child anchor=west,
+        fit=band,
         forked edge,
-        fork sep=15pt,
-        l sep=30pt,
-        s sep=15pt,
-        edge={
-            ->,
-            thick,
-            >={Stealth},
-        },
     },
-    [开始
-        [管理员登录
-            [首页]
-            [文章管理
-                [对文章进行\\增删改查]
-            ]
-            [分类管理
-                [对文章进行\\增删改]
-            ]
-            [标签管理
-                [对标签进行\\增删改]
-            ]
-            [评论管理
-                [对评论进行\\增删改查]
-            ]
-            [用户管理
-                [对用户进行\\增删改查]
-            ]
-            [个人信息
-                [编辑个人信息]
-            ]
-            [系统设置
-                [博客设置
-                    [编辑博客设置]
+    [个人博客系统架构
+        [前端 (Vue 3)
+            [路由层 (Vue Router 4)
+                [前台路由
+                    [首页]
+                    [文章列表/详情]
+                    [分类/标签]
+                    [用户认证]
                 ]
-                [友情链接
-                    [对友情链接\\进行增删改查]
+                [后台路由
+                    [仪表盘]
+                    [文章管理]
+                    [用户管理]
+                    [系统设置]
                 ]
-                [关于我
-                    [编辑关于我]
+            ]
+            [状态层 (Pinia)
+                [userStore (用户状态)]
+                [appStore (应用状态)]
+                [articleStore (文章状态)]
+            ]
+            [视图层 (Vue Components)
+                [layouts (布局组件)
+                    [FrontendLayout]
+                    [BackendLayout]
                 ]
+                [views (页面组件)
+                    [frontend (前台页面)]
+                    [backend (后台管理)]
+                    [auth (认证页面)]
+                ]
+                [components (公共组件)
+                    [ArticleCard]
+                    [CommentList]
+                    [TocNav]
+                ]
+            ]
+            [API层 (Axios)
+                [request.js (请求拦截)]
+                [article.js]
+                [user.js]
+                [category.js]
             ]
         ]
-        [用户登录
-            [首页]
-            [文章
-                [点\\赞]
-                [收\\藏]
-                [评\\论]
-            ]
-            [友情链接]
-            [关于我]
-            [个人中心
-                [个\\人\\资\\料]
-                [修\\改\\密\\码]
-                [我\\的\\点\\赞]
-                [我\\的\\收\\藏]
-                [我\\的\\评\\论]
-            ]
+        [后端 (Spring Boot)
+            [Controller层]
+            [Service层]
+            [Mapper层 (MyBatis-Plus)]
+            [数据库 (MySQL)]
         ]
     ]
 \end{forest}
